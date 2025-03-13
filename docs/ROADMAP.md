@@ -8,10 +8,9 @@ To build a 3D engine where movement and interactions in X and Y follow hyperboli
 
 ### Understanding the Poincaré Disk (2D)  
 - [x] Study hyperbolic geometry and the Poincaré disk model  
-- [x] Implement basic visualization of the Poincaré disk in a hight dimension
-- [ ] Develop coordinate transformations for hyperbolic space
+- [x] create basic visualization of the Poincaré disk in a hight dimension
 - [ ] Implement geodesics (shortest paths in hyperbolic space)
-- [ ] Visualize a hyperbolic grid and test point transformations
+- [ ] Implement segments of geodesics and circle
 - [ ] Write a docs explaining the basics of the Poincaré disk and its applications
 
 ## 2D Hyperbolic Engine  
