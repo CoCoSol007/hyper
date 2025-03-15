@@ -1,0 +1,34 @@
+package src;
+
+public class Distance {
+    /// This method returns the hyperbolic distance between two points
+    static public double hyperbolic_distance_to_center(Point point){
+        // ToDo: Can be optimized by using the fact that the center is at (0,0)
+        return hyperbolic_distance(point, new Point(0,0));
+    }
+
+    /// This method returns the Euclidean distance between two points
+    /// It basically returns the length of the vector between the two points
+    static public double euclidean_distance(Point point1, Point point2) {
+        return Math.sqrt((point1.x - point2.x)*(point1.x - point2.x) + (point1.y - point2.y)*(point1.y - point2.y));
+    }
+
+    /// This method returns the Euclidean distance to the center
+    /// It basically returns the length of the vector between the point and the center
+    static public double euclidean_distance_to_center(Point point) {
+        return Math.sqrt(point.x*point.x + point.y*point.y);
+    }
+
+    /// This method returns the hyperbolic distance between two points
+    static public double hyperbolic_distance(Point point1, Point point2){
+        // ToDo: Better explanation of the formula and renaming of variables
+        double euclideanDist = Distance.euclidean_distance_to_center(point1.subtraction(point2));
+        double eucDist1 = Distance.euclidean_distance_to_center(point1);
+        double eucDist2 = Distance.euclidean_distance_to_center(point2);
+
+        double numerator = Math.pow(euclideanDist, 2);
+        double denominator = (1 - Math.pow(eucDist1, 2)) * (1 - Math.pow(eucDist2, 2));
+
+        return HyperbolicMath.acosh(1 + 2 * (numerator / denominator));
+    }
+}
