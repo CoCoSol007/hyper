@@ -12,7 +12,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <img src="https://raw.githubusercontent.com/CoCoSol007/hyper/main/logo.png" alt="Logo" width="300"></p>
+  <img src="./logo.png" alt="Logo"></p>
   <h3 align="center">Hyper</h3>
   <p align="center">
     <br />
