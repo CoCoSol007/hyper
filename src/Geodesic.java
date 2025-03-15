@@ -65,9 +65,9 @@ public class Geodesic {
     }
 
     public boolean is_on_geodesic(Point point) {
-        // Due to imprecision of floating point numbers we need to use a tolerance
+        // Due to imprecision of floating point numbers we need to use a tolerance : a = b <=> |a - b| < 0.000001
         // TODO: Check if this tolerance is coherent
-        return (point.x*point.x + point.y*point.y + this.a * point.x + this.b * point.y + 1 < Constants.TOLERANCE);
+        return (point.x*point.x + point.y*point.y + this.a * point.x + this.b * point.y + 1 < 0.000001);
 
     }
 }
