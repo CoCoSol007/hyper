@@ -1,7 +1,7 @@
-package src;
+package src.hyperbolic;
 
 /// A geodesic segment
-public class GeodesicSegment {
+public class Segment {
     /// The first point of the segment
     public Point start;
 
@@ -12,7 +12,7 @@ public class GeodesicSegment {
     public Geodesic geodesic;
 
     /// Constructor of a geodesic segment
-    public GeodesicSegment(double a, double b, Point start, Point end) {
+    public Segment(double a, double b, Point start, Point end) {
         this.geodesic = new Geodesic(a, b);
         this.start = start;
         this.end = end;
@@ -28,12 +28,12 @@ public class GeodesicSegment {
     }
 
     /// A constructor of a geodesic segment from two points
-    public static GeodesicSegment from_two_points(Point u, Point v) {
+    public static Segment from_two_points(Point u, Point v) {
         if (u.equals(v)) {
             throw new IllegalArgumentException("Points must be different");
         }
         Geodesic geodesic = Geodesic.from_two_points(u, v);
-        return new GeodesicSegment(geodesic.a, geodesic.b, u, v);
+        return new Segment(geodesic.a, geodesic.b, u, v);
     }
 
     /// Returns whether a point is contained in the segment

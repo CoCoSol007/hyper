@@ -1,4 +1,4 @@
-package src;
+package src.hyperbolic;
 
 public class Distance {
     /// This method returns the hyperbolic distance between a point and the center

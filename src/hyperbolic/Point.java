@@ -1,9 +1,9 @@
-package src;
+package src.hyperbolic;
 
 /// A simple point
 public class Point {
-    double x;
-    double y;
+    public double x;
+    public double y;
 
     /// Constructor for a point
     public Point(double x, double y) {

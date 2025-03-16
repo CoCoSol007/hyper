@@ -1,4 +1,4 @@
-package src;
+package src.hyperbolic;
 
 /// A simple geodesic
 ///

@@ -1,4 +1,4 @@
-package src;
+package src.hyperbolic;
 
 public class HyperbolicMath {
     /// The cosines hyperbolic function
