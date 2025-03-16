@@ -1,10 +1,11 @@
 package src;
 
 public class Distance {
-    /// This method returns the hyperbolic distance between two points
+    /// This method returns the hyperbolic distance between a point and the center
     static public double hyperbolic_distance_to_center(Point point){
-        // ToDo: Can be optimized by using the fact that the center is at (0,0)
-        return hyperbolic_distance(point, new Point(0,0));
+        double euclidean_dist = Distance.euclidean_distance_to_center(point);
+        double euclidean_dist_squared =  Math.pow(euclidean_dist, 2);
+        return HyperbolicMath.acosh(1 + 2 * (euclidean_dist_squared / (1- euclidean_dist_squared)));
     }
 
     /// This method returns the Euclidean distance between two points
