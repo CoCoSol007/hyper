@@ -106,4 +106,29 @@ public class Geodesic {
         }
         return Math.sqrt(this.a*this.a + this.b*this.b-4)/2;
     }
+
+    /// This method returns the ideal points of the geodesic
+    /// The ideal points are the intersection of the geodesic and the Euclidean unit circle
+    ///
+    /// Returns null if the geodesic is a diameter
+    public Point[] get_ideal_points() {
+        if (this.diameter) {
+            return null;
+        }
+
+        // Solve the quadratic equation to get the ideal points
+        // Delta is negative or equal to 0 if and only if the geodesic is not defined
+
+        double delta = 16*a*a-4*(b*b+a*a)*(4-b*b);
+
+        // First ideal point
+        double x1 = (-4*a-Math.sqrt(delta))/((a*a+b*b)*2);
+        double y1 = -(2+a*x1)/b;
+
+        // Second ideal point
+        double x2 = (-4*a+Math.sqrt(delta))/((a*a+b*b)*2);
+        double y2 = -(2+a*x2)/b;
+
+        return new Point[]{new Point(x1,y1), new Point(x2,y2)};
+    }
 }
