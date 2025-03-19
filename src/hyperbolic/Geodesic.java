@@ -78,6 +78,9 @@ public class Geodesic {
     }
 
     public boolean is_on_geodesic(Point point) {
+        if (this.diameter) {
+            return (this.a * point.x + this.b * point.y == 0);
+        }
         // Due to imprecision of floating point numbers we need to use a tolerance : a = b <=> |a - b| < 0.000001
         // TODO: Check if this tolerance is coherent
         return (point.x*point.x + point.y*point.y + this.a * point.x + this.b * point.y + 1 < 0.000001);
@@ -85,12 +88,22 @@ public class Geodesic {
     }
 
     /// This method returns the center of the Euclidean circle that represents the geodesic
+    ///
+    /// Returns null if the geodesic is a diameter
     public Point get_euclidean_center() {
+        if (this.diameter) {
+            return null;
+        }
         return new Point(-this.a/2, -this.b/2);
     }
 
     /// This method returns the Euclidean radius of the Euclidean circle that represents the geodesic
+    ///
+    /// Returns -1 if the geodesic is a diameter
     public double get_euclidean_radius() {
+        if (this.diameter) {
+            return -1;
+        }
         return Math.sqrt(this.a*this.a + this.b*this.b-4)/2;
     }
 }
