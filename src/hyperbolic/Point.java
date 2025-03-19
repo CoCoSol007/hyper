@@ -17,16 +17,17 @@ public class Point {
 
     /// Subtraction of two points
     public Point subtraction(Point other) {
-        return new Point(this.x - other.x,this.y - other.y);
+        return Point.from_complex(this.to_complex().minus(other.to_complex()));
     }
 
     /// Addition of two points
     public Point addition(Point other) {
-        return new Point(this.x + other.x,this.y + other.y);
+        return Point.from_complex(this.to_complex().plus(other.to_complex()));
     }
 
-    public Point mul(double scalar) {
-        return new Point(this.x * scalar, this.y * scalar);
+    /// Multiplication of a point by a real number
+    public Point mul(double alpha) {
+        return Point.from_complex(this.to_complex().scale(alpha));
     }
 
     /// Conversion of a point to a complex number
