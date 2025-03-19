@@ -25,8 +25,6 @@
 **Hyper** is an experimental rendering engine exploring non-Euclidean spaces.  
 It starts with the **Poincaré disk (2D)** and evolves into a **hybrid 3D engine** where X and Y are hyperbolic, while Z remains Euclidean. 
 
-## Project Roadmap  
-Check out the **[Objectives](./docs/ROADMAP.md)**.  
 
 
 
