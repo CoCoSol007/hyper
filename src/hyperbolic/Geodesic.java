@@ -83,4 +83,14 @@ public class Geodesic {
         return (point.x*point.x + point.y*point.y + this.a * point.x + this.b * point.y + 1 < 0.000001);
 
     }
+
+    /// This method returns the center of the Euclidean circle that represents the geodesic
+    public Point get_euclidean_center() {
+        return new Point(-this.a/2, -this.b/2);
+    }
+
+    /// This method returns the Euclidean radius of the Euclidean circle that represents the geodesic
+    public double get_euclidean_radius() {
+        return Math.sqrt(this.a*this.a + this.b*this.b-4)/2;
+    }
 }
