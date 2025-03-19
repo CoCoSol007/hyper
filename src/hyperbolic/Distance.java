@@ -23,7 +23,7 @@ public class Distance {
     /// This method returns the hyperbolic distance between two points
     static public double hyperbolic_distance(Point point1, Point point2){
         // ToDo: Better explanation of the formula and renaming of variables
-        double euclidean_dist = Distance.euclidean_distance_to_center(point1.subtraction(point2));
+        double euclidean_dist = Distance.euclidean_distance_to_center(point1.minus(point2));
         double euc_dist1 = Distance.euclidean_distance_to_center(point1);
         double euc_dist2 = Distance.euclidean_distance_to_center(point2);
 
