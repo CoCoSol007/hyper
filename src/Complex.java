@@ -1,3 +1,9 @@
+/*
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ * Copyright (C) 2025 Hyper
+ */
+
+
 package src;
 
 /// A class for complex numbers
