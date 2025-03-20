@@ -23,14 +23,14 @@ public class Circle {
 
     /// This method returns the Euclidean radius of the hyperbolic circle
     public double get_euclidean_radius() {
-        double euclidean_radius = HyperbolicMath.tanh(radius/2);
+        double euclidean_radius = Math.tanh(radius/2);
         double dist = Distance.euclidean_distance_to_center(center);
         return ((1-dist*dist)*euclidean_radius)/(1-dist*dist* Math.pow(euclidean_radius,2));
     }
 
     /// This method returns the Euclidean center of the hyperbolic circle
     public Point get_euclidean_center() {
-        double euclidean_radius = HyperbolicMath.tanh(radius/2);
+        double euclidean_radius = Math.tanh(radius/2);
         double dist = Distance.euclidean_distance_to_center(center);
         return center.mul((1- Math.pow(euclidean_radius,2))/(1-dist*dist* Math.pow(euclidean_radius,2)));
     }
