@@ -38,4 +38,4 @@ It starts with the **Poincaré disk (2D)** and evolves into a **hybrid 3D engine
 [issues-shield]: https://img.shields.io/github/issues/cocosol007/hyper.svg?style=for-the-badge
 [issues-url]: https://github.com/cocosol007/hyper/issues
 [license-shield]: https://img.shields.io/github/license/cocosol007/hyper.svg?style=for-the-badge
-[license-url]: https://github.com/cocosol007/hexing/blob/main/LICENSE
+[license-url]: https://github.com/cocosol007/hyper/blob/main/LICENCE
