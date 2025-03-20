@@ -113,7 +113,15 @@ public class Geodesic {
     /// Returns null if the geodesic is a diameter
     public Point[] get_ideal_points() {
         if (this.diameter) {
-            return null;
+
+            // Solve the quadratic equation to get the ideal points
+            // Delta is always positive
+
+            double delta = 4 * ((a*a)/(b*b)) + 4;
+            double x1 = Math.sqrt(delta)/((a*a)/(b*b)+1);
+            double y1 = (a*x1)/b;
+            return new Point[]{new Point(x1,y1),new Point(-x1,-y1) };
+
         }
 
         // Solve the quadratic equation to get the ideal points
