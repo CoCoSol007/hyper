@@ -12,8 +12,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <img src="./logo.png" alt="Logo"></p>
-  <h3 align="center">Hyper</h3>
+  <img src="logo.svg" width="400">
   <p align="center">
     <br />
     A Non-Euclidean Rendering Engine.
