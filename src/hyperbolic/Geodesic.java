@@ -34,7 +34,7 @@ public class Geodesic {
     public static Geodesic from_two_points(Point u, Point v) {
         double det = (u.x * v.y) - (u.y * v.x);
 
-        if (det == 0) {
+        if (Math.abs(det) < 0.000001) {
             // The geodesic is a diameter
             Geodesic geodesic = new Geodesic(u.y - v.y, v.x - u.x);
             geodesic.diameter = true;
