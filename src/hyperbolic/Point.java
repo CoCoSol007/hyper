@@ -12,7 +12,7 @@ public class Point {
     public double x;
     public double y;
 
-    public static Point ORIGIN = new Point(0,0);
+    public static Point ORIGIN = new Point(0, 0);
 
     /// Constructor for a point
     public Point(double x, double y) {
@@ -22,17 +22,17 @@ public class Point {
 
     /// Subtraction of two points
     public Point minus(Point other) {
-        return Point.from_complex(this.to_complex().minus(other.to_complex()));
+        return Point.fromComplex(this.toComplex().minus(other.toComplex()));
     }
 
     /// Addition of two points
     public Point plus(Point other) {
-        return Point.from_complex(this.to_complex().plus(other.to_complex()));
+        return Point.fromComplex(this.toComplex().plus(other.toComplex()));
     }
 
     /// Multiplication of a point by a real number
     public Point mul(double alpha) {
-        return Point.from_complex(this.to_complex().scale(alpha));
+        return Point.fromComplex(this.toComplex().scale(alpha));
     }
 
     public double dot(Point other) {
@@ -40,12 +40,12 @@ public class Point {
     }
 
     /// Conversion of a point to a complex number
-    public Complex to_complex() {
+    public Complex toComplex() {
         return new Complex(this.x, this.y);
     }
 
     /// Conversion of a complex number to a point
-    public static Point from_complex(Complex z) {
+    public static Point fromComplex(Complex z) {
         return new Point(z.re(), z.im());
     }
 }

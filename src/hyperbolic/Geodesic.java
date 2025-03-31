@@ -11,14 +11,14 @@ package src.hyperbolic;
 /// So it can be described by an equation x² + y² + ax + by + 1 = 0.
 public class Geodesic {
     /// One parameter of the geodesic
-    double a;
+    public double a;
 
     /// One parameter of the geodesic
-    double b;
+    public double b;
 
     /// True if the geodesic is a diameter
     /// If so the geodesic is defined by the equation ax+by = 0
-    boolean diameter = false;
+    private boolean diameter = false;
 
     /// Constructor of the geodesic
     public Geodesic(double a, double b) {
@@ -31,7 +31,7 @@ public class Geodesic {
     /// ## Math
     /// It works by solving the system of equations x² + y² + ax + by + 1 = 0
     /// with (x,y) = u and (x,y) = v
-    public static Geodesic from_two_points(Point u, Point v) {
+    public static Geodesic fromTwoPoints(Point u, Point v) {
         double det = (u.x * v.y) - (u.y * v.x);
 
         if (det == 0) {
@@ -54,7 +54,7 @@ public class Geodesic {
     /// It works by solving the system of equations :
     /// x² + y² + ax + by + 1 = 0 (with (x,y) = u)
     /// (t1,t2)⋅(x,y) = 0 (where (t1,t2) is the tangent and (x,y) a segment of the circle formed by the geodesic)
-    public static Geodesic from_point_and_tangent(Point u, double t1, double t2) {
+    public static Geodesic fromPointAndTangent(Point u, double t1, double t2) {
         if (t1 != 0 || t2 != 0) {
             throw new IllegalArgumentException("Vector tangent must be not null");
         }
@@ -76,13 +76,13 @@ public class Geodesic {
     /// A constructor of a geodesic from a point and an angle
     ///
     /// ## Math
-    /// It works by calling from_point_and_tangent.
+    /// It works by calling fromPointAndTangent.
     /// It creates a tangent vector by this way : (cos(angle), sin(angle))
-    public static Geodesic from_point_and_angle(Point u, double angle) {
-        return from_point_and_tangent(u, Math.cos(angle), Math.sin(angle));
+    public static Geodesic fromPointAndAngle(Point u, double angle) {
+        return fromPointAndTangent(u, Math.cos(angle), Math.sin(angle));
     }
 
-    public boolean is_on_geodesic(Point point) {
+    public boolean isOnGeodesic(Point point) {
         if (this.diameter) {
             return (this.a * point.x + this.b * point.y == 0);
         }
@@ -95,7 +95,7 @@ public class Geodesic {
     /// This method returns the center of the Euclidean circle that represents the geodesic
     ///
     /// Returns null if the geodesic is a diameter
-    public Point get_euclidean_center() {
+    public Point getEuclideanCenter() {
         if (this.diameter) {
             return null;
         }
@@ -105,7 +105,7 @@ public class Geodesic {
     /// This method returns the Euclidean radius of the Euclidean circle that represents the geodesic
     ///
     /// Returns -1 if the geodesic is a diameter
-    public double get_euclidean_radius() {
+    public double getEuclideanRadius() {
         if (this.diameter) {
             return -1;
         }
@@ -116,7 +116,7 @@ public class Geodesic {
     /// The ideal points are the intersection of the geodesic and the Euclidean unit circle
     ///
     /// Returns null if the geodesic is a diameter
-    public Point[] get_ideal_points() {
+    public Point[] getIdealPoints() {
         if (this.diameter) {
 
             // Solve the quadratic equation to get the ideal points

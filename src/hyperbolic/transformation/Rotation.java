@@ -11,10 +11,10 @@ import src.hyperbolic.Point;
 /// A class for rotations in the hyperbolic plane
 public class Rotation {
     /// theta is the angle of rotation in radians
-    double theta;
+    public double theta;
 
     /// center is the center of rotation
-    Point center;
+    public Point center;
 
     /// Constructor
     public Rotation(double theta, Point center) {
@@ -24,13 +24,13 @@ public class Rotation {
 
     /// Applies the rotation with the given point
     public Point apply(Point point) {
-        Complex z = point.to_complex();
-        Complex p = center.to_complex();
+        Complex z = point.toComplex();
+        Complex p = center.toComplex();
         Complex e = Complex.exponent(1, theta);
 
         // special case: rotation around the origin
         if (center == Point.ORIGIN) {
-            return Point.from_complex(e.times(z));
+            return Point.fromComplex(e.times(z));
         }
 
         // If the center is not at the origin, we first translate the space to map the center to the origin,
@@ -46,6 +46,6 @@ public class Rotation {
         // den = 1 - conj(p)*z + e*conj(p)*a
         Complex den = Complex.ONE.minus(p.conjugate().times(z)).plus(e.times(p.conjugate().times(a)));
 
-        return Point.from_complex(num.divides(den));
+        return Point.fromComplex(num.divides(den));
     }
 }

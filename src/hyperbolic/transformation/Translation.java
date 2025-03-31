@@ -12,7 +12,7 @@ import src.hyperbolic.Point;
 public class Translation{
     /// In the disk model, a translation is defined by a single point that the transformation maps to the origin
     /// For example the translation f defined by the point A, maps A to the origin ( f(A) = (0,0) )
-    private static Point origin;
+    private final Point origin;
 
     /// Constructor
     public Translation(Point point) {
@@ -21,9 +21,9 @@ public class Translation{
 
     /// Applies the translation with the given point
     public Point apply(Point point) {
-        Complex a = origin.to_complex();
-        Complex z = point.to_complex();
-        return Point.from_complex(
+        Complex a = origin.toComplex();
+        Complex z = point.toComplex();
+        return Point.fromComplex(
                 z.times(a).divides(Complex.ONE.minus(a.conjugate().times(z)))
         );
     }

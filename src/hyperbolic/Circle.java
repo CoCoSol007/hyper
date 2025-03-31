@@ -10,10 +10,10 @@ package src.hyperbolic;
 /// In the Poincaré disk model a hyperbolic circle is a Euclidean circle with a different radius and center
 public class Circle {
     /// The radius of the hyperbolic circle
-    double radius;
+    public double radius;
 
     /// The center of the hyperbolic circle
-    Point center;
+    public Point center;
 
     /// Constructor of a hyperbolic circle
     public Circle(Point center, double radius) {
@@ -22,29 +22,29 @@ public class Circle {
     }
 
     /// This method returns the Euclidean radius of the hyperbolic circle
-    public double get_euclidean_radius() {
-        double euclidean_radius = Math.tanh(radius/2);
-        double dist = Distance.euclidean_distance_to_center(center);
-        return ((1-dist*dist)*euclidean_radius)/(1-dist*dist* Math.pow(euclidean_radius,2));
+    public double getEuclideanRadius() {
+        double euclideanRadius = Math.tanh(radius/2);
+        double dist = Distance.euclideanDistanceToCenter(center);
+        return ((1-dist*dist)*euclideanRadius)/(1-dist*dist* Math.pow(euclideanRadius,2));
     }
 
     /// This method returns the Euclidean center of the hyperbolic circle
-    public Point get_euclidean_center() {
-        double euclidean_radius = Math.tanh(radius/2);
-        double dist = Distance.euclidean_distance_to_center(center);
-        return center.mul((1- Math.pow(euclidean_radius,2))/(1-dist*dist* Math.pow(euclidean_radius,2)));
+    public Point getEuclideanCenter() {
+        double euclideanRadius = Math.tanh(radius/2);
+        double dist = Distance.euclideanDistanceToCenter(center);
+        return center.mul((1- Math.pow(euclideanRadius,2))/(1-dist*dist* Math.pow(euclideanRadius,2)));
     }
 
     /// A constructor of a hyperbolic circle from a Euclidean circle
-    public static Circle from_euclidean_circle(Point center, double r) {
-        double d = Distance.euclidean_distance_to_center(center);
+    public static Circle fromEuclideanCircle(Point center, double r) {
+        double d = Distance.euclideanDistanceToCenter(center);
         if (d + r >= 1) {
             throw new IllegalArgumentException("The circle is not contained in the hyperbolic disk");
         }
         // If the center of circle is the center of the hyperbolic disk the conversion is trivial
         if (d == 0) {
-            double hyperbolic_radius = 2 * HyperbolicMath.atanh(r);
-            return new Circle(center, hyperbolic_radius);
+            double hyperbolicRadius = 2 * HyperbolicMath.atanh(r);
+            return new Circle(center, hyperbolicRadius);
         }
 
         // We start by finding the value of α that satisfies the equation f(α) = 0
@@ -69,10 +69,10 @@ public class Circle {
         }
 
         // Now we can compute the hyperbolic circle
-        double hyperbolic_radius = 2 * HyperbolicMath.atanh(alpha);
+        double hyperbolicRadius = 2 * HyperbolicMath.atanh(alpha);
         double k = computeK(alpha, d);
-        Point hyperbolic_center = center.mul(k);
-        return new Circle(hyperbolic_center, hyperbolic_radius);
+        Point hyperbolicCenter = center.mul(k);
+        return new Circle(hyperbolicCenter, hyperbolicRadius);
     }
 
     private static double computeK(double alpha, double d) {
@@ -82,6 +82,6 @@ public class Circle {
 
     /// This method returns whether a point is contained in the hyperbolic circle
     public boolean contains(Point point) {
-        return Distance.hyperbolic_distance(point, center) <= radius;
+        return Distance.hyperbolicDistance(point, center) <= radius;
     }
 }

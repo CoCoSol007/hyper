@@ -8,13 +8,13 @@ package src.hyperbolic;
 /// A geodesic segment
 public class Segment {
     /// The first point of the segment
-    public Point start;
+    private final Point start;
 
     /// The second point of the segment
-    public Point end;
+    private final Point end;
 
     /// The geodesic of the segment
-    public Geodesic geodesic;
+    private final Geodesic geodesic;
 
     /// Constructor of a geodesic segment
     public Segment(double a, double b, Point start, Point end) {
@@ -22,31 +22,31 @@ public class Segment {
         this.start = start;
         this.end = end;
 
-        if (!geodesic.is_on_geodesic(start) || !geodesic.is_on_geodesic(end)) {
+        if (!geodesic.isOnGeodesic(start) || !geodesic.isOnGeodesic(end)) {
             throw new IllegalArgumentException("The points must be on the geodesic");
         }
     }
 
     /// Returns the length of the segment
     public double length() {
-        return Distance.hyperbolic_distance(start, end);
+        return Distance.hyperbolicDistance(start, end);
     }
 
     /// A constructor of a geodesic segment from two points
-    public static Segment from_two_points(Point u, Point v) {
+    public static Segment fromTwoPoints(Point u, Point v) {
         if (u.equals(v)) {
             throw new IllegalArgumentException("Points must be different");
         }
-        Geodesic geodesic = Geodesic.from_two_points(u, v);
+        Geodesic geodesic = Geodesic.fromTwoPoints(u, v);
         return new Segment(geodesic.a, geodesic.b, u, v);
     }
 
     /// Returns whether a point is contained in the segment
     public boolean contains(Point point) {
         return (
-                geodesic.is_on_geodesic(point) &&
-                Distance.hyperbolic_distance(point, start) <= this.length() &&
-                Distance.hyperbolic_distance(point, end) <= this.length()
+                geodesic.isOnGeodesic(point) &&
+                        Distance.hyperbolicDistance(point, start) <= this.length() &&
+                        Distance.hyperbolicDistance(point, end) <= this.length()
         );
     }
 }
