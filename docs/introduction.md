@@ -39,18 +39,23 @@ vanishing point: it's not that the lines actually meet, but our projection force
 ## Project Overview and Objectives
 
 Building on this foundation of non-Euclidean exploration, this project serves as a dynamic 3D rendering engine that
-leverages ray-casting techniques to navigate an infinite maze set in a hyperbolic world—visualized through the Poincaré
-disk model. Rather than simply crafting a labyrinth to solve for amusement, the primary goal is educational. This
-project acts as a concise yet comprehensive tutorial, offering insights into several advanced concepts:
+leverages [ray-casting](https://en.wikipedia.org/wiki/Ray_casting) techniques to navigate an infinite maze set in a
+hyperbolic world—visualized through the Poincaré disk model. Rather than simply crafting a labyrinth to solve for
+amusement, the primary goal is educational. This project acts as a concise yet comprehensive tutorial, offering insights
+into several advanced concepts:
 
 - **Non-Euclidean Spaces:** An exploration of geometries beyond the Euclidean, with a focus on hyperbolic space and its
   unique properties.
 - **The Poincaré Disk:** A detailed look at how the infinite hyperbolic plane is mapped within a finite circle,
   providing an intuitive grasp of infinity and projection.
-- **Hyperbolic Tiling:** An examination of the intricate patterns that emerge from tessellations in hyperbolic geometry.
+- **Hyperbolic Tiling:** An examination of the intricate patterns that emerge
+  from [tessellations in hyperbolic geometry](http://aleph0.clarku.edu/~djoyce/poincare/poincare.html).
 - **Maze Algorithms and Ray-casting:** A demonstration of algorithmic techniques for maze generation and the application
-  of ray-casting in a 3D environment, all within the context of non-Euclidean rules.
+  of [ray-casting](https://en.wikipedia.org/wiki/Ray_casting) in a 3D environment, all within the context of
+  non-Euclidean rules.
 
-Through a series of videos and animations, this project is designed to clarify how these concepts interconnect, offering
+Through a series of videos and animations (using the project itself or [Manim](https://www.manim.community/)), this
+project is designed to clarify how
+these concepts interconnect, offering
 both a practical rendering engine and a brief documentation resource. The aim is to provide a hands-on understanding of
 non-Euclidean spaces, making abstract mathematical theories accessible through interactive visualizations.

@@ -27,10 +27,12 @@ remains Euclidean.
 
 ## Overview and Objectives
 
-This project is a 3D rendering engine using ray-casting to navigate an infinite maze within a hyperbolic world
-visualized through the Poincaré disk model. Rather than a mere puzzle, it serves as an educational tool—an interactive
-tutorial on non-Euclidean spaces, hyperbolic tiling, and maze algorithms, brought to life with videos and animations to
-make abstract concepts accessible.
+This project is a 3D rendering engine using [ray-casting](https://en.wikipedia.org/wiki/Ray_casting) to navigate an
+infinite maze within a [hyperbolic world](https://en.wikipedia.org/wiki/Hyperbolic_geometry), visualized through the
+[Poincaré disk model](https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model). Rather than a mere puzzle, it serves as
+an educational tool—an interactive tutorial on non-Euclidean spaces,
+[hyperbolic tiling](http://aleph0.clarku.edu/~djoyce/poincare/poincare.html), and maze algorithms, brought to
+life with videos and animations to make abstract concepts accessible.
 
 ## Table of Contents
 
