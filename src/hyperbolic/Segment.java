@@ -27,11 +27,6 @@ public class Segment {
         }
     }
 
-    /// Returns the length of the segment
-    public double length() {
-        return Distance.hyperbolicDistance(start, end);
-    }
-
     /// A constructor of a geodesic segment from two points
     public static Segment fromTwoPoints(Point u, Point v) {
         if (u.equals(v)) {
@@ -39,6 +34,11 @@ public class Segment {
         }
         Geodesic geodesic = Geodesic.fromTwoPoints(u, v);
         return new Segment(geodesic.a, geodesic.b, u, v);
+    }
+
+    /// Returns the length of the segment
+    public double length() {
+        return Distance.hyperbolicDistance(start, end);
     }
 
     /// Returns whether a point is contained in the segment

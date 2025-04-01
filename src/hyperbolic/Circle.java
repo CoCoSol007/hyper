@@ -21,20 +21,6 @@ public class Circle {
         this.center = center;
     }
 
-    /// This method returns the Euclidean radius of the hyperbolic circle
-    public double getEuclideanRadius() {
-        double euclideanRadius = Math.tanh(radius/2);
-        double dist = Distance.euclideanDistanceToCenter(center);
-        return ((1-dist*dist)*euclideanRadius)/(1-dist*dist* Math.pow(euclideanRadius,2));
-    }
-
-    /// This method returns the Euclidean center of the hyperbolic circle
-    public Point getEuclideanCenter() {
-        double euclideanRadius = Math.tanh(radius/2);
-        double dist = Distance.euclideanDistanceToCenter(center);
-        return center.mul((1- Math.pow(euclideanRadius,2))/(1-dist*dist* Math.pow(euclideanRadius,2)));
-    }
-
     /// A constructor of a hyperbolic circle from a Euclidean circle
     public static Circle fromEuclideanCircle(Point center, double r) {
         double d = Distance.euclideanDistanceToCenter(center);
@@ -76,8 +62,22 @@ public class Circle {
     }
 
     private static double computeK(double alpha, double d) {
-        return (- (1 - alpha * alpha) + Math.sqrt((1 - alpha * alpha) * (1 - alpha * alpha) + 4 * d * d * alpha * alpha))
+        return (-(1 - alpha * alpha) + Math.sqrt((1 - alpha * alpha) * (1 - alpha * alpha) + 4 * d * d * alpha * alpha))
                 / (2 * d * d * alpha * alpha);
+    }
+
+    /// This method returns the Euclidean radius of the hyperbolic circle
+    public double getEuclideanRadius() {
+        double euclideanRadius = Math.tanh(radius / 2);
+        double dist = Distance.euclideanDistanceToCenter(center);
+        return ((1 - dist * dist) * euclideanRadius) / (1 - dist * dist * Math.pow(euclideanRadius, 2));
+    }
+
+    /// This method returns the Euclidean center of the hyperbolic circle
+    public Point getEuclideanCenter() {
+        double euclideanRadius = Math.tanh(radius / 2);
+        double dist = Distance.euclideanDistanceToCenter(center);
+        return center.mul((1 - Math.pow(euclideanRadius, 2)) / (1 - dist * dist * Math.pow(euclideanRadius, 2)));
     }
 
     /// This method returns whether a point is contained in the hyperbolic circle

@@ -9,7 +9,7 @@ import src.Complex;
 import src.hyperbolic.Point;
 
 /// A class for translations in the hyperbolic plane
-public class Translation{
+public class Translation {
     /// In the disk model, a translation is defined by a single point that the transformation maps to the origin
     /// For example the translation f defined by the point A, maps A to the origin ( f(A) = (0,0) )
     private final Point origin;

@@ -9,15 +9,19 @@ import src.Complex;
 
 /// A simple point
 public class Point {
+    public static Point ORIGIN = new Point(0, 0);
     public double x;
     public double y;
-
-    public static Point ORIGIN = new Point(0, 0);
 
     /// Constructor for a point
     public Point(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    /// Conversion of a complex number to a point
+    public static Point fromComplex(Complex z) {
+        return new Point(z.re(), z.im());
     }
 
     /// Subtraction of two points
@@ -42,10 +46,5 @@ public class Point {
     /// Conversion of a point to a complex number
     public Complex toComplex() {
         return new Complex(this.x, this.y);
-    }
-
-    /// Conversion of a complex number to a point
-    public static Point fromComplex(Complex z) {
-        return new Point(z.re(), z.im());
     }
 }

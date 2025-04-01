@@ -62,15 +62,15 @@ public class Geodesic {
         double det = t1 * u.y - t2 * u.x;
         if (det == 0) {
             // The geodesic is a diameter
-            Geodesic geodesic = new Geodesic(-t2,t1);
+            Geodesic geodesic = new Geodesic(-t2, t1);
             geodesic.diameter = true;
             return geodesic;
         }
 
-        double x = -2*(t1 * u.x + t2 * u.y) * u.y + (u.x*u.x + u.y*u.y +1)*t2;
-        double y = 2*(t1 * u.x + t2 * u.y) * u.x - (u.x*u.x + u.y*u.y +1)*t1;
+        double x = -2 * (t1 * u.x + t2 * u.y) * u.y + (u.x * u.x + u.y * u.y + 1) * t2;
+        double y = 2 * (t1 * u.x + t2 * u.y) * u.x - (u.x * u.x + u.y * u.y + 1) * t1;
 
-        return new Geodesic(x/det, y/det);
+        return new Geodesic(x / det, y / det);
     }
 
     /// A constructor of a geodesic from a point and an angle
@@ -88,7 +88,7 @@ public class Geodesic {
         }
         // Due to imprecision of floating point numbers we need to use a tolerance : a = b <=> |a - b| < 0.000001
         // TODO: Check if this tolerance is coherent
-        return (point.x*point.x + point.y*point.y + this.a * point.x + this.b * point.y + 1 < 0.000001);
+        return (point.x * point.x + point.y * point.y + this.a * point.x + this.b * point.y + 1 < 0.000001);
 
     }
 
@@ -99,7 +99,7 @@ public class Geodesic {
         if (this.diameter) {
             return null;
         }
-        return new Point(-this.a/2, -this.b/2);
+        return new Point(-this.a / 2, -this.b / 2);
     }
 
     /// This method returns the Euclidean radius of the Euclidean circle that represents the geodesic
@@ -109,7 +109,7 @@ public class Geodesic {
         if (this.diameter) {
             return -1;
         }
-        return Math.sqrt(this.a*this.a + this.b*this.b-4)/2;
+        return Math.sqrt(this.a * this.a + this.b * this.b - 4) / 2;
     }
 
     /// This method returns the ideal points of the geodesic
@@ -122,26 +122,26 @@ public class Geodesic {
             // Solve the quadratic equation to get the ideal points
             // Delta is always positive
 
-            double delta = 4 * ((a*a)/(b*b)) + 4;
-            double x1 = Math.sqrt(delta)/((a*a)/(b*b)+1);
-            double y1 = (a*x1)/b;
-            return new Point[]{new Point(x1,y1),new Point(-x1,-y1) };
+            double delta = 4 * ((a * a) / (b * b)) + 4;
+            double x1 = Math.sqrt(delta) / ((a * a) / (b * b) + 1);
+            double y1 = (a * x1) / b;
+            return new Point[]{new Point(x1, y1), new Point(-x1, -y1)};
 
         }
 
         // Solve the quadratic equation to get the ideal points
         // Delta is negative or equal to 0 if and only if the geodesic is not defined
 
-        double delta = 16*a*a-4*(b*b+a*a)*(4-b*b);
+        double delta = 16 * a * a - 4 * (b * b + a * a) * (4 - b * b);
 
         // First ideal point
-        double x1 = (-4*a-Math.sqrt(delta))/((a*a+b*b)*2);
-        double y1 = -(2+a*x1)/b;
+        double x1 = (-4 * a - Math.sqrt(delta)) / ((a * a + b * b) * 2);
+        double y1 = -(2 + a * x1) / b;
 
         // Second ideal point
-        double x2 = (-4*a+Math.sqrt(delta))/((a*a+b*b)*2);
-        double y2 = -(2+a*x2)/b;
+        double x2 = (-4 * a + Math.sqrt(delta)) / ((a * a + b * b) * 2);
+        double y2 = -(2 + a * x2) / b;
 
-        return new Point[]{new Point(x1,y1), new Point(x2,y2)};
+        return new Point[]{new Point(x1, y1), new Point(x2, y2)};
     }
 }

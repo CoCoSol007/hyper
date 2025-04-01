@@ -9,26 +9,20 @@ package src;
 /// A class for complex numbers
 public class Complex {
 
-    /// real part of the complex number
-    private final double re;
-
-    /// imaginary part of the complex number
-    private final double im;
-
     /// 1 + 0i
     public static Complex ONE = new Complex(1, 0);
-
     /// 0 + 0i
     public static Complex ZERO = new Complex(0, 0);
-
     /// 0 + 1i
     public static Complex I = new Complex(0, 1);
-
     /// -1 + 0i
     public static Complex MINUS_ONE = new Complex(-1, 0);
-
     /// 0 - 1i
     public static Complex MINUS_I = new Complex(0, -1);
+    /// real part of the complex number
+    private final double re;
+    /// imaginary part of the complex number
+    private final double im;
 
 
     /// create a new object with the given real and imaginary parts
@@ -46,7 +40,7 @@ public class Complex {
     public String toString() {
         if (im == 0) return re + "";
         if (re == 0) return im + "i";
-        if (im <  0) return re + " - " + (-im) + "i";
+        if (im < 0) return re + " - " + (-im) + "i";
         return re + " + " + im + "i";
     }
 
@@ -96,15 +90,19 @@ public class Complex {
 
     /// return the multiplicative inverse
     public Complex reciprocal() {
-        double scale = re*re + im*im;
+        double scale = re * re + im * im;
         return new Complex(re / scale, -im / scale);
     }
 
     /// return the real part
-    public double re() { return re; }
+    public double re() {
+        return re;
+    }
 
     /// return the imaginary part
-    public double im() { return im; }
+    public double im() {
+        return im;
+    }
 
     /// return a / b
     public Complex divides(Complex b) {
