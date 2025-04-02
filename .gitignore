@@ -95,5 +95,4 @@ nb-configuration.xml
 __pycache__
 .python-version
 uv.lock
-partial_*_files
-Tex
+media
