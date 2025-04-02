@@ -4,12 +4,9 @@
 
 ### hyperboloid
 
-In hyperbolic geometry, one elegant way to visualize non-Euclidean space is through the Poincaré disk model. This model can be derived from a higher-dimensional perspective by considering a two-sheeted hyperboloid. By introducing an extra dimension, we can construct the hyperboloid where its equation typically takes the form : $$x^2 + y^2 - z^2 = -1$$ with one sheet (usually the upper one) representing the set of points with $ z > 0 $. 
+In hyperbolic geometry, one elegant way to visualize non-Euclidean space is through the Poincaré disk model. This model can be derived from a higher-dimensional perspective by considering a two-sheeted hyperboloid. By introducing an extra dimension, we can construct the hyperboloid where its equation typically takes the form : $$x^2 + y^2 - z^2 = -1$$ with one sheet (usually the upper one) representing the set of points with $z > 0$. 
 
-<video controls>
-  <source src="./animations/media/videos/two_napped_hyperboloid/1080p60/Main.mp4" type="video/mp4">
-  Not supporting
-</video>
+https://github.com/user-attachments/assets/fc13c232-8755-4ced-a09e-4cbd4d35e02d
 
 ### Points
 
@@ -23,17 +20,14 @@ $$H = \{ (a, b, c) \in \mathbb{R}^3 \mid a^2 + b^2 - c^2 = -1, \quad c > 0 \}.$$
 The Poincaré disk model is given by the unit disk in the Euclidean plane:
 $$D = \{ (x, y) \in \mathbb{R}^2 \mid x^2 + y^2 < 1 \}$$
 
-The stereographic projection from the upper sheet of the hyperboloid model $H$ onto the Poincaré disk $D$ is defined as follows. Given a point $P(a, b, c) \in H $, the corresponding point $ P' $ in the disk $ D $ is:
+The stereographic projection from the upper sheet of the hyperboloid model $H$ onto the Poincaré disk $D$ is defined as follows. Given a point $P(a, b, c) \in H $, the corresponding point $P'$ in the disk $D$ is:
 $$P' \left( x, y \right) = \left( \frac{a}{c+1}, \frac{b}{c+1} \right).$$
 
 This establishes a map between the upper sheet of the hyperboloid and the unit disk.
 
 *A simple [Desmos](https://www.desmos.com/3d/nh9airbdob) example*
 
-<video controls>
-  <source src="./animations/media/videos/hyperboloid_projection/1080p60/Main.mp4" type="video/mp4">
-  Not supporting
-</video>
+https://github.com/user-attachments/assets/9eab0d88-f3f9-42a8-b193-ebd15bfb2888
 
 ### Geodesies
 
