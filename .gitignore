@@ -88,3 +88,12 @@ nb-configuration.xml
 ## Miscellaneous
 ##############################
 *.log
+
+##############################
+## Python
+##############################
+__pycache__
+.python-version
+uv.lock
+partial_*_files
+Tex

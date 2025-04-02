@@ -39,7 +39,7 @@ life with videos and animations to make abstract concepts accessible.
 | Chapter | Title                                        |
 |---------|----------------------------------------------|
 | 0       | [introduction](docs/introduction.md)         |
-| I       | Basic mathematics in the Poincaré disk model |
+| I       | [Basic mathematics in the Poincaré disk model](docs/basic-mathematics-in-the-poincare-disk-model.md) |
 
 [contributors-shield]: https://img.shields.io/github/contributors/cocosol007/hyper.svg?style=for-the-badge
 
