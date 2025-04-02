@@ -41,6 +41,12 @@ life with videos and animations to make abstract concepts accessible.
 | 0       | [introduction](docs/introduction.md)         |
 | I       | [Basic mathematics in the Poincaré disk model](docs/basic-mathematics-in-the-poincare-disk-model.md) |
 
+## Licence
+
+See all about our license [here](/LICENSE)
+
+![GPL3](https://upload.wikimedia.org/wikipedia/commons/c/cb/GPLv3_Logo_filled.png)
+
 [contributors-shield]: https://img.shields.io/github/contributors/cocosol007/hyper.svg?style=for-the-badge
 
 [contributors-url]: https://github.com/cocosol007/hyper/graphs/contributors
