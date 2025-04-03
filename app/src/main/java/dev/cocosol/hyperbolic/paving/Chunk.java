@@ -1,7 +1,8 @@
-package src.hyperbolic.paving;
+package dev.cocosol.hyperbolic.paving;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /// A chunk is a simple case of the tiling
 public class Chunk {
@@ -101,6 +102,24 @@ public class Chunk {
 
     public String toString() {
         return this.directions.toString();
+    }
+
+    /// Encode the chunk
+    public int encode() {
+        int result = 0;
+        for (int i = 0; i < this.directions.size(); i++) {
+            Direction direction = this.directions.get(i);
+            result += (int) (direction.ordinal() * Math.pow(4, i));
+        }
+        return result;
+    }
+
+    /// Get the hash of the chunk with the given seed
+    public boolean getHash(int seed) {
+        int num = this.encode();
+        long combinedSeed = (long) seed * 31 + num;
+        int randomValue = new Random(combinedSeed).nextInt();
+        return (randomValue & Integer.MAX_VALUE % 2) == 1;
     }
 
     /// Get the neighbors

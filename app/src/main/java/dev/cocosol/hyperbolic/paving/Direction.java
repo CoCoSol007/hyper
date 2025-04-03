@@ -1,4 +1,4 @@
-package src.hyperbolic.paving;
+package dev.cocosol.hyperbolic.paving;
 
 /// A direction
 public enum Direction {

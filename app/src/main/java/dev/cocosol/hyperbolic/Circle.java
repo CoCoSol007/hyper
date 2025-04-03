@@ -3,7 +3,7 @@
  * Copyright (C) 2025 Hyper
  */
 
-package src.hyperbolic;
+package dev.cocosol.hyperbolic;
 
 /// A simple hyperbolic circle
 ///

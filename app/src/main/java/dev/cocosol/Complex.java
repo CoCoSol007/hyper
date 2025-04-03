@@ -4,7 +4,7 @@
  */
 
 
-package src;
+package dev.cocosol;
 
 /// A class for complex numbers
 public class Complex {

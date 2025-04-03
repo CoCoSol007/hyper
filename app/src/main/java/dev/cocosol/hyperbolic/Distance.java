@@ -3,7 +3,7 @@
  * Copyright (C) 2025 Hyper
  */
 
-package src.hyperbolic;
+package dev.cocosol.hyperbolic;
 
 public class Distance {
     /// This method returns the hyperbolic distance between a point and the center

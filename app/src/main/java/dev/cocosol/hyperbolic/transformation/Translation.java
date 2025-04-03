@@ -3,10 +3,10 @@
  * Copyright (C) 2025 Hyper
  */
 
-package src.hyperbolic.transformation;
+package dev.cocosol.hyperbolic.transformation;
 
-import src.Complex;
-import src.hyperbolic.Point;
+import dev.cocosol.Complex;
+import dev.cocosol.hyperbolic.Point;
 
 /// A class for translations in the hyperbolic plane
 public class Translation {

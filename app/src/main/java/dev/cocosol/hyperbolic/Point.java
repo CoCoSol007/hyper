@@ -3,9 +3,9 @@
  * Copyright (C) 2025 Hyper
  */
 
-package src.hyperbolic;
+package dev.cocosol.hyperbolic;
 
-import src.Complex;
+import dev.cocosol.Complex;
 
 /// A simple point
 public class Point {
