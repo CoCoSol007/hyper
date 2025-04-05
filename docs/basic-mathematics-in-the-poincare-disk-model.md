@@ -27,7 +27,7 @@ This establishes a map between the upper sheet of the hyperboloid and the unit d
 
 *A simple [Desmos](https://www.desmos.com/3d/nh9airbdob) example*
 
-https://github.com/user-attachments/assets/9eab0d88-f3f9-42a8-b193-ebd15bfb2888
+https://github.com/user-attachments/assets/43b8c25a-ea0f-447e-a6e8-42bb7ddf9f10
 
 ### Geodesies
 
