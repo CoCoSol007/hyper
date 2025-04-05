@@ -35,7 +35,7 @@ In general geometry, a geodesic is the shortest path between two points in a giv
 
 The hyperbolic plane, because of this curvature, the shortest paths, or geodesics, are not straight lines in the usual sense but instead take specific forms depending on the model used to represent the hyperbolic plane.
 
-TODO: Add animation to illustrate.
+https://github.com/user-attachments/assets/9a24ac4c-7504-471e-b9ec-f49a3f9c79f5
 
 ## Circles
 
