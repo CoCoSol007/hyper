@@ -44,7 +44,7 @@ life with videos and animations to make abstract concepts accessible.
 
 ## Licence
 
-See all about our license [here](/LICENSE)
+See all about our license [here](/LICENCE)
 
 ![GPL3](https://upload.wikimedia.org/wikipedia/commons/c/cb/GPLv3_Logo_filled.png)
 
