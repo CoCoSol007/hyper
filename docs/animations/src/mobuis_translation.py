@@ -14,16 +14,13 @@ class Main(Scene):
         animation_runtime = 5
 
         def complex_to_R3(z: complex) -> np.ndarray:
-            """Maps a complex number z to Manim coordinates [x, y, 0] scaled by disk_radius."""
             return np.array([z.real * disk_radius, z.imag * disk_radius, 0])
 
         def R3_to_complex(point: np.ndarray) -> complex:
-            """Maps Manim coordinates [x, y, 0] back to a complex number, scaled down."""
             if disk_radius == 0: return 0j
             return (point[0] / disk_radius) + 1j * (point[1] / disk_radius)
 
         def mobius_transform_point(point: np.ndarray, target_w: complex) -> np.ndarray:
-            """Applies the hyperbolic translation moving 0 to target_w to a Manim point."""
             z = R3_to_complex(point)
             denominator = (1 + target_w.conjugate() * z)
             if abs(denominator) < 1e-9:
@@ -34,12 +31,12 @@ class Main(Scene):
             return complex_to_R3(transformed_z)
 
 
-        title = Text("Poincaré disk model : Rotation", font_size=36).to_edge(UP)
+        title = Text("Poincaré disk model : Translation", font_size=36).to_edge(UP)
         self.play(Write(title))
 
         disk_boundary = Circle(radius=disk_radius, color=BLUE, stroke_width=2)
-        disk_boundary.set_fill(BLUE, opacity=0.1) # Optional fill
-        origin_marker = Dot(ORIGIN, radius=0.05, color=YELLOW) # Mark the center
+        disk_boundary.set_fill(BLUE, opacity=0.1)
+        origin_marker = Dot(ORIGIN, radius=0.05, color=YELLOW)
 
         self.play(Create(disk_boundary), Create(origin_marker))
         self.wait(0.5)

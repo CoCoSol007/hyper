@@ -10,7 +10,7 @@ class Main(Scene):
         total_rotation_angle = 2 * PI
         
         if abs(center_p_complex) >= 1:
-             raise ValueError(f"Le module du centre p ({center_p_complex}) doit être inférieur à 1. Obtenu {abs(center_p_complex)}")
+             raise ValueError(f"Magnitude of w must be less than 1. Got {abs(center_p_complex)}")
 
         grid_step = 0.5
         n_grid_lines = int(2 * disk_radius / grid_step) + 1
@@ -51,7 +51,7 @@ class Main(Scene):
         disk_boundary.set_fill(BLUE, opacity=0.05)
         
         center_p_marker_pos = complex_to_R3(center_p_complex)
-        center_p_marker = Dot(center_p_marker_pos, radius=dot_radius * 1.5, color=RED, z_index=1) # Au dessus des points
+        center_p_marker = Dot(center_p_marker_pos, radius=dot_radius * 1.5, color=RED, z_index=1)
         center_p_label = MathTex(f"p", font_size=28, color=RED)
         center_p_label.next_to(center_p_marker, DR, buff=0.1)
         
@@ -73,7 +73,7 @@ class Main(Scene):
                     if dist_sq > (dot_radius * 2)**2 :
                         dot = Dot(point_coord, radius=dot_radius, color=WHITE)
                         points_group.add(dot)
-                        initial_positions.append(point_coord.copy()) # Stocker la position initiale
+                        initial_positions.append(point_coord.copy())
 
         self.play(FadeIn(points_group, scale=0.7))
         self.wait(0.5)
@@ -90,7 +90,7 @@ class Main(Scene):
                 font_size=28
         )
         angle_display_value.next_to(angle_display_label, RIGHT)
-        angle_display_value.add_updater(lambda d: d.set_value(current_angle.get_value())) # Met à jour la valeur affichée
+        angle_display_value.add_updater(lambda d: d.set_value(current_angle.get_value()))
         angle_display_group = VGroup(angle_display_label, angle_display_value)
         
         self.play(Write(angle_display_group))
@@ -109,7 +109,7 @@ class Main(Scene):
         self.play(
             current_angle.animate.set_value(total_rotation_angle),
             run_time=animation_runtime,
-            rate_func=linear
+            rate_func=smooth
         )
 
         points_group.remove_updater(continuous_rotation_updater)
