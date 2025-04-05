@@ -41,9 +41,7 @@ https://github.com/user-attachments/assets/9a24ac4c-7504-471e-b9ec-f49a3f9c79f5
 
 Circles in the hyperbolic plane are also quite different from their Euclidean counterparts. A hyperbolic circle consists of all points at a fixed hyperbolic distance from a given center. However, due to the nature of hyperbolic distance, these circles often appear distorted in Euclidean representations of the hyperbolic plane. In the Poincaré disk model, hyperbolic circles resemble Euclidean circles but have different radii when measured with hyperbolic distance. The key difference is that the hyperbolic radius grows exponentially compared to the Euclidean radius.
 
-TODO: Add animation to illustrate.
-
-TODO: Add animation to illustrate (with a very large radius).
+https://github.com/user-attachments/assets/7b52a693-1928-4205-96b5-63fa361ec08e
 
 ## Geometry in the Poincaré disk model
 
