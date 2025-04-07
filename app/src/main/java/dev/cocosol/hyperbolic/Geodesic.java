@@ -18,7 +18,7 @@ public class Geodesic {
 
     /// True if the geodesic is a diameter
     /// If so the geodesic is defined by the equation ax+by = 0
-    private boolean diameter = false;
+    boolean diameter = false;
 
     /// Constructor of the geodesic
     public Geodesic(double a, double b) {
