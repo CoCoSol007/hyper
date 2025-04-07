@@ -24,7 +24,7 @@ public class Translation {
         Complex a = origin.toComplex();
         Complex z = point.toComplex();
         return Point.fromComplex(
-                z.times(a).divides(Complex.ONE.minus(a.conjugate().times(z)))
+                z.minus(a).divides(Complex.ONE.minus(a.conjugate().times(z)))
         );
     }
 }
