@@ -45,7 +45,7 @@ class Main(ThreeDScene):
         ))
 
         line_MP = always_redraw(lambda: Line(
-            start=point_P.get_center(),
+            start=(0,0,-1),
             end=point_M.get_center(),
             color=WHITE
         ))
