@@ -11,8 +11,11 @@ public class Chunk {
     public static Chunk ORIGIN = new Chunk(List.of());
     /// The way we represent the position of the chunk
     private final List<Direction> directions;
+    /// The way we save the holonomy of  the movement
+    private final List<Direction> globalChunk;
 
     public Chunk(List<Direction> directions) {
+        this.globalChunk = directions;
         this.directions = simplifyDirections(directions);
     }
 
@@ -134,8 +137,22 @@ public class Chunk {
         return chunks;
     }
 
-    /// Check if two chunks are equals
-    public boolean isEquals(Chunk chunk) {
+    /// Check if two chunks are the same place
+    public boolean isTheSamePlace(Chunk chunk) {
         return this.directions.equals(chunk.directions);
+    }
+
+    /// Check if two position are the same place and is the same holonomy
+    public boolean isTheSameHolonomy(Chunk other) {
+        return this.isTheSamePlace(other) 
+        && this.applyDirection(Direction.FORWARD).equals(other.applyDirection(Direction.FORWARD));
+    }
+
+    /// Apply a direction to the chunk
+    public Chunk applyDirection(Direction direction) {
+        List<Direction> newDirection = new ArrayList<Direction>();
+        newDirection.addAll(this.globalChunk);
+        newDirection.add(direction);
+        return new Chunk(newDirection);
     }
 }
