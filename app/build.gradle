@@ -35,7 +35,6 @@ task runRenderer(type: JavaExec) {
     mainClass.set 'dev.cocosol.Renderer2D'
 }
 
-
 application {
     // Define the main class for the application.
     mainClass = 'dev.cocosol.Main'
