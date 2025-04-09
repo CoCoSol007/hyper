@@ -30,6 +30,12 @@ java {
     }
 }
 
+task runRenderer(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass.set 'dev.cocosol.Renderer2D'
+}
+
+
 application {
     // Define the main class for the application.
     mainClass = 'dev.cocosol.Main'
