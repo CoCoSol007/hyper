@@ -72,4 +72,4 @@ See all about our license [here](/LICENCE)
 
 [license-shield]: https://img.shields.io/github/license/cocosol007/hyper.svg?style=for-the-badge
 
-[license-url]: https://github.com/cocosol007/hyper/blob/main/LICENCE
+[license-url]: https://github.com/cocosol007/hyper/blob/main/.github/LICENCE
