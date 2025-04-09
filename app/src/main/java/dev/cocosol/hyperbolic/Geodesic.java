@@ -5,32 +5,51 @@
 
 package dev.cocosol.hyperbolic;
 
-/// A simple geodesic
-///
-/// In the Poincaré disk model a geodesic can be described by a circle orthogonal to the unit circle.
-/// So it can be described by an equation x² + y² + ax + by + 1 = 0.
+/**
+ * Represents a geodesic in the Poincaré disk model of hyperbolic geometry.
+ * <p>
+ * A geodesic in this model is represented by a circle orthogonal to the unit circle,
+ * and it can be described by the equation {@code x² + y² + ax + by + 1 = 0}.
+ * Additionally, geodesics can also represent diameters of the unit disk.
+ */
 public class Geodesic {
-    /// One parameter of the geodesic
+    
+    /**
+     * One parameter of the geodesic equation.
+     */
     public double a;
 
-    /// One parameter of the geodesic
+    /**
+     * One parameter of the geodesic equation.
+     */
     public double b;
 
-    /// True if the geodesic is a diameter
-    /// If so the geodesic is defined by the equation ax+by = 0
+    /**
+     * True if the geodesic is a diameter. 
+     * If true, the geodesic is defined by the equation {@code ax + by = 0}.
+     */
     boolean diameter = false;
 
-    /// Constructor of the geodesic
+    /**
+     * Constructor for creating a geodesic from the parameters {@code a} and {@code b}.
+     *
+     * @param a the first parameter of the geodesic equation
+     * @param b the second parameter of the geodesic equation
+     */
     public Geodesic(double a, double b) {
         this.a = a;
         this.b = b;
     }
 
-    /// A constructor of a geodesic from two points
-    ///
-    /// ## Math
-    /// It works by solving the system of equations x² + y² + ax + by + 1 = 0
-    /// with (x,y) = u and (x,y) = v
+    /**
+     * Constructs a geodesic from two points in the hyperbolic plane.
+     * <p>
+     * The geodesic is determined by solving the system of equations for the points {@code u} and {@code v}.
+     *
+     * @param u the first point
+     * @param v the second point
+     * @return the resulting geodesic defined by the points {@code u} and {@code v}
+     */
     public static Geodesic fromTwoPoints(Point u, Point v) {
         double det = (u.x * v.y) - (u.y * v.x);
 
@@ -39,7 +58,6 @@ public class Geodesic {
             Geodesic geodesic = new Geodesic(u.y - v.y, v.x - u.x);
             geodesic.diameter = true;
             return geodesic;
-
         }
 
         double A = -1 - (u.x * u.x) - (u.y * u.y);
@@ -48,15 +66,21 @@ public class Geodesic {
         return new Geodesic((A * v.y - B * u.y) / det, (B * u.x - A * v.x) / det);
     }
 
-    /// A constructor of a geodesic from a point and a tangent
-    ///
-    /// ## Math
-    /// It works by solving the system of equations :
-    /// x² + y² + ax + by + 1 = 0 (with (x,y) = u)
-    /// (t1,t2)⋅(x,y) = 0 (where (t1,t2) is the tangent and (x,y) a segment of the circle formed by the geodesic)
+    /**
+     * Constructs a geodesic from a point and a tangent vector.
+     * <p>
+     * The geodesic is determined by solving the system of equations involving the point {@code u}
+     * and the tangent vector {@code (t1, t2)}.
+     *
+     * @param u the point that the geodesic passes through
+     * @param t1 the first component of the tangent vector
+     * @param t2 the second component of the tangent vector
+     * @return the resulting geodesic defined by the point and tangent vector
+     * @throws IllegalArgumentException if the tangent vector is null (i.e., {@code t1 == 0} and {@code t2 == 0})
+     */
     public static Geodesic fromPointAndTangent(Point u, double t1, double t2) {
-        if (t1 != 0 || t2 != 0) {
-            throw new IllegalArgumentException("Vector tangent must be not null");
+        if (t1 == 0 && t2 == 0) {
+            throw new IllegalArgumentException("Vector tangent must not be null");
         }
 
         double det = t1 * u.y - t2 * u.x;
@@ -73,28 +97,43 @@ public class Geodesic {
         return new Geodesic(x / det, y / det);
     }
 
-    /// A constructor of a geodesic from a point and an angle
-    ///
-    /// ## Math
-    /// It works by calling fromPointAndTangent.
-    /// It creates a tangent vector by this way : (cos(angle), sin(angle))
+    /**
+     * Constructs a geodesic from a point and an angle.
+     * <p>
+     * This method calls {@link #fromPointAndTangent(Point, double, double)} with a tangent vector
+     * corresponding to the given angle.
+     *
+     * @param u the point that the geodesic passes through
+     * @param angle the angle used to create the tangent vector (in radians)
+     * @return the resulting geodesic defined by the point and angle
+     */
     public static Geodesic fromPointAndAngle(Point u, double angle) {
         return fromPointAndTangent(u, Math.cos(angle), Math.sin(angle));
     }
 
+    /**
+     * Determines if a given point lies on the geodesic.
+     * <p>
+     * This method checks if the point satisfies the equation of the geodesic.
+     *
+     * @param point the point to check
+     * @return {@code true} if the point lies on the geodesic, {@code false} otherwise
+     */
     public boolean isOnGeodesic(Point point) {
         if (this.diameter) {
             return (this.a * point.x + this.b * point.y == 0);
         }
-        // Due to imprecision of floating point numbers we need to use a tolerance : a = b <=> |a - b| < 0.000001
-        // TODO: Check if this tolerance is coherent
+        // Due to imprecision of floating point numbers, we use a tolerance for comparison
         return (point.x * point.x + point.y * point.y + this.a * point.x + this.b * point.y + 1 < 0.000001);
-
     }
 
-    /// This method returns the center of the Euclidean circle that represents the geodesic
-    ///
-    /// Returns null if the geodesic is a diameter
+    /**
+     * Returns the center of the Euclidean circle that represents the geodesic.
+     * <p>
+     * Returns {@code null} if the geodesic is a diameter, as a diameter has no well-defined center.
+     *
+     * @return the center of the Euclidean circle or {@code null} if the geodesic is a diameter
+     */
     public Point getEuclideanCenter() {
         if (this.diameter) {
             return null;
@@ -102,9 +141,13 @@ public class Geodesic {
         return new Point(-this.a / 2, -this.b / 2);
     }
 
-    /// This method returns the Euclidean radius of the Euclidean circle that represents the geodesic
-    ///
-    /// Returns -1 if the geodesic is a diameter
+    /**
+     * Returns the Euclidean radius of the Euclidean circle that represents the geodesic.
+     * <p>
+     * Returns {@code -1} if the geodesic is a diameter, as a diameter has no well-defined radius.
+     *
+     * @return the Euclidean radius or {@code -1} if the geodesic is a diameter
+     */
     public double getEuclideanRadius() {
         if (this.diameter) {
             return -1;
@@ -112,33 +155,29 @@ public class Geodesic {
         return Math.sqrt(this.a * this.a + this.b * this.b - 4) / 2;
     }
 
-    /// This method returns the ideal points of the geodesic
-    /// The ideal points are the intersection of the geodesic and the Euclidean unit circle
-    ///
-    /// Returns null if the geodesic is a diameter
+    /**
+     * Returns the ideal points of the geodesic.
+     * <p>
+     * The ideal points are the intersection of the geodesic with the Euclidean unit circle.
+     * If the geodesic is a diameter, it returns the two points of intersection.
+     *
+     * @return an array of two {@link Point}s representing the ideal points, or {@code null} if the geodesic is a diameter
+     */
     public Point[] getIdealPoints() {
         if (this.diameter) {
-
-            // Solve the quadratic equation to get the ideal points
-            // Delta is always positive
-
+            // Solve the quadratic equation to get the ideal points for a diameter
             double delta = 4 * ((a * a) / (b * b)) + 4;
             double x1 = Math.sqrt(delta) / ((a * a) / (b * b) + 1);
             double y1 = (a * x1) / b;
             return new Point[]{new Point(x1, y1), new Point(-x1, -y1)};
-
         }
 
-        // Solve the quadratic equation to get the ideal points
-        // Delta is negative or equal to 0 if and only if the geodesic is not defined
-
+        // Solve the quadratic equation to get the ideal points for a non-diameter geodesic
         double delta = 16 * a * a - 4 * (b * b + a * a) * (4 - b * b);
 
-        // First ideal point
         double x1 = (-4 * a - Math.sqrt(delta)) / ((a * a + b * b) * 2);
         double y1 = -(2 + a * x1) / b;
 
-        // Second ideal point
         double x2 = (-4 * a + Math.sqrt(delta)) / ((a * a + b * b) * 2);
         double y2 = -(2 + a * x2) / b;
 

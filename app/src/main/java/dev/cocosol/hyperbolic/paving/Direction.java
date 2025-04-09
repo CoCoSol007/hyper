@@ -5,21 +5,35 @@
 
 package dev.cocosol.hyperbolic.paving;
 
-/// A direction
+/**
+ * Represents a direction in the hyperbolic paving.
+ * <p>
+ * The four possible directions are {@code LEFT}, {@code RIGHT}, {@code FORWARD}, and {@code BACKWARD}.
+ * These are typically used to navigate across tiles or apply geometric transformations.
+ */
 public enum Direction {
-    /// The left direction
+
+    /** The leftward direction. */
     LEFT,
 
-    /// The right direction
+    /** The rightward direction. */
     RIGHT,
 
-    /// The forward direction
+    /** The forward direction. */
     FORWARD,
 
-    /// The backward direction
+    /** The backward direction. */
     BACKWARD;
 
-    /// Get the opposite direction
+    /**
+     * Returns the opposite of this direction.
+     * <ul>
+     *     <li>{@code LEFT} ↔ {@code RIGHT}</li>
+     *     <li>{@code FORWARD} ↔ {@code BACKWARD}</li>
+     * </ul>
+     *
+     * @return the opposite direction
+     */
     public Direction opposite() {
         return switch (this) {
             case LEFT -> RIGHT;
@@ -29,7 +43,11 @@ public enum Direction {
         };
     }
 
-    /// Get the 90 degrees clockwise direction
+    /**
+     * Returns the direction obtained by rotating 90 degrees clockwise from this one.
+     *
+     * @return the direction after a clockwise rotation
+     */
     public Direction clockwise() {
         return switch (this) {
             case LEFT -> FORWARD;
@@ -39,7 +57,11 @@ public enum Direction {
         };
     }
 
-    /// Get the 90 degrees anticlockwise direction
+    /**
+     * Returns the direction obtained by rotating 90 degrees counterclockwise from this one.
+     *
+     * @return the direction after a counterclockwise rotation
+     */
     public Direction anticlockwise() {
         return switch (this) {
             case LEFT -> BACKWARD;

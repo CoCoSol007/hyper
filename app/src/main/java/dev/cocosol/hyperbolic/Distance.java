@@ -5,29 +5,65 @@
 
 package dev.cocosol.hyperbolic;
 
+/**
+ * Provides methods for calculating distances in the hyperbolic plane.
+ * <p>
+ * The class includes methods for computing both Euclidean and hyperbolic distances,
+ * including distances between points and from points to the center of the hyperbolic disk.
+ */
 public class Distance {
-    /// This method returns the hyperbolic distance between a point and the center
+
+    /**
+     * Returns the hyperbolic distance between a point and the origin (center of the hyperbolic disk).
+     * <p>
+     * This method uses the Euclidean distance to the center and applies the formula for
+     * hyperbolic distance in the Poincaré disk model.
+     *
+     * @param point the point for which the hyperbolic distance to the origin is computed
+     * @return the hyperbolic distance between the point and the center
+     */
     public static double hyperbolicDistanceToCenter(Point point) {
         double euclideanDist = Distance.euclideanDistanceToCenter(point);
         double euclideanDistSquared = Math.pow(euclideanDist, 2);
         return HyperbolicMath.acosh(1 + 2 * (euclideanDistSquared / (1 - euclideanDistSquared)));
     }
 
-    /// This method returns the Euclidean distance between two points
-    /// It basically returns the length of the vector between the two points
+    /**
+     * Returns the Euclidean distance between two points.
+     * <p>
+     * This method computes the length of the vector between the two points in the Euclidean plane.
+     *
+     * @param point1 the first point
+     * @param point2 the second point
+     * @return the Euclidean distance between the two points
+     */
     public static double euclideanDistance(Point point1, Point point2) {
         return Math.sqrt((point1.x - point2.x) * (point1.x - point2.x) + (point1.y - point2.y) * (point1.y - point2.y));
     }
 
-    /// This method returns the Euclidean distance to the center
-    /// It basically returns the length of the vector between the point and the center
+    /**
+     * Returns the Euclidean distance between a point and the origin (center of the hyperbolic disk).
+     * <p>
+     * This method computes the length of the vector from the point to the origin in the Euclidean plane.
+     *
+     * @param point the point for which the Euclidean distance to the center is computed
+     * @return the Euclidean distance between the point and the center
+     */
     public static double euclideanDistanceToCenter(Point point) {
         return Math.sqrt(point.x * point.x + point.y * point.y);
     }
 
-    /// This method returns the hyperbolic distance between two points
+    /**
+     * Returns the hyperbolic distance between two points in the hyperbolic plane.
+     * <p>
+     * This method uses the Euclidean distance between the points and applies the formula for
+     * hyperbolic distance in the Poincaré disk model.
+     *
+     * @param point1 the first point
+     * @param point2 the second point
+     * @return the hyperbolic distance between the two points
+     */
     public static double hyperbolicDistance(Point point1, Point point2) {
-        // TODO: Better explanation of the formula and renaming of variables
         double euclideanDist = Distance.euclideanDistanceToCenter(point1.minus(point2));
         double eucDist1 = Distance.euclideanDistanceToCenter(point1);
         double eucDist2 = Distance.euclideanDistanceToCenter(point2);

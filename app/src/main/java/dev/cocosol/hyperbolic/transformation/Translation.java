@@ -8,18 +8,35 @@ package dev.cocosol.hyperbolic.transformation;
 import dev.cocosol.Complex;
 import dev.cocosol.hyperbolic.Point;
 
-/// A class for translations in the hyperbolic plane
+/**
+ * Represents a translation transformation in the hyperbolic plane.
+ * <p>
+ * In the disk model, a translation is defined by a single point that the transformation maps to the origin.
+ * For example, the translation {@code f} defined by the point {@code A}, maps {@code A} to the origin ({@code f(A) = (0,0)}).
+ */
 public class Translation {
-    /// In the disk model, a translation is defined by a single point that the transformation maps to the origin
-    /// For example the translation f defined by the point A, maps A to the origin ( f(A) = (0,0) )
+
+    /** The point that is mapped to the origin under this translation. */
     private final Point origin;
 
-    /// Constructor
+    /**
+     * Constructs a new {@code Translation} transformation defined by the given point.
+     *
+     * @param point the point that will be mapped to the origin
+     */
     public Translation(Point point) {
         origin = point;
     }
 
-    /// Applies the translation with the given point
+    /**
+     * Applies this translation to a given point.
+     * <p>
+     * The translation is implemented using a Möbius transformation that maps the given point
+     * to a new position in the hyperbolic plane.
+     *
+     * @param point the point to translate
+     * @return the translated point
+     */
     public Point apply(Point point) {
         Complex a = origin.toComplex();
         Complex z = point.toComplex();

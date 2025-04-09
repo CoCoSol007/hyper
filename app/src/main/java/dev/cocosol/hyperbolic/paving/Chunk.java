@@ -13,15 +13,34 @@ import dev.cocosol.hyperbolic.Geodesic;
 import dev.cocosol.hyperbolic.HyperbolicMath;
 import dev.cocosol.hyperbolic.Point;
 
-/// A chunk is a simple case of the tiling
+/**
+ * Represents a single tile (chunk) in the hyperbolic tiling.
+ * Each chunk maintains a list of directions representing its relative position,
+ * its global path through the tiling, and its four corner vertices.
+ */
 public class Chunk {
-    /// The way we represent the position of the chunk
+
+    /**
+     * The relative path from the origin using direction steps.
+     */
     private final List<Direction> directions;
-    /// The way we save the holonomy of  the movement
+
+    /**
+     * The complete path (holonomy) from the origin to this chunk.
+     */
     private final List<Direction> globalChunk;
-    ///  All the points of the chunk
+
+    /**
+     * The four vertices that define the geometry of the chunk in counter-clockwise order.
+     */
     public final List<Point> vertices;
 
+    /**
+     * Constructs a chunk with a given direction path and corner points.
+     *
+     * @param directions the list of directions taken from the origin
+     * @param points     the four corner points of the chunk
+     */
     public Chunk(List<Direction> directions, Point[] points) {
         this.globalChunk = directions;
         this.directions = simplifyDirections(directions);
@@ -35,7 +54,11 @@ public class Chunk {
         Collections.addAll(this.vertices, topRight, topLeft, bottomLeft, bottomRight);
     }
 
-    /// The origin of the map
+    /**
+     * Returns the origin chunk of the tiling.
+     *
+     * @return the central chunk at the origin
+     */
     public static Chunk ORIGIN() {
         double position = size();
         Point topRight = new Point(position, position);
@@ -46,14 +69,23 @@ public class Chunk {
         return new Chunk(List.of(), new Point[]{topRight, topLeft, bottomLeft, bottomRight});
     }
 
-    ///  The size of the chunk with the current paving
+    /**
+     * Computes the standard size of a chunk in the current tiling.
+     *
+     * @return the size as a double
+     */
     private static double size() {
         double numerator = Math.tan(Math.PI / 2 - Math.PI / 5) - Math.tan(Math.PI / 4);
         double denominator = Math.tan(Math.PI / 2 - Math.PI / 5) + Math.tan(Math.PI / 4);
         return Math.sqrt(numerator / (denominator * 2));
     }
 
-    /// A function to simplify a list of directions recursively
+    /**
+     * Simplifies a direction path recursively based on predefined rules.
+     *
+     * @param directions the original list of directions
+     * @return a simplified list of directions
+     */
     private static List<Direction> simplifyDirections(List<Direction> directions) {
         List<Direction> simplified = applySimplifications(directions);
         if (simplified.equals(directions)) {
@@ -62,14 +94,18 @@ public class Chunk {
         return simplifyDirections(simplified);
     }
 
-    /// A function to apply a simplifications
+    /**
+     * Applies transformation rules to simplify the direction path.
+     *
+     * @param input the original direction list
+     * @return a partially simplified direction list
+     */
     private static List<Direction> applySimplifications(List<Direction> input) {
-
-        // Rule n°1: Undo backward
         if (input.size() < 2) {
             return input;
         }
 
+        // Rule 1: Undo BACKWARD operations
         List<Direction> firstPass = new ArrayList<>();
         for (int i = 1; i < input.size(); i++) {
             Direction fst = input.get(i - 1);
@@ -95,9 +131,7 @@ public class Chunk {
             }
         }
 
-
-        // Rule n°2: Merge directions (for example L + R + R => F + L)
-        // It can only be applied if there are at least 3 directions
+        // Rule 2: Merge repeated directions
         if (firstPass.size() < 3) {
             return firstPass;
         }
@@ -108,11 +142,10 @@ public class Chunk {
             Direction snd = firstPass.get(i - 1);
             Direction cur = firstPass.get(i);
 
-            // Check if we are at the last element
             boolean last = i == firstPass.size() - 1;
 
             if (snd == cur && cur == Direction.RIGHT) {
-                secondPass.addAll(List.of(new Direction[]{fst.clockwise(), Direction.LEFT}));
+                secondPass.addAll(List.of(fst.clockwise(), Direction.LEFT));
                 if (!last) {
                     secondPass.add(firstPass.get(i + 1).clockwise());
                     secondPass.addAll(firstPass.subList(i + 2, firstPass.size()));
@@ -121,27 +154,29 @@ public class Chunk {
             }
 
             if (snd == cur && cur == Direction.LEFT) {
-                secondPass.addAll(List.of(new Direction[]{fst.anticlockwise(), Direction.RIGHT}));
+                secondPass.addAll(List.of(fst.anticlockwise(), Direction.RIGHT));
                 if (!last) {
                     secondPass.add(firstPass.get(i + 1).anticlockwise());
                     secondPass.addAll(firstPass.subList(i + 2, firstPass.size()));
                 }
                 break;
             }
+
             secondPass.add(fst);
             if (last) {
                 secondPass.add(snd);
                 secondPass.add(cur);
             }
         }
+
         return secondPass;
     }
 
-    public String toString() {
-        return this.directions.toString();
-    }
-
-    /// Encode the chunk
+    /**
+     * Encodes the chunk's position into an integer value.
+     *
+     * @return the encoded integer
+     */
     public int encode() {
         int result = 0;
         for (int i = 0; i < this.directions.size(); i++) {
@@ -151,7 +186,13 @@ public class Chunk {
         return result;
     }
 
-    /// Get a pseudorandom boolean based on a seed, a chunk and a direction
+    /**
+     * Computes a pseudo-random boolean value based on a given seed, current chunk, and direction.
+     *
+     * @param seed      a random seed
+     * @param direction the direction to compute from
+     * @return a pseudo-random boolean value
+     */
     public boolean getHash(int seed, Direction direction) {
         Chunk nextChunk = getNeighbors(direction);
         int num1 = nextChunk.encode();
@@ -170,17 +211,12 @@ public class Chunk {
         return (hash & 1) == 1;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
-
-        Chunk other = (Chunk) obj;
-        return this.directions.equals(other.directions);
-
-    }
-
-    /// Get the neighbors of the chunk in a given direction
+    /**
+     * Returns the neighboring chunk in the specified direction.
+     *
+     * @param direction the direction to retrieve the neighbor from
+     * @return the neighboring chunk
+     */
     public Chunk getNeighbors(Direction direction) {
         Geodesic geodesic = Geodesic.fromTwoPoints(getPointFromDirection(direction)[0], getPointFromDirection(direction)[1]);
         Point[] newPoint = switch (direction) {
@@ -199,8 +235,12 @@ public class Chunk {
         return new Chunk(directions, newPoint);
     }
 
-
-    /// Get the point from a direction
+    /**
+     * Returns the two points (edge) associated with a given direction.
+     *
+     * @param direction the direction to query
+     * @return an array of two points corresponding to that edge
+     */
     public Point[] getPointFromDirection(Direction direction) {
         int index = switch (direction) {
             case FORWARD -> 0;
@@ -208,14 +248,20 @@ public class Chunk {
             case BACKWARD -> 2;
             case RIGHT -> 3;
         };
-        return new Point[] {vertices.get(index),vertices.get((index+1)%4)};
+        return new Point[]{vertices.get(index), vertices.get((index + 1) % 4)};
     }
 
-    /// Get the direction from two points
+    /**
+     * Determines the direction that corresponds to the given two consecutive points.
+     *
+     * @param a the first point
+     * @param b the second point
+     * @return the direction from point a to point b, or null if no match is found
+     */
     public Direction getDirectionFromPoints(Point a, Point b) {
         int index = -1;
-        for (int i = 0; i < 4; i ++) {
-            if (vertices.get(i).equals(a) && vertices.get((i+1)%4).equals(b)) {
+        for (int i = 0; i < 4; i++) {
+            if (vertices.get(i).equals(a) && vertices.get((i + 1) % 4).equals(b)) {
                 index = i;
             }
         }
@@ -229,5 +275,31 @@ public class Chunk {
             case 3 -> Direction.RIGHT;
             default -> throw new IllegalStateException("Unexpected value: " + index);
         };
+    }
+
+    /**
+     * Returns a string representation of the chunk's direction path.
+     *
+     * @return a string showing the chunk's direction history
+     */
+    @Override
+    public String toString() {
+        return this.directions.toString();
+    }
+
+    /**
+     * Checks whether this chunk is equal to another object.
+     * Two chunks are equal if they share the same direction path.
+     *
+     * @param obj the object to compare
+     * @return true if equal, false otherwise
+     */
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        Chunk other = (Chunk) obj;
+        return this.directions.equals(other.directions);
     }
 }
