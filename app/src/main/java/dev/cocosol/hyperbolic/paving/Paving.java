@@ -69,7 +69,7 @@ public class Paving {
      * @param angle the angle (in radians) to rotate
      */
     public void applyRotation(double angle) {
-        Rotation rotation = new Rotation(angle, Point.ORIGIN);
+        Rotation rotation = new Rotation(angle);
         for (int i = 0; i < 4; i++) {
             Point p = rotation.apply(centerChunk.vertices.get(i));
             centerChunk.vertices.get(i).x = p.x;
