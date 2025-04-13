@@ -169,7 +169,71 @@ public class Chunk {
             }
         }
 
-        return secondPass;
+        // --- Pass 3: Apply LF rule ---
+        // Ryle: Y + R (F*n) R + X -> Y.clockwise + (LF*n) L + X.clockwise
+        if (secondPass.size() < 4) {
+            return secondPass;
+        }
+        List<Direction> thirdPass = new ArrayList<>();
+
+        int i = 0;
+
+        while (i < secondPass.size()) {
+            if (i + 1 >= secondPass.size()) {
+                thirdPass.add(secondPass.get(i));
+                i++;
+                continue;
+            }
+
+            Direction y = secondPass.get(i);
+            Direction r1 = secondPass.get(i + 1);
+
+            if (r1 == Direction.RIGHT) {
+                int fCount = 0;
+                int currentScanIndex = i + 2;
+
+                while (currentScanIndex < secondPass.size() &&
+                       secondPass.get(currentScanIndex) == Direction.FORWARD) {
+                    fCount++;
+                    currentScanIndex++;
+                }
+
+                if (fCount > 0 &&
+                    currentScanIndex < secondPass.size() && 
+                    secondPass.get(currentScanIndex) == Direction.RIGHT)
+                {
+                    int r2Index = currentScanIndex;
+
+                    thirdPass.add(y.clockwise());
+
+                    for (int k = 0; k < fCount; k++) {
+                        thirdPass.add(Direction.LEFT);
+                        thirdPass.add(Direction.FORWARD);
+                    }
+                    thirdPass.add(Direction.LEFT);
+
+                    int xIndex = r2Index + 1;
+                    if (xIndex < secondPass.size()) {
+                        Direction x = secondPass.get(xIndex);
+                        thirdPass.add(x.clockwise());
+                        thirdPass.addAll(secondPass.subList(xIndex + 1, secondPass.size()));
+                    }
+
+                    break;
+
+                } else {
+                    thirdPass.add(y);
+                    i++;
+                }
+
+            } else {
+                thirdPass.add(y);
+                i++;
+            }
+        }
+
+
+        return thirdPass;
     }
 
     /**
