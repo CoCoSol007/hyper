@@ -75,6 +75,7 @@ public class Complex {
      *
      * @return a string representation of the complex number
      */
+    @Override
     public String toString() {
         if (im == 0) return re + "";
         if (re == 0) return im + "i";

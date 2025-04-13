@@ -5,13 +5,13 @@
 
 package dev.cocosol.hyperbolic.paving;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import dev.cocosol.Complex;
 import dev.cocosol.hyperbolic.Point;
 import dev.cocosol.hyperbolic.transformation.Rotation;
 import dev.cocosol.hyperbolic.transformation.Translation;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Represents a paving structure in the hyperbolic disk.

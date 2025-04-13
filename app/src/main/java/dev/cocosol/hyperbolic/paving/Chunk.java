@@ -229,10 +229,10 @@ public class Chunk {
             newPoint[i] = HyperbolicMath.inverseWithRespectToGeodesic(newPoint[i], geodesic);
         }
 
-        List<Direction> directions = new ArrayList<>(globalChunk);
-        directions.add(direction);
+        List<Direction> newDirections = new ArrayList<>(globalChunk);
+        newDirections.add(direction);
 
-        return new Chunk(directions, newPoint);
+        return new Chunk(newDirections, newPoint);
     }
 
     /**
