@@ -41,6 +41,7 @@ life with videos and animations to make abstract concepts accessible.
 | I.A | [How to Run the Project](docs/running-the-project.md) |
 | II.A | [Introduction](docs/I/introduction.md)         |
 | II.B | [Basic Mathematics in the Poincaré Disk Model](docs/I/basic-mathematics-in-the-poincare-disk-model.md) |
+| II.C | [Isometries](docs/I/isometries.md)
 
 ## Licence
 
