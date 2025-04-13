@@ -128,4 +128,23 @@ public class Point {
     public String toString() {
         return String.format("( %.3f, %.3f )", x, y);
     }
+
+    
+/**
+ * Compares this point to the specified object for equality.
+ * <p>
+ * Two points are considered equal if their {@code x} and {@code y} coordinates
+ * are approximately equal within a tolerance of 0.000001.
+ *
+ * @param o the object to compare with
+ * @return {@code true} if the specified object is a point with approximately
+ * equal coordinates to this point, {@code false} otherwise
+ */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Point point = (Point) o;
+        return Math.abs(x - point.x) < 0.000001 && Math.abs(y - point.y) < 0.000001;
+    }
 }
