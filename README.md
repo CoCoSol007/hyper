@@ -38,9 +38,9 @@ life with videos and animations to make abstract concepts accessible.
 
 | Chapter | Title|
 |---------|----------------------------------------------|
-| I.a | [How to Run the Project](docs/running-the-project.md) |
-| II.a | [Introduction](docs/introduction.md)         |
-| II.b | [Basic Mathematics in the Poincaré Disk Model](docs/basic-mathematics-in-the-poincare-disk-model.md) |
+| I.A | [How to Run the Project](docs/running-the-project.md) |
+| II.A | [Introduction](docs/I/introduction.md)         |
+| II.B | [Basic Mathematics in the Poincaré Disk Model](docs/I/basic-mathematics-in-the-poincare-disk-model.md) |
 
 ## Licence
 
