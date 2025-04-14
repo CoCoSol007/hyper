@@ -43,23 +43,36 @@ public class Paving {
             centerChunk.vertices.get(i).y = p.y;
         }
 
-        Direction directionOfChange = null;
-
-        for (Direction direction : Direction.values()) {
-            Point[] points = centerChunk.getPointFromDirection(direction.anticlockwise());
-            Point vector = points[0].minus(points[1]);
-            if (points[0].dot(vector) <  0) {
-                directionOfChange = direction;
+        // Check if we are in the current chunk
+        while (true) {
+            Point[] exitingEdge = findExitEdge();
+            if (exitingEdge == null) {
                 break;
             }
+            Direction dir = centerChunk.getDirectionFromPoints(exitingEdge[0], exitingEdge[1]);
+            centerChunk = centerChunk.getNeighbors(dir);
         }
+    }
 
-        if (directionOfChange == null) {
-            return;
+    /** Finds the exit edge of the current chunk based on the orientation of the vertices.
+     * 
+     * @return an array of two points representing the exit edge, or null if no exit edge is found
+     */
+    public Point[] findExitEdge() {
+        Point[] quad = centerChunk.vertices.toArray(new Point[0]);
+
+        for (int i = 0; i < 4; i++) {
+            Point p1 = quad[i];
+            Point p2 = quad[(i + 1) % 4];
+
+            double orientInside = centerChunk.computeCenter().orientation(p1, p2);
+            double orientOutside = Point.ORIGIN.orientation(p1, p2);
+
+            if (orientInside * orientOutside < 0) {
+                return new Point[]{p1, p2};
+            }
         }
-
-        centerChunk = centerChunk.getNeighbors(directionOfChange);
-        System.out.println(centerChunk);
+        return null;
     }
 
     /**

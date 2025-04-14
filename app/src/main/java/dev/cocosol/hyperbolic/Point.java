@@ -129,17 +129,26 @@ public class Point {
         return String.format("( %.3f, %.3f )", x, y);
     }
 
+    /** Returns the orientation of this point with respect to the line defined by points {@code a} and {@code b}. 
+     * 
+     * @param a the first point defining the line
+     * @param b the second point defining the line
+     * @return the orientation of this point with respect to the line defined by points {@code a} and {@code b}
+    */
+    public double orientation(Point a, Point b) {
+        return (b.x - a.x) * (y - a.y) - (b.y - a.y) * (x - a.x);
+    }
     
-/**
- * Compares this point to the specified object for equality.
- * <p>
- * Two points are considered equal if their {@code x} and {@code y} coordinates
- * are approximately equal within a tolerance of 0.000001.
- *
- * @param o the object to compare with
- * @return {@code true} if the specified object is a point with approximately
- * equal coordinates to this point, {@code false} otherwise
- */
+    /**
+     * Compares this point to the specified object for equality.
+     * <p>
+     * Two points are considered equal if their {@code x} and {@code y} coordinates
+     * are approximately equal within a tolerance of 0.000001.
+     *
+     * @param o the object to compare with
+     * @return {@code true} if the specified object is a point with approximately
+     * equal coordinates to this point, {@code false} otherwise
+     */
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
