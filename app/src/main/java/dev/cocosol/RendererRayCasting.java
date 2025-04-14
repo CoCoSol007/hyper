@@ -15,9 +15,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import dev.cocosol.hyperbolic.Distance;
 import dev.cocosol.hyperbolic.Point;
 import dev.cocosol.hyperbolic.caster.Caster;
+import dev.cocosol.hyperbolic.paving.Chunk;
+import dev.cocosol.hyperbolic.paving.Direction;
 import dev.cocosol.hyperbolic.paving.Paving;
+
+
 
 /**
  * A 2D renderer for visualizing the Poincaré disk.
@@ -109,14 +114,14 @@ public class RendererRayCasting {
                 caster.height = h;
 
                 // Render
-                double[] depths = caster.castRay();
-                for (int i = 0; i < depths.length; i++) {
-                    double depth = depths[i];
+                Point[] intersectionPoints = caster.castRay();
+                for (int i = 0; i < intersectionPoints.length; i++) {
+                    double depth = Distance.hyperbolicDistanceToCenter(intersectionPoints[i]);
                     g2.setColor(Color.getHSBColor(0, 0, (float) (Math.clamp(depth * 0.5, 0 , 1))));
                     int[] xPoints = new int[] {i, i};
                     int[] yPoints = new int[] {
-                            (int) (h/2 - Math.clamp(1- depth, 0 , 5) * 100),
-                            (int) (h/2 + Math.clamp(1- depth, 0 , 5) * 100)
+                            (int) (h/2 - Math.clamp(1- depth, 0 , 5) * 250),
+                            (int) (h/2 + Math.clamp(1- depth, 0 , 5) * 250)
                     };
                     g2.drawPolygon(xPoints, yPoints, 2);  // Draw a line between points
                 }
@@ -134,34 +139,33 @@ public class RendererRayCasting {
                 g2.drawOval(centerX, centerY, 2, 2);  // Draw the center point
                 
                 
-                // // Draw the neighbors of the Paving
-                // for (Chunk chunk : paving.getAllNeighbors(5)) {
-                //     for (Direction direction : Direction.values()) {
-                //         if (!chunk.getHash(0, direction)) {
-                //             continue;
-                //         }
-                        
-                //         Point[] points = chunk.getPointFromDirection(direction);
-                //         g2.setColor(Color.DARK_GRAY);
-                //         int[] xPoints = new int[] {
-                //             (int) (points[0].x * scale + centerX),
-                //             (int) (points[1].x * scale + centerX)
-                //         };
-                //         int[] yPoints = new int[] {
-                //             (int) (-points[0].y * scale + centerY),
-                //             (int) (-points[1].y * scale + centerY)
-                //         };
-                //         g2.drawPolygon(xPoints, yPoints, 2);  // Draw a line between points
-                //     }
-                // }
+                // Draw the neighbors of the Paving
+                for (Chunk chunk : paving.getAllNeighbors(5)) {
+                    for (Direction direction : Direction.values()) {
+                        if (!chunk.getHash(0, direction)) {
+                            continue;
+                        }
+
+                        Point[] points = chunk.getPointFromDirection(direction);
+                        g2.setColor(Color.DARK_GRAY);
+                        int[] xPoints = new int[] {
+                            (int) (points[0].x * scale + centerX),
+                            (int) (points[1].x * scale + centerX)
+                        };
+                        int[] yPoints = new int[] {
+                            (int) (-points[0].y * scale + centerY),
+                            (int) (-points[1].y * scale + centerY)
+                        };
+                        g2.drawPolygon(xPoints, yPoints, 2);  // Draw a line between points
+                    }
+                }
 
 
                 // Draw the ray
-                Point[] end_points = caster.castRayIntersectionPoint();
-                for (Point point : end_points) {
-                    g2.setColor(Color.RED);
+                g2.setColor(Color.RED);
+                for (Point point : intersectionPoints) {
                     int[] xPoints = new int[] {centerX, (int) (point.x * scale + centerX)};
-                    int[] yPoints = new int[] {centerY, (int) (point.y * scale + centerY)};
+                    int[] yPoints = new int[] {centerY, (int) (-point.y * scale + centerY)};
                     g2.drawPolygon(xPoints, yPoints, 2);  // Draw a line between points
                 }
             }

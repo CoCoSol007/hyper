@@ -28,21 +28,21 @@ public class Caster {
         this.seed = seed;
     }
 
-    public Point[] castRayIntersectionPoint() {
-        Point[] distances = new Point[this.width];
+    public Point[] castRay() {
+        Point[] intersectionPoints = new Point[this.width];
         for (int i = 0; i < this.width; i++) {
-            Ray ray = new Ray(FOV * ((i / (double) (this.width)) - 0.5) + Math.PI / 2, seed);
-            distances[i] = ray.throwRayIntersectionPoint(paving.centerChunk);
+            Ray ray = new Ray(FOV * (0.5 - (i / (double) (this.width))) + Math.PI / 2, seed);
+            intersectionPoints[i] = ray.throwRay(paving.centerChunk);
         }
-        return distances;
+        return intersectionPoints;
     }
 
-    public double[] castRay() {
-        double[] distances = new double[this.width];
+    public Point[] endPointsRay() {
+        Point[] endPoints = new Point[this.width];
         for (int i = 0; i < this.width; i++) {
-            Ray ray = new Ray(FOV * ((i / (double) (this.width)) - 0.5), seed);
-            distances[i] = ray.throwRay(paving.centerChunk);
+            Ray ray = new Ray(FOV * (0.5 - (i / (double) (this.width))) + Math.PI / 2, seed);
+            endPoints[i] = ray.end;
         }
-        return distances;
+        return endPoints;
     }
 }
