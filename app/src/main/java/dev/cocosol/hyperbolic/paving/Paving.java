@@ -81,7 +81,7 @@ public class Paving {
             Point p1 = quad[i];
             Point p2 = quad[(i + 1) % 4];
 
-            double orientInside = centerChunk.computeCenter().orientation(p1, p2);
+            double orientInside = centerChunk.getCenter().orientation(p1, p2);
             double orientOutside = Point.ORIGIN.orientation(p1, p2);
 
             if (orientInside * orientOutside < 0) {

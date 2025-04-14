@@ -350,19 +350,6 @@ public class Chunk {
         };
     }
 
-    /** Computes the center of the chunk.
-     * 
-     * @return the center of the chunk
-     */
-    Point computeCenter() {
-        double xSum = 0, ySum = 0;
-        for (Point p : vertices) {
-            xSum += p.x;
-            ySum += p.y;
-        }
-        return new Point(xSum / 4, ySum / 4);
-    }
-
     /**
      * Returns a string representation of the chunk's direction path.
      *

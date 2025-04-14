@@ -7,7 +7,7 @@
 package dev.cocosol.hyperbolic;
 
 /**
- * Represents a geodesic segment in the hyperbolic plane.
+ * Represents a geodesic segment in the euclidean plane.
  * <p>
  * A geodesic segment is defined by two points on a geodesic. The segment belongs to the geodesic,
  * and it checks that both the start and end points lie on the corresponding geodesic.
@@ -39,35 +39,6 @@ public class Segment {
         this.end = end;
     }
 
-    /**
-     * Returns the length of the segment.
-     * <p>
-     * The length is calculated as the hyperbolic distance between the start and end points of the segment.
-     *
-     * @return the length of the segment
-     */
-    public double length() {
-        return Distance.hyperbolicDistance(start, end);
-    }
-
-    /**
-     * Checks if a given point is contained within the segment.
-     * <p>
-     * A point is considered to be on the segment if it lies on the geodesic and its hyperbolic distance
-     * from both the start and end points is less than or equal to the length of the segment.
-     *
-     * @param point the point to check
-     * @return {@code true} if the point is contained in the segment, {@code false} otherwise
-     */
-    public boolean contains(Point point) {
-        return (
-            Geodesic.fromTwoPoints(this.start, this.end).isOnGeodesic(point) &&
-            Distance.hyperbolicDistance(point, this.start) <= this.length() &&
-            Distance.hyperbolicDistance(point, this.end) <= this.length()
-        );
-    }
-
-    
     /**
      * Use in the intersect method ; more details on the link below
      * https://bryceboe.com/2006/10/23/line-segment-intersection-algorithm/
