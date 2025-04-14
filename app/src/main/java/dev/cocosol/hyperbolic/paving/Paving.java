@@ -11,7 +11,6 @@ import java.util.List;
 
 import dev.cocosol.Complex;
 import dev.cocosol.hyperbolic.Point;
-import dev.cocosol.hyperbolic.Segment;
 import dev.cocosol.hyperbolic.transformation.Rotation;
 import dev.cocosol.hyperbolic.transformation.Translation;
 
