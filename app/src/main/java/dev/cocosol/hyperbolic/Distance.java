@@ -24,9 +24,12 @@ public class Distance {
      * @return the hyperbolic distance between the point and the center
      */
     public static double hyperbolicDistanceToCenter(Point point) {
-        double euclideanDist = Distance.euclideanDistanceToCenter(point);
-        double euclideanDistSquared = Math.pow(euclideanDist, 2);
-        return HyperbolicMath.acosh(1 + 2 * (euclideanDistSquared / (1 - euclideanDistSquared)));
+        double euclideanDistSquared = point.x * point.x + point.y * point.y;
+        double intermediate = 1 + 2 * (euclideanDistSquared / (1 - euclideanDistSquared));
+        if (intermediate < 1) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return HyperbolicMath.acosh(intermediate);
     }
 
     /**

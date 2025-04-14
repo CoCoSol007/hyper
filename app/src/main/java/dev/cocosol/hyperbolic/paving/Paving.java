@@ -6,13 +6,14 @@
 
 package dev.cocosol.hyperbolic.paving;
 
-import dev.cocosol.Complex;
-import dev.cocosol.hyperbolic.Point;
-import dev.cocosol.hyperbolic.transformation.Rotation;
-import dev.cocosol.hyperbolic.transformation.Translation;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import dev.cocosol.Complex;
+import dev.cocosol.hyperbolic.Point;
+import dev.cocosol.hyperbolic.Segment;
+import dev.cocosol.hyperbolic.transformation.Rotation;
+import dev.cocosol.hyperbolic.transformation.Translation;
 
 /**
  * Represents a paving structure in the hyperbolic disk.
@@ -23,8 +24,16 @@ public class Paving {
 
     /**
      * The central chunk located at the origin of the disk.
-     */
+    * This is the “true” central tile of the paving.
+    */
     public Chunk centerChunk = Chunk.ORIGIN();
+
+    /**
+     * The approximate center chunk used for updating when a movement 
+    * has passed a tile boundary. This field is updated separately from
+    * centerChunk to help determine when to shift the central coordinate.
+    */
+    public Chunk approximateCenterChunk = Chunk.ORIGIN();
 
     /**
      * Applies a translational movement in the hyperbolic plane,
@@ -38,10 +47,17 @@ public class Paving {
         Complex newCenter = Complex.exponent(SPEED, angle);
         Translation translation = new Translation(Point.fromComplex(newCenter));
 
+        // Apply the translation to each vertex of the centerChunk and the approximateCenterChunk.
         for (int i = 0; i < 4; i++) {
-            Point p = translation.apply(centerChunk.vertices.get(i));
-            centerChunk.vertices.get(i).x = p.x;
-            centerChunk.vertices.get(i).y = p.y;
+            // Update the vertex positions for the center chunk.
+            Point p = translation.apply(this.centerChunk.vertices.get(i));
+            this.centerChunk.vertices.get(i).x = p.x;
+            this.centerChunk.vertices.get(i).y = p.y;
+            
+            // Update the vertex positions for the approximate center chunk.
+            p = translation.apply(this.approximateCenterChunk.vertices.get(i));
+            this.approximateCenterChunk.vertices.get(i).x = p.x;
+            this.approximateCenterChunk.vertices.get(i).y = p.y;
         }
 
         // Check if we are in the current chunk
@@ -84,10 +100,15 @@ public class Paving {
      */
     public void applyRotation(double angle) {
         Rotation rotation = new Rotation(angle);
+        // Apply the rotation transformation to each vertex of the center and approximate chunks.
         for (int i = 0; i < 4; i++) {
             Point p = rotation.apply(centerChunk.vertices.get(i));
             centerChunk.vertices.get(i).x = p.x;
             centerChunk.vertices.get(i).y = p.y;
+            
+            p = rotation.apply(approximateCenterChunk.vertices.get(i));
+            approximateCenterChunk.vertices.get(i).x = p.x;
+            approximateCenterChunk.vertices.get(i).y = p.y;
         }
     }
 
@@ -101,7 +122,8 @@ public class Paving {
      */
     public List<Chunk> getAllNeighbors(int n) {
         if (n == 0) {
-            return new ArrayList<>(List.of(centerChunk));
+            // Base case: only the approximate center is needed.
+            return new ArrayList<>(List.of(approximateCenterChunk));
         }
         List<Chunk> neighbors = getAllNeighbors(n - 1);
         for (Chunk chunk : new ArrayList<>(neighbors)) {
