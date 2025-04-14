@@ -70,4 +70,26 @@ public enum Direction {
             case BACKWARD -> RIGHT;
         };
     }
+
+    
+    /**
+     * Returns a single character string representation of this direction.
+     * <ul>
+     *     <li>{@code LEFT} = {@code "L"}</li>
+     *     <li>{@code RIGHT} = {@code "R"}</li>
+     *     <li>{@code FORWARD} = {@code "F"}</li>
+     *     <li>{@code BACKWARD} = {@code "B"}</li>
+     * </ul>
+     *
+     * @return a single character string representation of this direction
+     */
+    @Override
+    public String toString() {
+        return switch (this) {
+            case LEFT -> "L";
+            case RIGHT -> "R";
+            case FORWARD -> "F";
+            case BACKWARD -> "B";
+        };
+    }
 }

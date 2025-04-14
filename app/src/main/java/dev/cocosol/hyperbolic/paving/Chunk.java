@@ -361,7 +361,11 @@ public class Chunk {
      */
     @Override
     public String toString() {
-        return this.directions.toString();
+        String text = "";
+        for (Direction direction : directions) {
+            text += direction;
+        }
+        return text;
     }
 
     /**
