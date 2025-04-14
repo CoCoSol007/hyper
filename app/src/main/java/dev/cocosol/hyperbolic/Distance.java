@@ -24,7 +24,11 @@ public class Distance {
      */
     public static double hyperbolicDistanceToCenter(Point point) {
         double euclideanDistSquared = point.x * point.x + point.y * point.y;
-        return HyperbolicMath.acosh(1 + 2 * (euclideanDistSquared / (1 - euclideanDistSquared)));
+        double intermediate = 1 + 2 * (euclideanDistSquared / (1 - euclideanDistSquared));
+        if (intermediate < 1) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return HyperbolicMath.acosh(intermediate);
     }
 
     /**

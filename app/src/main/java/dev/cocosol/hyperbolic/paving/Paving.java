@@ -10,6 +10,7 @@ import java.util.List;
 
 import dev.cocosol.Complex;
 import dev.cocosol.hyperbolic.Point;
+import dev.cocosol.hyperbolic.Segment;
 import dev.cocosol.hyperbolic.transformation.Rotation;
 import dev.cocosol.hyperbolic.transformation.Translation;
 
@@ -25,6 +26,8 @@ public class Paving {
      */
     public Chunk centerChunk = Chunk.ORIGIN();
 
+    public Chunk approximateCenterChunk = Chunk.ORIGIN();
+
     /**
      * Applies a translational movement in the hyperbolic plane,
      * based on the given angle. The movement simulates a small step
@@ -38,28 +41,55 @@ public class Paving {
         Translation translation = new Translation(Point.fromComplex(newCenter));
 
         for (int i = 0; i < 4; i++) {
-            Point p = translation.apply(centerChunk.vertices.get(i));
-            centerChunk.vertices.get(i).x = p.x;
-            centerChunk.vertices.get(i).y = p.y;
+            Point p = translation.apply(this.centerChunk.vertices.get(i));
+            this.centerChunk.vertices.get(i).x = p.x;
+            this.centerChunk.vertices.get(i).y = p.y;
+
+            this.approximateCenterChunk.vertices.get(i).x = p.x;
+            this.approximateCenterChunk.vertices.get(i).y = p.y;
         }
 
-        Direction directionOfChange = null;
+        // Update the approximate center chunk
 
         for (Direction direction : Direction.values()) {
             Point[] points = centerChunk.getPointFromDirection(direction.anticlockwise());
             Point vector = points[0].minus(points[1]);
             if (points[0].dot(vector) <  0) {
-                directionOfChange = direction;
+                approximateCenterChunk = approximateCenterChunk.getNeighbors(direction);
                 break;
             }
         }
 
-        if (directionOfChange == null) {
-            return;
-        }
+        // Update the center chunk
+        boolean changed = false;
+        Point chunkCenter;
+        Segment originToChunkCenter;
+        Direction directionOfChange;
+        for (int i = 0; i < 5; i++) { // Not repeted indefinitely to avoid problem
+            directionOfChange = null;
+            chunkCenter = this.centerChunk.getCenter(); // Center of the center chunk
+            originToChunkCenter = new Segment(chunkCenter, new Point(0, 0));
 
-        centerChunk = centerChunk.getNeighbors(directionOfChange);
-        System.out.println(centerChunk);
+            for (Direction direction : Direction.values()) {
+                Point[] points = this.centerChunk.getPointFromDirection(direction);
+                
+                if (changed && direction == Direction.BACKWARD) {
+                    continue;
+                }
+
+                if (originToChunkCenter.intersect(new Segment(points[0], points[1]))) {
+                    directionOfChange = direction;
+                    changed = true;
+                    break;
+                }
+            }
+
+            if (directionOfChange == null) {
+                return;
+            }
+
+            centerChunk = centerChunk.getNeighbors(directionOfChange);
+        }
     }
 
     /**

@@ -30,7 +30,9 @@ import dev.cocosol.hyperbolic.paving.Paving;
  * This class creates a window that visualizes the hyperbolic paving, with controls to move and rotate the paving.
  */
 public class RendererRayCasting {
-    
+    private static double wallHeight = 500; 
+
+
     /**
      * The main entry point of the application. It initializes the Paving and JFrame, 
      * and sets up key listeners for user interaction.
@@ -120,8 +122,8 @@ public class RendererRayCasting {
                     g2.setColor(Color.getHSBColor(0, 0, (float) (Math.clamp(depth * 0.5, 0 , 1))));
                     int[] xPoints = new int[] {i, i};
                     int[] yPoints = new int[] {
-                            (int) (h/2 - Math.clamp(1- depth, 0 , 5) * 250),
-                            (int) (h/2 + Math.clamp(1- depth, 0 , 5) * 250)
+                            (int) (h/2 - Math.clamp(1- depth, 0 , 5) * wallHeight),
+                            (int) (h/2 + Math.clamp(1- depth, 0 , 5) * wallHeight)
                     };
                     g2.drawPolygon(xPoints, yPoints, 2);  // Draw a line between points
                 }

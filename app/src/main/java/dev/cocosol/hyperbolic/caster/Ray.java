@@ -2,6 +2,7 @@ package dev.cocosol.hyperbolic.caster;
 
 import dev.cocosol.hyperbolic.Geodesic;
 import dev.cocosol.hyperbolic.Point;
+import dev.cocosol.hyperbolic.Segment;
 import dev.cocosol.hyperbolic.paving.Chunk;
 import dev.cocosol.hyperbolic.paving.Direction;
 
@@ -20,21 +21,8 @@ public class Ray {
     }
 
 
-    /*Code from  https://bryceboe.com/2006/10/23/line-segment-intersection-algorithm/  */
-    private boolean ccw(Point a, Point b, Point c) {
-        return (c.y - a.y) * (b.x - a.x) > (b.y - a.y) * (c.x - a.x);
-    }
-    /**
-     * The point C is the origin of the ray and so of the Poincare Disk and
-     * the point D is the end of the ray
-     *
-     * @param a one of the vertices of the segment
-     * @param b the other vertex
-     * @return true if the segment intersects the ray in Euclidean space
-    */
-    private boolean intersectSegment(Point a, Point b) {
-        Point c = new Point(0, 0);
-        return ccw(a, c, end) != ccw(b, c, end) && ccw(a, b, c) != ccw(a, b, end);
+    private boolean intersectSegment(Segment segment) {
+        return (new Segment(new Point(0, 0), this.end)).intersect(segment);
     }
 
 
@@ -78,15 +66,21 @@ public class Ray {
         if (step == 0) {            
             return this.end;
         }
+
         for (Direction direction : Direction.values()) {
             Point[] points = chunk.getPointFromDirection(direction);
-            if (intersectSegment(points[0], points[1])) {
-                if (chunk.getHash(seed, direction)) {
-                    return intersectionToGeodesic(Geodesic.fromTwoPoints(points[0], points[1]));
-                }
-                return propagate(chunk.getNeighbors(direction), step - 1);
+            
+            if (!intersectSegment(new Segment(points[0], points[1]))) {
+                continue;
             }
+            
+            if (chunk.getHash(seed, direction)) { // There is a wall
+                return intersectionToGeodesic(Geodesic.fromTwoPoints(points[0], points[1]));
+            }
+            // There is no wall
+            return propagate(chunk.getNeighbors(direction), step - 1);
         }
+
         throw new RuntimeException("No intersection found");
     }
 

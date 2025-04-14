@@ -235,6 +235,14 @@ public class Chunk {
         return new Chunk(newDirections, newPoint);
     }
 
+    public Point getCenter() {
+        Point sum = new Point(0, 0);
+        for (Point p : this.vertices) {
+            sum = sum.plus(p);
+        }
+        return sum.mul(0.25);
+    }
+
     /**
      * Returns the two points (edge) associated with a given direction.
      *

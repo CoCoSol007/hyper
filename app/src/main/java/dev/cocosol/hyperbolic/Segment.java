@@ -24,49 +24,18 @@ public class Segment {
     private final Point end;
 
     /**
-     * The geodesic of the segment, representing the curve that the segment lies on.
-     */
-    private final Geodesic geodesic;
-
-    /**
-     * Constructor for creating a geodesic segment.
-     * <p>
-     * This constructor initializes the segment with a geodesic defined by two parameters and two points.
-     * It checks whether the start and end points lie on the geodesic.
-     *
-     * @param a the first parameter of the geodesic equation
-     * @param b the second parameter of the geodesic equation
-     * @param start the starting point of the segment
-     * @param end the ending point of the segment
-     * @throws IllegalArgumentException if the points do not lie on the geodesic
-     */
-    public Segment(double a, double b, Point start, Point end) {
-        this.geodesic = new Geodesic(a, b);
-        this.start = start;
-        this.end = end;
-
-        if (!geodesic.isOnGeodesic(start) || !geodesic.isOnGeodesic(end)) {
-            throw new IllegalArgumentException("The points must be on the geodesic");
-        }
-    }
-
-    /**
      * Creates a geodesic segment from two points.
-     * <p>
-     * This constructor generates a geodesic based on the two provided points, and creates a segment 
-     * connecting them.
      *
-     * @param u the first point of the segment
-     * @param v the second point of the segment
-     * @return a new {@code Segment} object representing the geodesic segment
+     * @param start the first point of the segment
+     * @param end the second point of the segment
      * @throws IllegalArgumentException if the two points are identical
      */
-    public static Segment fromTwoPoints(Point u, Point v) {
-        if (u.equals(v)) {
+    public Segment(Point start, Point end) {
+        if (start.equals(end)) {
             throw new IllegalArgumentException("Points must be different");
         }
-        Geodesic geodesic = Geodesic.fromTwoPoints(u, v);
-        return new Segment(geodesic.a, geodesic.b, u, v);
+        this.start = start;
+        this.end = end;
     }
 
     /**
@@ -91,9 +60,32 @@ public class Segment {
      */
     public boolean contains(Point point) {
         return (
-                geodesic.isOnGeodesic(point) &&
-                        Distance.hyperbolicDistance(point, start) <= this.length() &&
-                        Distance.hyperbolicDistance(point, end) <= this.length()
+            Geodesic.fromTwoPoints(this.start, this.end).isOnGeodesic(point) &&
+            Distance.hyperbolicDistance(point, this.start) <= this.length() &&
+            Distance.hyperbolicDistance(point, this.end) <= this.length()
+        );
+    }
+
+    
+    /**
+     * Use in the intersect method ; more details on the link below
+     * https://bryceboe.com/2006/10/23/line-segment-intersection-algorithm/
+     */
+    private boolean ccw(Point a, Point b, Point c) {
+        return (c.y - a.y) * (b.x - a.x) > (b.y - a.y) * (c.x - a.x);
+    }
+
+    /**
+     * The point C is the origin of the ray and so of the Poincare Disk and
+     * the point D is the end of the ray
+     *
+     * @param segment the segment
+     * @return true if the segment intersects the ray in Euclidean space
+    */
+    public boolean intersect(Segment segment) {
+        return (
+            ccw(segment.start, this.start, this.end) != ccw(segment.end, this.start, this.end) && 
+            ccw(segment.start, segment.end, this.start) != ccw(segment.start, segment.end, this.end)
         );
     }
 }
