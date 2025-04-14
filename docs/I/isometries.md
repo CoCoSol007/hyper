@@ -13,6 +13,8 @@ The consequence of this property is that the overall shape, size, and angles of 
 - **Reflections:** Flipping the figure over a line (in the plane) or a plane (in space) such that the mirror image is congruent to the original.
 - **Glide Reflections:** A combination of a reflection and a translation along the direction of the reflecting line.
 
+https://github.com/user-attachments/assets/f230a181-cefe-4da6-aec3-966e8b1aa580
+
 Together, these transformations form the Euclidean group, which encompasses all the symmetries of Euclidean space.
 
 ## Non-Euclidean Isometries – An Intuitive Overview
