@@ -2,47 +2,61 @@
  * SPDX-License-Identifier: GPL-3.0-or-later
  * Copyright (C) 2025 CoCoSol - Hyper
  */
-
 package dev.cocosol.hyperbolic.caster;
 
 import dev.cocosol.hyperbolic.Point;
 import dev.cocosol.hyperbolic.paving.Paving;
 
-
+/**
+ * The Caster class handles the ray casting for the Poincaré disk visualization.
+ * It creates rays evenly distributed within the Field of View (FOV) and computes
+ * their intersection points with the hyperbolic paving.
+ */
 public class Caster {
-    // FOV in radians
+    // Field Of View (in radians) for ray casting.
     public static final double FOV = 2;
 
+    // Represents the hyperbolic paving (tiled space).
     public Paving paving;
 
-    public int width;
-    
-    public int height;
+    // Screen dimensions for rendering (number of rays corresponds to screen width).
+    public int screenWidth;
+    public int screenHeight;
 
-    public int seed;
+    // A seed value used for wall determination in the paving.
+    public int wallSeed;
 
-    public Caster(Paving paving, int width, int height, int seed) {
+    /**
+     * Constructs a new Caster.
+     *
+     * @param paving      The hyperbolic paving structure.
+     * @param screenWidth The width (number of rays) of the screen.
+     * @param screenHeight The height of the screen.
+     * @param wallSeed    A seed parameter for wall hashing.
+     */
+    public Caster(Paving paving, int screenWidth, int screenHeight, int wallSeed) {
         this.paving = paving;
-        this.width = width;
-        this.height = height;
-        this.seed = seed;
+        this.screenWidth = screenWidth;
+        this.screenHeight = screenHeight;
+        this.wallSeed = wallSeed;
     }
 
+    /**
+     * Casts rays from the center of the disk and computes their intersection points
+     * with the paving boundaries.
+     *
+     * @return an array of intersection points in Euclidean space (on the unit disk).
+     */
     public Point[] castRay() {
-        Point[] intersectionPoints = new Point[this.width];
-        for (int i = 0; i < this.width; i++) {
-            Ray ray = new Ray(FOV * (0.5 - (i / (double) (this.width))) + Math.PI / 2, seed);
+        Point[] intersectionPoints = new Point[this.screenWidth];
+        for (int i = 0; i < this.screenWidth; i++) {
+            // Compute the angle of the current ray.
+            // The rays are distributed across the FOV, with a half FOV offset and an added PI/2 rotation.
+            double angle = FOV * (0.5 - (i / (double) this.screenWidth)) + Math.PI / 2;
+            Ray ray = new Ray(angle, wallSeed);
+            // The ray is thrown from the central chunk of the paving
             intersectionPoints[i] = ray.throwRay(paving.centerChunk);
         }
         return intersectionPoints;
-    }
-
-    public Point[] endPointsRay() {
-        Point[] endPoints = new Point[this.width];
-        for (int i = 0; i < this.width; i++) {
-            Ray ray = new Ray(FOV * (0.5 - (i / (double) (this.width))) + Math.PI / 2, seed);
-            endPoints[i] = ray.end;
-        }
-        return endPoints;
     }
 }

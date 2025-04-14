@@ -23,9 +23,15 @@ public class Paving {
 
     /**
      * The central chunk located at the origin of the disk.
-     */
+    * This is the “true” central tile of the paving.
+    */
     public Chunk centerChunk = Chunk.ORIGIN();
 
+    /**
+     * The approximate center chunk used for updating when a movement 
+    * has passed a tile boundary. This field is updated separately from
+    * centerChunk to help determine when to shift the central coordinate.
+    */
     public Chunk approximateCenterChunk = Chunk.ORIGIN();
 
     /**
@@ -40,43 +46,59 @@ public class Paving {
         Complex newCenter = Complex.exponent(SPEED, angle);
         Translation translation = new Translation(Point.fromComplex(newCenter));
 
+        // Apply the translation to each vertex of the centerChunk and the approximateCenterChunk.
         for (int i = 0; i < 4; i++) {
+            // Update the vertex positions for the center chunk.
             Point p = translation.apply(this.centerChunk.vertices.get(i));
             this.centerChunk.vertices.get(i).x = p.x;
             this.centerChunk.vertices.get(i).y = p.y;
-
+            
+            // Update the vertex positions for the approximate center chunk.
+            p = translation.apply(this.approximateCenterChunk.vertices.get(i));
             this.approximateCenterChunk.vertices.get(i).x = p.x;
             this.approximateCenterChunk.vertices.get(i).y = p.y;
         }
 
-        // Update the approximate center chunk
-
+        // -------------------------------------------------------------
+        // Update the approximateCenterChunk to detect when the origin crosses
+        // a boundary of the current tile.
+        // -------------------------------------------------------------
         for (Direction direction : Direction.values()) {
-            Point[] points = centerChunk.getPointFromDirection(direction.anticlockwise());
+            Point[] points = approximateCenterChunk.getPointFromDirection(direction.anticlockwise());
             Point vector = points[0].minus(points[1]);
-            if (points[0].dot(vector) <  0) {
+            if (points[0].dot(vector) < 0) {
                 approximateCenterChunk = approximateCenterChunk.getNeighbors(direction);
                 break;
             }
         }
 
-        // Update the center chunk
+        // -------------------------------------------------------------
+        // Update the centerChunk.
+        // The process iteratively checks whether the line from the current chunk
+        // center to the origin intersects any side of the current chunk, and if so,
+        // moves centerChunk to that neighboring tile. The iteration stops after 5 steps 
+        // to avoid indefinite looping.
+        // -------------------------------------------------------------
         boolean changed = false;
         Point chunkCenter;
         Segment originToChunkCenter;
         Direction directionOfChange;
-        for (int i = 0; i < 5; i++) { // Not repeted indefinitely to avoid problem
+        for (int i = 0; i < 5; i++) { // Limited iterations to avoid potential infinite loops
             directionOfChange = null;
-            chunkCenter = this.centerChunk.getCenter(); // Center of the center chunk
+            chunkCenter = this.centerChunk.getCenter();
             originToChunkCenter = new Segment(chunkCenter, new Point(0, 0));
 
             for (Direction direction : Direction.values()) {
                 Point[] points = this.centerChunk.getPointFromDirection(direction);
                 
+                // If centerChunk has already been updated (changed is true), skip the BACKWARD direction
+                // to prevent oscillating updates.
                 if (changed && direction == Direction.BACKWARD) {
                     continue;
                 }
 
+                // If the segment from the chunk center to the origin intersects the boundary segment,
+                // it means the center has effectively left the current tile in that direction.
                 if (originToChunkCenter.intersect(new Segment(points[0], points[1]))) {
                     directionOfChange = direction;
                     changed = true;
@@ -84,6 +106,7 @@ public class Paving {
                 }
             }
 
+            // If no boundary was crossed, then the centerChunk remains valid.
             if (directionOfChange == null) {
                 return;
             }
@@ -100,10 +123,15 @@ public class Paving {
      */
     public void applyRotation(double angle) {
         Rotation rotation = new Rotation(angle);
+        // Apply the rotation transformation to each vertex of the center and approximate chunks.
         for (int i = 0; i < 4; i++) {
             Point p = rotation.apply(centerChunk.vertices.get(i));
             centerChunk.vertices.get(i).x = p.x;
             centerChunk.vertices.get(i).y = p.y;
+            
+            p = rotation.apply(approximateCenterChunk.vertices.get(i));
+            approximateCenterChunk.vertices.get(i).x = p.x;
+            approximateCenterChunk.vertices.get(i).y = p.y;
         }
     }
 
@@ -117,7 +145,8 @@ public class Paving {
      */
     public List<Chunk> getAllNeighbors(int n) {
         if (n == 0) {
-            return new ArrayList<>(List.of(centerChunk));
+            // Base case: only the approximate center is needed.
+            return new ArrayList<>(List.of(approximateCenterChunk));
         }
         List<Chunk> neighbors = getAllNeighbors(n - 1);
         for (Chunk chunk : new ArrayList<>(neighbors)) {
