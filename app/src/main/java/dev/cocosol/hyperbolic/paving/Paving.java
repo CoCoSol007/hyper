@@ -28,13 +28,6 @@ public class Paving {
     public Chunk centerChunk = Chunk.ORIGIN();
 
     /**
-     * The approximate center chunk used for updating when a movement 
-    * has passed a tile boundary. This field is updated separately from
-    * centerChunk to help determine when to shift the central coordinate.
-    */
-    public Chunk approximateCenterChunk = Chunk.ORIGIN();
-
-    /**
      * Applies a translational movement in the hyperbolic plane,
      * based on the given angle. The movement simulates a small step
      * in the specified direction.
@@ -52,11 +45,6 @@ public class Paving {
             Point p = translation.apply(this.centerChunk.vertices.get(i));
             this.centerChunk.vertices.get(i).x = p.x;
             this.centerChunk.vertices.get(i).y = p.y;
-            
-            // Update the vertex positions for the approximate center chunk.
-            p = translation.apply(this.approximateCenterChunk.vertices.get(i));
-            this.approximateCenterChunk.vertices.get(i).x = p.x;
-            this.approximateCenterChunk.vertices.get(i).y = p.y;
         }
 
         // Check if we are in the current chunk
@@ -104,10 +92,6 @@ public class Paving {
             Point p = rotation.apply(centerChunk.vertices.get(i));
             centerChunk.vertices.get(i).x = p.x;
             centerChunk.vertices.get(i).y = p.y;
-            
-            p = rotation.apply(approximateCenterChunk.vertices.get(i));
-            approximateCenterChunk.vertices.get(i).x = p.x;
-            approximateCenterChunk.vertices.get(i).y = p.y;
         }
     }
 
@@ -122,7 +106,7 @@ public class Paving {
     public List<Chunk> getAllNeighbors(int n) {
         if (n == 0) {
             // Base case: only the approximate center is needed.
-            return new ArrayList<>(List.of(approximateCenterChunk));
+            return new ArrayList<>(List.of(centerChunk));
         }
         List<Chunk> neighbors = getAllNeighbors(n - 1);
         for (Chunk chunk : new ArrayList<>(neighbors)) {
