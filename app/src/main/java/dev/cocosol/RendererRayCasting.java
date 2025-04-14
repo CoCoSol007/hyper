@@ -30,8 +30,14 @@ import dev.cocosol.hyperbolic.paving.Paving;
  * </p>
  */
 public class RendererRayCasting {
-    // Constant representing the wall height used for perspective scaling.
-    private final static double WALL_HEIGHT = 500;
+    // --- Constants for Rendering ---
+    // Adjust this value to change the apparent height of walls.
+    // A larger value makes walls appear taller at the same distance.
+    private final static double PROJECTION_SCALE_FACTOR = 300.0; // Anciennement lié à WALL_HEIGHT
+
+    // Adjust this value to change fog density.
+    // 0.0 = no fog. Higher values = denser fog (objects fade faster).
+    private final static double FOG_DENSITY = 0.4;
 
     /**
      * The main entry point for the application.
@@ -41,10 +47,11 @@ public class RendererRayCasting {
     public static void main(String[] args) {
         // Initialize the hyperbolic paving and the ray caster.
         Paving paving = new Paving();
-        Caster caster = new Caster(paving, 500, 500, 0);
-        
+        // Caster parameters might need adjustment depending on desired FOV etc.
+        Caster caster = new Caster(paving, 500, 500, 567); // Assuming width/height set later
+
         // Create a JFrame window.
-        JFrame frame = new JFrame("hyper - ray casting");
+        JFrame frame = new JFrame("hyper - ray casting (Improved Projection)");
 
         // Set up the rendering panel with the ray caster.
         JPanel panel = createRenderPanel(paving, caster);
@@ -98,9 +105,9 @@ public class RendererRayCasting {
 
         // Set up the frame properties.
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1000, 500);
+        frame.setSize(1000, 500); // Initial size
         frame.add(panel);
-        frame.setLocationRelativeTo(null);
+        frame.setLocationRelativeTo(null); // Center on screen
         frame.setVisible(true);
 
         // Request focus so that key events are captured.
@@ -121,77 +128,129 @@ public class RendererRayCasting {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
 
-                int w = getWidth(), h = getHeight();
+                int w = getWidth(); // Total panel width
+                int h = getHeight(); // Total panel height
+                int viewWidth = w / 2; // Width for the ray casting view
+                int mapWidth = w / 2;  // Width for the map view
+                int mapCenterX = viewWidth + mapWidth / 2; // Center X for the Poincaré disk map
+                int mapCenterY = h / 2; // Center Y for the Poincaré disk map
+
                 // Update the caster's dimensions based on current panel size.
-                caster.screenWidth = w / 2;
+                // We only use half the width for the 3D view.
+                caster.screenWidth = viewWidth;
                 caster.screenHeight = h;
 
-                // --- Ray-Casting Rendering ---
+                // --- Ray-Casting Rendering (Left Half) ---
                 // Compute intersection points for each ray.
                 Point[] intersectionPoints = caster.castRay();
-                for (int i = 0; i < intersectionPoints.length; i++) {
-                    // Compute the hyperbolic distance from each intersection point to the center.
+
+                // Clear the background for the 3D view (optional, depending on desired effect)
+                g2.setColor(Color.BLACK); // Example: black background
+                g2.fillRect(0, 0, viewWidth, h);
+
+                for (int i = 0; i < intersectionPoints.length && i < viewWidth; i++) {
+                    if (intersectionPoints[i] == null) continue; // Skip if ray didn't hit anything
+
+                    // Compute the hyperbolic distance from the viewer (assumed center after transform)
+                    // to the intersection point.
                     double depth = Distance.hyperbolicDistanceToCenter(intersectionPoints[i]);
-                    // Set the color brightness based on depth (clamped to a valid range).
-                    g2.setColor(Color.getHSBColor(0, 0, (float) (Math.clamp(depth * 0.5, 0, 1))));
-                    // Calculate vertical line endpoints for drawing the "wall slice".
-                    int[] xPoints = new int[] {i, i};
-                    int[] yPoints = new int[] {
-                        (int) (h / 2 - Math.clamp(1 - depth, 0, 5) * WALL_HEIGHT),
-                        (int) (h / 2 + Math.clamp(1 - depth, 0, 5) * WALL_HEIGHT)
-                    };
-                    // Draw the vertical line for the current ray.
-                    g2.drawPolygon(xPoints, yPoints, 2);
+
+                    // Avoid issues with zero or very small depth if the point is exactly at the center
+                    if (depth < 1e-6) {
+                         depth = 1e-6;
+                    }
+
+                    // --- Improved Projection ---
+                    // Calculate apparent height based on hyperbolic distance.
+                    // Height decreases as depth increases. Using 1/(1+depth) avoids division by zero.
+                    // Alternative: use PROJECTION_SCALE_FACTOR / Math.cosh(depth);
+                    double projectedHalfHeight = PROJECTION_SCALE_FACTOR / (1.0 + depth);
+
+                    // Calculate screen Y coordinates for the wall slice top and bottom.
+                    int yTop = (int) (h / 2.0 - projectedHalfHeight);
+                    int yBottom = (int) (h / 2.0 + projectedHalfHeight);
+
+                    // Clamp Y coordinates to screen bounds.
+                    yTop = Math.max(0, yTop);
+                    yBottom = Math.min(h, yBottom);
+
+
+                    // --- Improved Color (Fog Effect) ---
+                    // Calculate brightness based on depth using exponential decay.
+                    // Brightness is close to 1 for depth=0 and decreases towards 0.
+                    float brightness = (float) Math.exp(-depth * FOG_DENSITY);
+                    // Clamp brightness to valid range [0, 1] just in case.
+                    brightness = Math.max(0.0f, Math.min(1.0f, brightness));
+                    // Set color (grayscale based on brightness).
+                    g2.setColor(new Color(brightness, brightness, brightness));
+
+
+                    // Draw the vertical line ("wall slice") for the current ray.
+                    if (yBottom > yTop) { // Only draw if the slice has positive height
+                        g2.drawLine(i, yTop, i, yBottom);
+                    }
                 }
 
-                // --- Poincaré Disk Rendering ---
-                int scale = Math.min(w / 2, h) / 2 - 20; // Scaling factor for drawing the disk.
-                int centerX = 750; // X-coordinate for the disk center (offset to the right).
-                int centerY = h / 2; // Y-coordinate for the disk center.
+                // --- Poincaré Disk Rendering (Right Half) ---
+                // Clear background for map view
+                g2.setColor(Color.WHITE);
+                g2.fillRect(viewWidth, 0, mapWidth, h);
+
+                // Scaling factor for drawing the disk within the right half.
+                int scale = Math.min(mapWidth, h) / 2 - 20;
 
                 // Draw the boundary of the unit circle (the Poincaré disk).
-                g2.setColor(Color.GRAY);
-                g2.drawOval(centerX - scale, centerY - scale, scale * 2, scale * 2);
+                g2.setColor(Color.LIGHT_GRAY);
+                g2.drawOval(mapCenterX - scale, mapCenterY - scale, scale * 2, scale * 2);
                 // Draw a small point for the disk's center.
-                g2.drawOval(centerX, centerY, 2, 2);
+                g2.setColor(Color.BLACK);
+                g2.fillOval(mapCenterX - 1, mapCenterY - 1, 3, 3);
 
                 // Render the neighbors of the paving, drawing wall segments where applicable.
+                // The number of neighbors (5) determines how much of the map is drawn.
                 for (Chunk chunk : paving.getAllNeighbors(5)) {
                     for (Direction direction : Direction.values()) {
-                        if (!chunk.getHash(0, direction)) {
-                            continue;
+                        // Check if there's a wall in this direction for the chunk.
+                        // Assuming getHash(0, direction) returns true if there IS a wall.
+                        // Adjust logic if it means something else.
+                        if (!chunk.getHash(567, direction)) {
+                            continue; // No wall here
                         }
 
                         // Retrieve the boundary points for the current wall segment.
                         Point[] wallPoints = chunk.getPointFromDirection(direction);
+                        if (wallPoints == null || wallPoints.length < 2 || wallPoints[0] == null || wallPoints[1] == null) continue;
+
                         g2.setColor(Color.DARK_GRAY);
-                        int[] xPoints = new int[] {
-                            (int) (wallPoints[0].x * scale + centerX),
-                            (int) (wallPoints[1].x * scale + centerX)
-                        };
-                        int[] yPoints = new int[] {
-                            (int) (-wallPoints[0].y * scale + centerY),
-                            (int) (-wallPoints[1].y * scale + centerY)
-                        };
-                        // Draw the wall segment.
-                        g2.drawPolygon(xPoints, yPoints, 2);
+                        // Convert Poincaré coordinates to screen coordinates for the map.
+                        int x1 = (int) (wallPoints[0].x * scale + mapCenterX);
+                        int y1 = (int) (-wallPoints[0].y * scale + mapCenterY); // Invert Y for screen coordinates
+                        int x2 = (int) (wallPoints[1].x * scale + mapCenterX);
+                        int y2 = (int) (-wallPoints[1].y * scale + mapCenterY); // Invert Y
+
+                        // Draw the wall segment on the map.
+                        g2.drawLine(x1, y1, x2, y2);
                     }
                 }
 
                 // --- Draw the Rays on the Poincaré Disk ---
                 g2.setColor(Color.RED);
                 for (Point point : intersectionPoints) {
-                    int[] xPoints = new int[] {centerX, (int) (point.x * scale + centerX)};
-                    int[] yPoints = new int[] {centerY, (int) (-point.y * scale + centerY)};
-                    // Draw the line representing the ray.
-                    g2.drawPolygon(xPoints, yPoints, 2);
+                     if (point == null) continue; // Skip if ray didn't hit
+
+                    // Convert intersection point coordinates to map screen coordinates.
+                    int endX = (int) (point.x * scale + mapCenterX);
+                    int endY = (int) (-point.y * scale + mapCenterY); // Invert Y
+
+                    // Draw the line representing the ray from center to intersection.
+                    g2.drawLine(mapCenterX, mapCenterY, endX, endY);
                 }
             }
         };
 
         // Enable focus on the panel to capture key events.
         panel.setFocusable(true);
-        panel.requestFocusInWindow();
+        // No need for requestFocusInWindow here, SwingUtilities.invokeLater in main is better.
         return panel;
     }
 }
