@@ -7,9 +7,10 @@ package dev.cocosol;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -26,15 +27,31 @@ import dev.cocosol.hyperbolic.paving.Paving;
  * <p>
  * This class creates a window, renders the hyperbolic paving along with walls, and
  * displays the rays cast in the scene. It also responds to key events to allow user interaction,
- * such as moving and rotating the paving.
+ * such as moving and rotating the paving. The window is resizable while maintaining the aspect ratio
+ * of the main rendering area.
  * </p>
  */
 public class RendererRayCasting {
+    /**
+     * The scale factor for the 3D projection.
+     */
     private final static double PROJECTION_SCALE_FACTOR = 300.0;
 
+    /**
+     * The density of fog applied to the scene.
+     * 0.0 for no fog, 1.0 for full fog.
+     */
     private final static double FOG_DENSITY = 0.6;
 
+    /**
+     * The seed value for the maze.
+     */
     private final static int seed = 567;
+
+    /**
+     * The target aspect ratio for the main rendering area.
+     */
+    private final static double TARGET_ASPECT_RATIO = 2.0;
 
     /**
      * The main entry point for the application.
@@ -43,12 +60,11 @@ public class RendererRayCasting {
      */
     public static void main(String[] args) {
         Paving paving = new Paving();
-
+        // Initialize Caster with base dimensions, will be updated dynamically
         Caster caster = new Caster(paving, 1000, 500, seed);
 
         JFrame frame = new JFrame("hyper - ray casting");
         JPanel panel = createRenderPanel(paving, caster);
-
 
         // Set up key listeners for user input.
         panel.addKeyListener(new KeyAdapter() {
@@ -94,10 +110,17 @@ public class RendererRayCasting {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(1000, 500);
         frame.add(panel);
-        frame.setLocationRelativeTo(null); 
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-        frame.setResizable(false);
         SwingUtilities.invokeLater(panel::requestFocusInWindow);
+
+        // Add component listener to handle resizing and repaint
+        frame.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                panel.repaint();
+            }
+        });
     }
 
     /**
@@ -114,22 +137,39 @@ public class RendererRayCasting {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
 
-                int w = 1000;
-                int h = 500;
-                int mapWidth = w / 8;
-                int mapCenterX = 15 * w / 16;
-                int mapCenterY = h / 8;
+                int panelWidth = getWidth();
+                int panelHeight = getHeight();
 
-                caster.screenWidth = w;
-                caster.screenHeight = h;
+                // Calculate rendering area dimensions maintaining target aspect ratio
+                int renderWidth;
+                int renderHeight;
+                int offsetX = 0;
+                int offsetY = 0;
 
-                // Compute intersection points for each ray.
+                double panelRatio = (double) panelWidth / panelHeight;
+
+                if (panelRatio > TARGET_ASPECT_RATIO) {
+                    renderHeight = panelHeight;
+                    renderWidth = (int) (renderHeight * TARGET_ASPECT_RATIO);
+                    offsetX = (panelWidth - renderWidth) / 2;
+                } else { 
+                    renderWidth = panelWidth;
+                    renderHeight = (int) (renderWidth / TARGET_ASPECT_RATIO);
+                    offsetY = (panelHeight - renderHeight) / 2;
+                }
+
+                // Update caster dimensions dynamically based on render area
+                caster.screenWidth = renderWidth;
+                caster.screenHeight = renderHeight;
+
+                // Compute intersection points for each ray based on the current render width
                 Point[] intersectionPoints = caster.castRay();
 
+                // Fill the entire panel background (handles letter/pillar boxing)
                 g2.setColor(Color.BLACK);
-                g2.fillRect(0, 0, w, h);
+                g2.fillRect(0, 0, panelWidth, panelHeight);
 
-                for (int i = 0; i < intersectionPoints.length && i < w; i++) {
+                for (int i = 0; i < intersectionPoints.length && i < renderWidth; i++) {
                     if (intersectionPoints[i] == null) continue;
 
                     // Compute the hyperbolic distance from the viewer to the intersection point.
@@ -140,29 +180,47 @@ public class RendererRayCasting {
                     }
 
                     // Calculate apparent height based on hyperbolic distance.
-                    double projectedHalfHeight = PROJECTION_SCALE_FACTOR / (Math.cosh(depth));
+                    // Scale factor might need adjustment depending on desired vertical FOV relative to renderHeight
+                    double effectiveScaleFactor = PROJECTION_SCALE_FACTOR * (renderHeight / 500.0);
+                    double projectedHalfHeight = effectiveScaleFactor / (Math.cosh(depth));
 
-                    // Calculate screen Y coordinates for the wall slice top and bottom.
-                    int yTop = (int) (h / 2.0 - projectedHalfHeight);
-                    int yBottom = (int) (h / 2.0 + projectedHalfHeight);
 
-                    // Clamp Y coordinates to screen bounds.
+                    // Calculate screen Y coordinates relative to the render area center
+                    int yTop = (int) (renderHeight / 2.0 - projectedHalfHeight);
+                    int yBottom = (int) (renderHeight / 2.0 + projectedHalfHeight);
+
+                    // Clamp Y coordinates within the render area height [0, renderHeight]
                     yTop = Math.max(0, yTop);
-                    yBottom = Math.min(h, yBottom);
-
+                    yBottom = Math.min(renderHeight, yBottom);
 
                     // Calculate brightness based on depth using exponential decay.
                     float brightness = (float) Math.exp(-depth * FOG_DENSITY);
                     brightness = Math.max(0.0f, Math.min(1.0f, brightness));
                     g2.setColor(new Color(brightness, brightness, brightness));
 
+                    // Draw the vertical line, offsetting to the correct screen position
+                    int screenX = i + offsetX;
+                    int screenYTop = yTop + offsetY;
+                    int screenYBottom = yBottom + offsetY;
 
-                    if (yBottom > yTop) {
-                        g2.drawLine(i, yTop, i, yBottom);
+                    // Ensure drawing happens within the calculated bounds and avoids drawing if height is zero or negative
+                    if (screenYBottom > screenYTop) {
+                        screenYTop = Math.max(0, screenYTop);
+                        screenYBottom = Math.min(panelHeight, screenYBottom);
+                        if (screenYBottom > screenYTop) {
+                           g2.drawLine(screenX, screenYTop, screenX, screenYBottom);
+                        }
                     }
                 }
 
-                int scale = Math.min(mapWidth, h) / 2 - 20;
+                // Draw the minimap in the top-right corner relative to panel size
+                int mapAreaWidth = panelWidth / 6;
+                int mapAreaHeight = panelHeight / 3;
+                int mapCenterX = panelWidth - mapAreaWidth / 2 - 15;
+                int mapCenterY = mapAreaHeight / 2 + 15;
+
+                int scale = Math.min(mapAreaWidth, mapAreaHeight) / 2 - 10;
+                if (scale <= 0) scale = 1;
 
                 g2.setColor(Color.LIGHT_GRAY);
                 g2.drawOval(mapCenterX - scale, mapCenterY - scale, scale * 2, scale * 2);
