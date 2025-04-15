@@ -11,6 +11,9 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -53,6 +56,8 @@ public class RendererRayCasting {
      */
     private final static double TARGET_ASPECT_RATIO = 2.0;
 
+    private static int x = 0;
+
     /**
      * The main entry point for the application.
      *
@@ -90,19 +95,21 @@ public class RendererRayCasting {
                         paving.applyMovement(-Math.PI / 2);
                         needsRepaint = true;
                     }
-                    case KeyEvent.VK_M -> {
-                        paving.applyRotation(Math.PI / 100);
-                        needsRepaint = true;
-                    }
-                    case KeyEvent.VK_L -> {
-                        paving.applyRotation(-Math.PI / 100);
-                        needsRepaint = true;
-                    }
                 }
 
                 if (needsRepaint) {
                     panel.repaint();
                 }
+            }
+        });
+
+        // Mouse move event
+        frame.addMouseMotionListener(new MouseAdapter() {
+            public void mouseMoved(MouseEvent me) {
+                int deltaX = me.getX() - x;
+                x = me.getX();
+                paving.applyRotation(deltaX / 150.0);
+                panel.repaint();
             }
         });
 
