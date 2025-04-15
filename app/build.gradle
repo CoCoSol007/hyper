@@ -30,14 +30,9 @@ java {
     }
 }
 
-task runRenderer(type: JavaExec) {
+task poincare2D(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass.set 'dev.cocosol.Renderer2D'
-}
-
-task runRenderer3D(type: JavaExec) {
-    classpath = sourceSets.main.runtimeClasspath
-    mainClass.set 'dev.cocosol.RendererRayCasting'
 }
 
 application {
