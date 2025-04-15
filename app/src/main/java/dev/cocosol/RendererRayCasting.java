@@ -222,7 +222,11 @@ public class RendererRayCasting {
                 int scale = Math.min(mapAreaWidth, mapAreaHeight) / 2 - 10;
                 if (scale <= 0) scale = 1;
 
-                g2.setColor(Color.LIGHT_GRAY);
+                // Draw a filled circle at the center of the minimap
+                g2.setColor(Color.GRAY);
+                g2.fillOval(mapCenterX - scale, mapCenterY - scale, scale * 2, scale * 2);
+
+                g2.setColor(Color.DARK_GRAY);
                 g2.drawOval(mapCenterX - scale, mapCenterY - scale, scale * 2, scale * 2);
 
                 for (Chunk chunk : paving.getAllNeighbors(4)) {
@@ -234,7 +238,7 @@ public class RendererRayCasting {
                         Point[] wallPoints = chunk.getPointFromDirection(direction);
                         if (wallPoints == null || wallPoints.length < 2 || wallPoints[0] == null || wallPoints[1] == null) continue;
 
-                        g2.setColor(Color.DARK_GRAY);
+                        g2.setColor(Color.BLACK);
                         int x1 = (int) (wallPoints[0].x * scale + mapCenterX);
                         int y1 = (int) (-wallPoints[0].y * scale + mapCenterY); // Invert Y for screen coordinates
                         int x2 = (int) (wallPoints[1].x * scale + mapCenterX);
