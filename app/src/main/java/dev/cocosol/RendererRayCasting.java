@@ -44,7 +44,7 @@ public class RendererRayCasting {
     public static void main(String[] args) {
         Paving paving = new Paving();
 
-        Caster caster = new Caster(paving, 500, 500, seed);
+        Caster caster = new Caster(paving, 1000, 500, seed);
 
         JFrame frame = new JFrame("hyper - ray casting");
         JPanel panel = createRenderPanel(paving, caster);
@@ -96,6 +96,7 @@ public class RendererRayCasting {
         frame.add(panel);
         frame.setLocationRelativeTo(null); 
         frame.setVisible(true);
+        frame.setResizable(false);
         SwingUtilities.invokeLater(panel::requestFocusInWindow);
     }
 
@@ -113,8 +114,8 @@ public class RendererRayCasting {
                 super.paintComponent(g);
                 Graphics2D g2 = (Graphics2D) g;
 
-                int w = getWidth();
-                int h = getHeight();
+                int w = 1000;
+                int h = 500;
                 int mapWidth = w / 8;
                 int mapCenterX = 15 * w / 16;
                 int mapCenterY = h / 8;
@@ -139,7 +140,7 @@ public class RendererRayCasting {
                     }
 
                     // Calculate apparent height based on hyperbolic distance.
-                    double projectedHalfHeight = PROJECTION_SCALE_FACTOR / (1.0 + depth);
+                    double projectedHalfHeight = PROJECTION_SCALE_FACTOR / (Math.cosh(depth));
 
                     // Calculate screen Y coordinates for the wall slice top and bottom.
                     int yTop = (int) (h / 2.0 - projectedHalfHeight);
