@@ -41,7 +41,7 @@ public class RendererRayCasting {
      * The density of fog applied to the scene.
      * 0.0 for no fog, 1.0 for full fog.
      */
-    private final static double FOG_DENSITY = 0.6;
+    private final static double FOG_DENSITY = 0.9;
 
     /**
      * The seed value for the maze.
