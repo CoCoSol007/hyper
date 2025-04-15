@@ -6,6 +6,7 @@
 
 package dev.cocosol.hyperbolic.paving;
 
+import java.util.AbstractMap.SimpleEntry;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -27,9 +28,9 @@ public class Chunk {
     private final List<Direction> directions;
 
     /**
-     * The complete path (holonomy) from the origin to this chunk.
+     * The direction of the holonomy of the chunk.
      */
-    private final List<Direction> globalChunk;
+    public final Direction holonomy;
 
     /**
      * The four vertices that define the geometry of the chunk in counter-clockwise order.
@@ -43,8 +44,9 @@ public class Chunk {
      * @param points     the four corner points of the chunk
      */
     public Chunk(List<Direction> directions, Point[] points) {
-        this.globalChunk = directions;
-        this.directions = simplifyDirections(directions);
+        SimpleEntry<List<Direction>, Direction> entry = simplifyDirections(directions, Direction.FORWARD);
+        this.directions = entry.getKey();
+        this.holonomy = entry.getValue();
 
         Point topRight = points[0];
         Point topLeft = points[1];
@@ -87,12 +89,13 @@ public class Chunk {
      * @param directions the original list of directions
      * @return a simplified list of directions
      */
-    private static List<Direction> simplifyDirections(List<Direction> directions) {
-        List<Direction> simplified = applySimplifications(directions);
-        if (simplified.equals(directions)) {
-            return simplified;
+    private static SimpleEntry<List<Direction>, Direction> simplifyDirections(List<Direction> directions, Direction holonomy) {
+        SimpleEntry<List<Direction>, Direction> entry = applySimplifications(directions, holonomy);
+
+        if (entry.getKey().equals(directions)) {
+            return entry;
         }
-        return simplifyDirections(simplified);
+        return simplifyDirections(entry.getKey(), entry.getValue());
     }
 
     /**
@@ -101,9 +104,9 @@ public class Chunk {
      * @param input the original direction list
      * @return a partially simplified direction list
      */
-    private static List<Direction> applySimplifications(List<Direction> input) {
+    private static SimpleEntry<List<Direction>, Direction> applySimplifications(List<Direction> input, Direction holonomy) {
         if (input.size() < 2) {
-            return input;
+            return new SimpleEntry<>(input, holonomy);
         }
 
         // Rule 1: Undo BACKWARD operations
@@ -123,6 +126,8 @@ public class Chunk {
                     };
                     firstPass.add(newDirection);
                     firstPass.addAll(input.subList(i + 2, input.size()));
+                } else {
+                    holonomy = holonomy.add(fst.opposite());
                 }
                 break;
             }
@@ -134,7 +139,7 @@ public class Chunk {
 
         // Rule 2: Merge repeated directions
         if (firstPass.size() < 3) {
-            return firstPass;
+            return new SimpleEntry<>(firstPass, holonomy);
         }
 
         List<Direction> secondPass = new ArrayList<>();
@@ -150,6 +155,8 @@ public class Chunk {
                 if (!last) {
                     secondPass.add(firstPass.get(i + 1).clockwise());
                     secondPass.addAll(firstPass.subList(i + 2, firstPass.size()));
+                } else {
+                    holonomy = holonomy.clockwise();
                 }
                 break;
             }
@@ -159,6 +166,8 @@ public class Chunk {
                 if (!last) {
                     secondPass.add(firstPass.get(i + 1).anticlockwise());
                     secondPass.addAll(firstPass.subList(i + 2, firstPass.size()));
+                } else {
+                    holonomy = holonomy.anticlockwise();
                 }
                 break;
             }
@@ -173,7 +182,7 @@ public class Chunk {
         // --- Pass 3: Apply LF rule ---
         // Ryle: Y + R (F*n) R + X -> Y.clockwise + (LF*n) L + X.clockwise
         if (secondPass.size() < 4) {
-            return secondPass;
+            return new SimpleEntry<>(secondPass, holonomy);
         }
         List<Direction> thirdPass = new ArrayList<>();
 
@@ -218,6 +227,8 @@ public class Chunk {
                         Direction x = secondPass.get(xIndex);
                         thirdPass.add(x.clockwise());
                         thirdPass.addAll(secondPass.subList(xIndex + 1, secondPass.size()));
+                    } else {
+                        holonomy = holonomy.clockwise();
                     }
 
                     break;
@@ -234,7 +245,7 @@ public class Chunk {
         }
 
 
-        return thirdPass;
+        return new SimpleEntry<>(thirdPass, holonomy);
     }
 
     /**
@@ -294,9 +305,8 @@ public class Chunk {
             newPoint[i] = HyperbolicMath.inverseWithRespectToGeodesic(newPoint[i], geodesic);
         }
 
-        List<Direction> newDirections = new ArrayList<>(globalChunk);
-        newDirections.add(direction);
-
+        List<Direction> newDirections = new ArrayList<>(directions);
+        newDirections.add(holonomy.add(direction));
         return new Chunk(newDirections, newPoint);
     }
 

@@ -72,6 +72,21 @@ public enum Direction {
         };
     }
 
+    /**
+     * Returns the direction obtained by adding the specified direction to this one.
+     *
+     * @param direction the direction to add
+     * @return the resulting direction
+     */
+    public Direction add(Direction direction) {
+        return switch (direction) {
+            case LEFT -> anticlockwise();
+            case RIGHT -> clockwise();
+            case FORWARD -> this;
+            case BACKWARD -> opposite();
+        };
+    }
+
     
     /**
      * Returns a single character string representation of this direction.
