@@ -4,12 +4,12 @@
  * Copyright (C) 2025 Plouf-Charles - Hyper
  */
 
-package dev.cocosol.hyperbolic;
+package dev.cocosol;
 
 import dev.cocosol.Complex;
 
 /**
- * Represents a point in the hyperbolic plane.
+ * Represents a point.
  * <p>
  * A point is defined by its {@code x} and {@code y} coordinates. This class provides various operations
  * for manipulating points, including addition, subtraction, and multiplication by a scalar.

@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dev.cocosol.Complex;
-import dev.cocosol.hyperbolic.Point;
+import dev.cocosol.Point;
 import dev.cocosol.hyperbolic.transformation.Rotation;
 import dev.cocosol.hyperbolic.transformation.Translation;
 
@@ -22,7 +22,7 @@ import dev.cocosol.hyperbolic.transformation.Translation;
 public class Paving {
 
     /**
-     * The central chunk located at the origin of the disk.
+    * The central chunk located at the origin of the disk.
     * This is the “true” central tile of the paving.
     */
     public Chunk centerChunk = Chunk.ORIGIN();

@@ -4,7 +4,7 @@
  * Copyright (C) 2025 Plouf-Charles - Hyper
  */
 
-package dev.cocosol.hyperbolic;
+package dev.cocosol;
 
 /**
  * Represents a geodesic segment in the euclidean plane.

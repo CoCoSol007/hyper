@@ -20,9 +20,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import dev.cocosol.Point;
+import dev.cocosol.caster.Caster;
 import dev.cocosol.hyperbolic.Distance;
-import dev.cocosol.hyperbolic.Point;
-import dev.cocosol.hyperbolic.caster.Caster;
 import dev.cocosol.hyperbolic.paving.Chunk;
 import dev.cocosol.hyperbolic.paving.Direction;
 import dev.cocosol.hyperbolic.paving.Paving;

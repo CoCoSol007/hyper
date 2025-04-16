@@ -6,6 +6,8 @@
 
 package dev.cocosol.hyperbolic;
 
+import dev.cocosol.Point;
+
 /**
  * Provides mathematical functions for hyperbolic geometry operations.
  * <p>

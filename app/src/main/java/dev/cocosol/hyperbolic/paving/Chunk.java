@@ -13,7 +13,7 @@ import java.util.List;
 
 import dev.cocosol.hyperbolic.Geodesic;
 import dev.cocosol.hyperbolic.HyperbolicMath;
-import dev.cocosol.hyperbolic.Point;
+import dev.cocosol.Point;
 
 /**
  * Represents a single tile (chunk) in the hyperbolic tiling.

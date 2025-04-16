@@ -4,11 +4,11 @@
  * Copyright (C) 2025 Plouf-Charles - Hyper
  */
 
-package dev.cocosol.hyperbolic.caster;
+package dev.cocosol.caster;
 
+import dev.cocosol.Point;
+import dev.cocosol.Segment;
 import dev.cocosol.hyperbolic.Geodesic;
-import dev.cocosol.hyperbolic.Point;
-import dev.cocosol.hyperbolic.Segment;
 import dev.cocosol.hyperbolic.paving.Chunk;
 import dev.cocosol.hyperbolic.paving.Direction;
 

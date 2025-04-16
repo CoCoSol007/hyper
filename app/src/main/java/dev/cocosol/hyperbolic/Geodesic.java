@@ -6,6 +6,8 @@
 
 package dev.cocosol.hyperbolic;
 
+import dev.cocosol.Point;
+
 /**
  * Represents a geodesic in the Poincaré disk model of hyperbolic geometry.
  * <p>

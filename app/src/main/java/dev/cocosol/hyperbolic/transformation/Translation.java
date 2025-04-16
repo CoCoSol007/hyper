@@ -7,7 +7,7 @@
 package dev.cocosol.hyperbolic.transformation;
 
 import dev.cocosol.Complex;
-import dev.cocosol.hyperbolic.Point;
+import dev.cocosol.Point;
 
 /**
  * Represents a translation transformation in the hyperbolic plane.

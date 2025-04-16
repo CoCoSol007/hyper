@@ -6,7 +6,7 @@
 
 package dev.cocosol;
 
-import dev.cocosol.hyperbolic.Point;
+import dev.cocosol.Point;
 import dev.cocosol.hyperbolic.paving.Chunk;
 import dev.cocosol.hyperbolic.paving.Direction;
 import dev.cocosol.hyperbolic.paving.Paving;

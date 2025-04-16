@@ -6,6 +6,8 @@
 
 package dev.cocosol.hyperbolic;
 
+import dev.cocosol.Point;
+
 /**
  * Provides methods for calculating distances in the hyperbolic plane.
  * <p>
