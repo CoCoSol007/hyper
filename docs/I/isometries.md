@@ -19,7 +19,7 @@ Together, these transformations form the Euclidean group, which encompasses all 
 ## Non-Euclidean Isometries – An Intuitive Overview
 
 > [!IMPORTANT]
-> It is useful to understand the key concepts of complex numbers and their geometric interpretation. For more information, see the [Complex Numbers](/docs/complex-numbers) page.
+> It is useful to understand the key concepts of complex numbers and their geometric interpretation. For more information, see the [Complex Numbers](/docs/complex_numbers.md) page.
 
 In non-Euclidean geometries, the notion of an isometry retains the essential idea of distance preservation, but it adapts to the underlying curved space. In particular, the isometries of hyperbolic space differ from those of Euclidean and spherical space in the following ways:
 
