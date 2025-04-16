@@ -21,28 +21,21 @@
 
 ---
 
-**Hyper** is an experimental rendering engine exploring non-Euclidean spaces.  
-It starts with the **Poincaré disk (2D)** and evolves into a **hybrid 3D engine** where X and Y are hyperbolic, while Z
-remains Euclidean.
-
-## Overview and Objectives
-
-This project is a 3D rendering engine using [ray-casting](https://en.wikipedia.org/wiki/Ray_casting) to navigate an
-infinite maze within a [hyperbolic world](https://en.wikipedia.org/wiki/Hyperbolic_geometry), visualized through the
-[Poincaré disk model](https://en.wikipedia.org/wiki/Poincar%C3%A9_disk_model). Rather than a mere puzzle, it serves as
-an educational tool—an interactive tutorial on non-Euclidean spaces,
-[hyperbolic tiling](http://aleph0.clarku.edu/~djoyce/poincare/poincare.html), and maze algorithms, brought to
-life with videos and animations to make abstract concepts accessible.
+**Hyper** is an experimental rendering engine exploring **non-Euclidean spaces**. It begins with the **Poincaré disk model** (2D) and evolves into a hybrid 3D system where the X and Y axes are hyperbolic, and Z remains Euclidean. Using **ray-casting**, the engine renders an infinite hyperbolic maze—an educational and interactive experience designed to visualize **non-Euclidean geometry**, **hyperbolic tilings**, and **maze algorithms**. Concepts are made accessible through animations, simulations, and hands-on exploration.
 
 ## Table of Contents
 
-| Chapter | Title|
-|---------|----------------------------------------------|
-| 0 | [How to Run the Project](docs/running-the-project.md) |
-| I.A | [Introduction](docs/I/introduction.md)         |
-| I.B | [Basic Mathematics in the Poincaré Disk Model](docs/I/basic-mathematics-in-the-poincare-disk-model.md) |
-| I.C | [Isometries](docs/I/isometries.md) |
-| II.A | [Introduction to Tesslation](docs/II/introduction_to_tesslation.md) |
+### 0. Project Setup
+- A . [How to Run the Project](docs/running-the-project.md)
+- B . [How to contribute](.github/CONTRIBUTING.md)
+
+### I. Foundations in Hyperbolic Geometry
+- A . [Introduction](docs/I/introduction.md)  
+- B . [Poincaré Disk Model](docs/I/basic-mathematics-in-the-poincare-disk-model.md)  
+- C . [Isometries](docs/I/isometries.md)
+
+### II. Tessellations
+- A . [Introduction to Tessellation](docs/II/introduction_to_tesslation.md)
 
 ## Licence
 
@@ -53,8 +46,6 @@ See all about our license [here](/LICENCE)
 ## Contributors
 
 [![Contributeurs](https://contrib.rocks/image?repo=cocosol007/hyper)](https://github.com/cocosol007/hyper/graphs/contributors)
-
-
 
 [contributors-shield]: https://img.shields.io/github/contributors/cocosol007/hyper.svg?style=for-the-badge
 
