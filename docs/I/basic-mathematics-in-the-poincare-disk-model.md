@@ -4,7 +4,7 @@
 
 ### hyperboloid
 
-In hyperbolic geometry, one elegant way to visualize non-Euclidean space is through the Poincaré disk model. This model can be derived from a higher-dimensional perspective by considering a two-sheeted hyperboloid. By introducing an extra dimension, we can construct the hyperboloid where its equation typically takes the form : $$x^2 + y^2 - z^2 = -1$$ with one sheet (usually the upper one) representing the set of points with $z > 0$. 
+In hyperbolic geometry, one elegant way to visualize non-Euclidean space is through the Poincaré disk model. This model can be derived from a higher-dimensional perspective by considering a [two-sheeted hyperboloid](https://en.wikipedia.org/wiki/Hyperboloid#Hyperboloid_of_two_sheets). By introducing an extra dimension, we can construct the [hyperboloid](https://en.wikipedia.org/wiki/Hyperboloid) where its equation typically takes the form : $$x^2 + y^2 - z^2 = -1$$ with one sheet (usually the upper one) representing the set of points with $z > 0$. 
 
 https://github.com/user-attachments/assets/fc13c232-8755-4ced-a09e-4cbd4d35e02d
 
@@ -31,7 +31,7 @@ https://github.com/user-attachments/assets/43b8c25a-ea0f-447e-a6e8-42bb7ddf9f10
 
 ### Geodesies
 
-In general geometry, a geodesic is the shortest path between two points in a given space. In Euclidean geometry, geodesics are straight lines. However, in the hyperbolic plane, which follows the principles of hyperbolic geometry, geodesics behave quite differently due to the curvature of the space.
+In general geometry, a [geodesic](https://en.wikipedia.org/wiki/Geodesic) is the shortest path between two points in a given space. In Euclidean geometry, geodesics are straight lines. However, in the hyperbolic plane, which follows the principles of hyperbolic geometry, geodesics behave quite differently due to the curvature of the space.
 
 The hyperbolic plane, because of this curvature, the shortest paths, or geodesics, are not straight lines in the usual sense but instead take specific forms depending on the model used to represent the hyperbolic plane.
 
