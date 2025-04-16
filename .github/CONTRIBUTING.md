@@ -14,7 +14,7 @@ To run or build the project locally:
    ./gradlew build
    ./gradlew run
    ```
-   [More informations about how to run the project.](docs/running-the-project.md)
+   [More informations about how to run the project.](../docs/running-the-project.md)
 
 ---
 
