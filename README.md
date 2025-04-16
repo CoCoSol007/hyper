@@ -38,10 +38,11 @@ life with videos and animations to make abstract concepts accessible.
 
 | Chapter | Title|
 |---------|----------------------------------------------|
-| I.A | [How to Run the Project](docs/running-the-project.md) |
-| II.A | [Introduction](docs/I/introduction.md)         |
-| II.B | [Basic Mathematics in the Poincaré Disk Model](docs/I/basic-mathematics-in-the-poincare-disk-model.md) |
-| II.C | [Isometries](docs/I/isometries.md) |
+| 0 | [How to Run the Project](docs/running-the-project.md) |
+| I.A | [Introduction](docs/I/introduction.md)         |
+| I.B | [Basic Mathematics in the Poincaré Disk Model](docs/I/basic-mathematics-in-the-poincare-disk-model.md) |
+| I.C | [Isometries](docs/I/isometries.md) |
+| II.A | [Introduction to Tesslation](docs/II/introduction_to_tesslation.md) |
 
 ## Licence
 
