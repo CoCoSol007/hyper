@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import dev.cocosol.Point;
 import dev.cocosol.hyperbolic.Geodesic;
 import dev.cocosol.hyperbolic.HyperbolicMath;
-import dev.cocosol.Point;
 
 /**
  * Represents a single tile (chunk) in the hyperbolic tiling.
@@ -21,11 +21,6 @@ import dev.cocosol.Point;
  * its global path through the tiling, and its four corner vertices.
  */
 public class Chunk {
-
-    /**
-     * The relative path from the origin using direction steps.
-     */
-    private final List<Direction> directions;
 
     /**
      * The direction of the holonomy of the chunk.
@@ -38,12 +33,17 @@ public class Chunk {
     public final List<Point> vertices;
 
     /**
+     * The relative path from the origin using direction steps.
+     */
+    private final List<Direction> directions;
+
+    /**
      * Constructs a chunk with a given direction path and corner points.
      *
      * @param directions the list of directions taken from the origin
      * @param points     the four corner points of the chunk
      */
-    public Chunk(List<Direction> directions, Point[] points) {
+    public Chunk(final List<Direction> directions, final Point[] points) {
         SimpleEntry<List<Direction>, Direction> entry = simplifyDirections(directions, Direction.FORWARD);
         this.directions = entry.getKey();
         this.holonomy = entry.getValue();
@@ -62,14 +62,14 @@ public class Chunk {
      *
      * @return the central chunk at the origin
      */
-    public static Chunk ORIGIN() {
+    public static Chunk origin() {
         double position = size();
         Point topRight = new Point(position, position);
         Point topLeft = new Point(-position, position);
         Point bottomLeft = new Point(-position, -position);
         Point bottomRight = new Point(position, -position);
 
-        return new Chunk(List.of(), new Point[]{topRight, topLeft, bottomLeft, bottomRight});
+        return new Chunk(List.of(), new Point[] {topRight, topLeft, bottomLeft, bottomRight});
     }
 
     /**
@@ -89,7 +89,8 @@ public class Chunk {
      * @param directions the original list of directions
      * @return a simplified list of directions
      */
-    private static SimpleEntry<List<Direction>, Direction> simplifyDirections(List<Direction> directions, Direction holonomy) {
+    private static SimpleEntry<List<Direction>, Direction> simplifyDirections(final List<Direction> directions,
+            final Direction holonomy) {
         SimpleEntry<List<Direction>, Direction> entry = applySimplifications(directions, holonomy);
 
         if (entry.getKey().equals(directions)) {
@@ -104,7 +105,10 @@ public class Chunk {
      * @param input the original direction list
      * @return a partially simplified direction list
      */
-    private static SimpleEntry<List<Direction>, Direction> applySimplifications(List<Direction> input, Direction holonomy) {
+    private static SimpleEntry<List<Direction>, Direction> applySimplifications(final List<Direction> input,
+            final Direction oldHolonomy) {
+
+        Direction holonomy = oldHolonomy;
         if (input.size() < 2) {
             return new SimpleEntry<>(input, holonomy);
         }
@@ -119,10 +123,10 @@ public class Chunk {
             if (cur == Direction.BACKWARD) {
                 if (!last) {
                     Direction newDirection = switch (fst) {
-                        case LEFT -> input.get(i + 1).clockwise();
-                        case RIGHT -> input.get(i + 1).anticlockwise();
-                        case FORWARD -> input.get(i + 1).opposite();
-                        case BACKWARD -> input.get(i + 1);
+                    case LEFT -> input.get(i + 1).clockwise();
+                    case RIGHT -> input.get(i + 1).anticlockwise();
+                    case FORWARD -> input.get(i + 1).opposite();
+                    case BACKWARD -> input.get(i + 1);
                     };
                     firstPass.add(newDirection);
                     firstPass.addAll(input.subList(i + 2, input.size()));
@@ -202,16 +206,15 @@ public class Chunk {
                 int fCount = 0;
                 int currentScanIndex = i + 2;
 
-                while (currentScanIndex < secondPass.size() &&
-                       secondPass.get(currentScanIndex) == Direction.FORWARD) {
+                while (currentScanIndex < secondPass.size() 
+                        && secondPass.get(currentScanIndex) == Direction.FORWARD) {
                     fCount++;
                     currentScanIndex++;
                 }
 
-                if (fCount > 0 &&
-                    currentScanIndex < secondPass.size() && 
-                    secondPass.get(currentScanIndex) == Direction.RIGHT)
-                {
+                if (fCount > 0 
+                        && currentScanIndex < secondPass.size() 
+                        && secondPass.get(currentScanIndex) == Direction.RIGHT) {
                     int r2Index = currentScanIndex;
 
                     thirdPass.add(y.clockwise());
@@ -244,7 +247,6 @@ public class Chunk {
             }
         }
 
-
         return new SimpleEntry<>(thirdPass, holonomy);
     }
 
@@ -257,19 +259,20 @@ public class Chunk {
         int result = 0;
         for (int i = 0; i < this.directions.size(); i++) {
             Direction direction = this.directions.get(i);
-            result += (int) (direction.ordinal() * Math.pow(4, i));
+            result += (int)(direction.ordinal() * Math.pow(4, i));
         }
         return result;
     }
 
     /**
-     * Computes a pseudo-random boolean value based on a given seed, current chunk, and direction.
+     * Computes a pseudo-random boolean value based on a given seed, current chunk,
+     * and direction.
      *
      * @param seed      a random seed
      * @param direction the direction to compute from
      * @return a pseudo-random boolean value
      */
-    public boolean getHash(int seed, Direction direction) {
+    public boolean getHash(final int seed, final Direction direction) {
         Chunk nextChunk = getNeighbors(direction);
         int num1 = nextChunk.encode();
         int num2 = this.encode();
@@ -279,10 +282,10 @@ public class Chunk {
 
         long hash = seed;
         hash ^= 0x9E3779B97F4A7C15L;
-        hash ^= ((long) a << 32) | (b & 0xFFFFFFFFL);
+        hash ^= ((long)a << 32) | (b & 0xFFFFFFFFL);
         hash = Long.rotateLeft(hash * 0xBF58476D1CE4E5B9L, 31);
         hash *= 0x94D049BB133111EBL;
-        hash ^= (hash >>> 33);
+        hash ^= hash >>> 33;
 
         return (hash & 1) == 1;
     }
@@ -293,13 +296,14 @@ public class Chunk {
      * @param direction the direction to retrieve the neighbor from
      * @return the neighboring chunk
      */
-    public Chunk getNeighbors(Direction direction) {
-        Geodesic geodesic = Geodesic.fromTwoPoints(getPointFromDirection(direction)[0], getPointFromDirection(direction)[1]);
+    public Chunk getNeighbors(final Direction direction) {
+        Geodesic geodesic = Geodesic.fromTwoPoints(getPointFromDirection(direction)[0],
+                getPointFromDirection(direction)[1]);
         Point[] newPoint = switch (direction) {
-            case FORWARD -> new Point[]{vertices.get(3), vertices.get(2), vertices.get(1), vertices.get(0)};
-            case BACKWARD -> new Point[]{vertices.get(1), vertices.get(0), vertices.get(3), vertices.get(2)};
-            case LEFT -> new Point[]{vertices.get(0), vertices.get(3), vertices.get(2), vertices.get(1)};
-            case RIGHT -> new Point[]{vertices.get(2), vertices.get(1), vertices.get(0), vertices.get(3)};
+        case FORWARD -> new Point[] {vertices.get(3), vertices.get(2), vertices.get(1), vertices.get(0)};
+        case BACKWARD -> new Point[] {vertices.get(1), vertices.get(0), vertices.get(3), vertices.get(2)};
+        case LEFT -> new Point[] {vertices.get(0), vertices.get(3), vertices.get(2), vertices.get(1)};
+        case RIGHT -> new Point[] {vertices.get(2), vertices.get(1), vertices.get(0), vertices.get(3)};
         };
         for (int i = 0; i < 4; i++) {
             newPoint[i] = HyperbolicMath.inverseWithRespectToGeodesic(newPoint[i], geodesic);
@@ -312,7 +316,7 @@ public class Chunk {
 
     public Point getCenter() {
         Point sum = new Point(0, 0);
-        for (Point p : this.vertices) {
+        for (final Point p : this.vertices) {
             sum = sum.plus(p);
         }
         return sum.mul(0.25);
@@ -324,24 +328,25 @@ public class Chunk {
      * @param direction the direction to query
      * @return an array of two points corresponding to that edge
      */
-    public Point[] getPointFromDirection(Direction direction) {
+    public Point[] getPointFromDirection(final Direction direction) {
         int index = switch (direction) {
-            case FORWARD -> 0;
-            case LEFT -> 1;
-            case BACKWARD -> 2;
-            case RIGHT -> 3;
+        case FORWARD -> 0;
+        case LEFT -> 1;
+        case BACKWARD -> 2;
+        case RIGHT -> 3;
         };
-        return new Point[]{vertices.get(index), vertices.get((index + 1) % 4)};
+        return new Point[] {vertices.get(index), vertices.get((index + 1) % 4)};
     }
 
     /**
-     * Determines the direction that corresponds to the given two consecutive points.
+     * Determines the direction that corresponds to the given two consecutive
+     * points.
      *
      * @param a the first point
      * @param b the second point
      * @return the direction from point a to point b, or null if no match is found
      */
-    public Direction getDirectionFromPoints(Point a, Point b) {
+    public Direction getDirectionFromPoints(final Point a, final Point b) {
         int index = -1;
         for (int i = 0; i < 4; i++) {
             if (vertices.get(i).equals(a) && vertices.get((i + 1) % 4).equals(b)) {
@@ -352,11 +357,11 @@ public class Chunk {
             return null;
         }
         return switch (index) {
-            case 0 -> Direction.FORWARD;
-            case 1 -> Direction.LEFT;
-            case 2 -> Direction.BACKWARD;
-            case 3 -> Direction.RIGHT;
-            default -> throw new IllegalStateException("Unexpected value: " + index);
+        case 0 -> Direction.FORWARD;
+        case 1 -> Direction.LEFT;
+        case 2 -> Direction.BACKWARD;
+        case 3 -> Direction.RIGHT;
+        default -> throw new IllegalStateException("Unexpected value: " + index);
         };
     }
 
@@ -368,7 +373,7 @@ public class Chunk {
     @Override
     public String toString() {
         String text = "";
-        for (Direction direction : directions) {
+        for (final Direction direction : directions) {
             text += direction;
         }
         return text;
@@ -382,11 +387,25 @@ public class Chunk {
      * @return true if equal, false otherwise
      */
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) return true;
-        if (obj == null || getClass() != obj.getClass()) return false;
+    public boolean equals(final Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
 
-        Chunk other = (Chunk) obj;
+        Chunk other = (Chunk)obj;
         return this.directions.equals(other.directions);
+    }
+
+    /**
+     * Returns the hash code of this chunk.
+     * The hash code is determined by the hash code of the chunk's direction path.
+     * @return the hash code of this chunk
+     */
+    @Override
+    public int hashCode() {
+        return directions.hashCode();
     }
 }

@@ -37,10 +37,10 @@ public enum Direction {
      */
     public Direction opposite() {
         return switch (this) {
-            case LEFT -> RIGHT;
-            case RIGHT -> LEFT;
-            case FORWARD -> BACKWARD;
-            case BACKWARD -> FORWARD;
+        case LEFT -> RIGHT;
+        case RIGHT -> LEFT;
+        case FORWARD -> BACKWARD;
+        case BACKWARD -> FORWARD;
         };
     }
 
@@ -51,10 +51,10 @@ public enum Direction {
      */
     public Direction clockwise() {
         return switch (this) {
-            case LEFT -> FORWARD;
-            case RIGHT -> BACKWARD;
-            case FORWARD -> RIGHT;
-            case BACKWARD -> LEFT;
+        case LEFT -> FORWARD;
+        case RIGHT -> BACKWARD;
+        case FORWARD -> RIGHT;
+        case BACKWARD -> LEFT;
         };
     }
 
@@ -65,10 +65,10 @@ public enum Direction {
      */
     public Direction anticlockwise() {
         return switch (this) {
-            case LEFT -> BACKWARD;
-            case RIGHT -> FORWARD;
-            case FORWARD -> LEFT;
-            case BACKWARD -> RIGHT;
+        case LEFT -> BACKWARD;
+        case RIGHT -> FORWARD;
+        case FORWARD -> LEFT;
+        case BACKWARD -> RIGHT;
         };
     }
 
@@ -78,12 +78,12 @@ public enum Direction {
      * @param direction the direction to add
      * @return the resulting direction
      */
-    public Direction add(Direction direction) {
+    public Direction add(final Direction direction) {
         return switch (direction) {
-            case LEFT -> anticlockwise();
-            case RIGHT -> clockwise();
-            case FORWARD -> this;
-            case BACKWARD -> opposite();
+        case LEFT -> anticlockwise();
+        case RIGHT -> clockwise();
+        case FORWARD -> this;
+        case BACKWARD -> opposite();
         };
     }
 
@@ -102,10 +102,10 @@ public enum Direction {
     @Override
     public String toString() {
         return switch (this) {
-            case LEFT -> "L";
-            case RIGHT -> "R";
-            case FORWARD -> "F";
-            case BACKWARD -> "B";
+        case LEFT -> "L";
+        case RIGHT -> "R";
+        case FORWARD -> "F";
+        case BACKWARD -> "B";
         };
     }
 }

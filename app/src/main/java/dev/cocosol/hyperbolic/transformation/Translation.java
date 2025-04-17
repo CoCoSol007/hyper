@@ -25,20 +25,21 @@ public class Translation {
      *
      * @param point the point that will be mapped to the origin
      */
-    public Translation(Point point) {
+    public Translation(final Point point) {
         origin = point;
     }
 
     /**
      * Applies this translation to a given point.
      * <p>
-     * The translation is implemented using a Möbius transformation that maps the given point
+     * The translation is implemented using a Möbius transformation that maps the
+     * given point
      * to a new position in the hyperbolic plane.
      *
      * @param point the point to translate
      * @return the translated point
      */
-    public Point apply(Point point) {
+    public Point apply(final Point point) {
         Complex a = origin.toComplex();
         Complex z = point.toComplex();
         return Point.fromComplex(

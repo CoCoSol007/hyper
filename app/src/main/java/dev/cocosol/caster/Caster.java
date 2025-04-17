@@ -36,7 +36,7 @@ public class Caster {
      * @param screenHeight The height of the screen.
      * @param wallSeed    A seed parameter for wall hashing.
      */
-    public Caster(Paving paving, int screenWidth, int screenHeight, int wallSeed) {
+    public Caster(final Paving paving, final int screenWidth, final int screenHeight, final int wallSeed) {
         this.paving = paving;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -54,7 +54,7 @@ public class Caster {
         for (int i = 0; i < this.screenWidth; i++) {
             // Compute the angle of the current ray.
             // The rays are distributed across the FOV, with a half FOV offset and an added PI/2 rotation.
-            double angle = FOV * (0.5 - (i / (double) this.screenWidth)) + Math.PI / 2;
+            double angle = FOV * (0.5 - (i / (double)this.screenWidth)) + Math.PI / 2;
             Ray ray = new Ray(angle, wallSeed);
             // The ray is thrown from the central chunk of the paving
             intersectionPoints[i] = ray.throwRay(paving.centerChunk);

@@ -17,27 +17,27 @@ public class Complex {
     /**
      * 1 + 0i, the multiplicative identity for complex numbers.
      */
-    public static Complex ONE = new Complex(1, 0);
+    public static final Complex ONE = new Complex(1, 0);
 
     /**
      * 0 + 0i, the additive identity for complex numbers.
      */
-    public static Complex ZERO = new Complex(0, 0);
+    public static final Complex ZERO = new Complex(0, 0);
 
     /**
      * 0 + 1i, represents the imaginary unit.
      */
-    public static Complex I = new Complex(0, 1);
+    public static final Complex I = new Complex(0, 1);
 
     /**
      * -1 + 0i, represents the negative real unit.
      */
-    public static Complex MINUS_ONE = new Complex(-1, 0);
+    public static final Complex MINUS_ONE = new Complex(-1, 0);
 
     /**
      * 0 - 1i, represents the negative imaginary unit.
      */
-    public static Complex MINUS_I = new Complex(0, -1);
+    public static final Complex MINUS_I = new Complex(0, -1);
 
     /**
      * The real part of the complex number.
@@ -55,7 +55,7 @@ public class Complex {
      * @param real the real part of the complex number
      * @param image the imaginary part of the complex number
      */
-    public Complex(double real, double image) {
+    public Complex(final double real, final double image) {
         re = real;
         im = image;
     }
@@ -63,11 +63,11 @@ public class Complex {
     /**
      * Returns a new Complex number representing r * e^(i * theta).
      *
-     * @param r the modulus (magnitude) of the complex number
+     * @param r     the modulus (magnitude) of the complex number
      * @param theta the argument (angle) of the complex number
      * @return a new Complex number
      */
-    public static Complex exponent(double r, double theta) {
+    public static Complex exponent(final double r, final double theta) {
         return new Complex(r * Math.cos(theta), r * Math.sin(theta));
     }
 
@@ -78,9 +78,15 @@ public class Complex {
      */
     @Override
     public String toString() {
-        if (im == 0) return re + "";
-        if (re == 0) return im + "i";
-        if (im < 0) return re + " - " + (-im) + "i";
+        if (im == 0) {
+            return re + "";
+        }
+        if (re == 0) {
+            return im + "i";
+        }
+        if (im < 0) {
+            return re + " - " + (-im) + "i";
+        }
         return re + " + " + im + "i";
     }
 
@@ -94,7 +100,8 @@ public class Complex {
     }
 
     /**
-     * Returns the argument (angle) of the complex number, normalized to be between 0 and 2π.
+     * Returns the argument (angle) of the complex number, normalized to be between
+     * 0 and 2π.
      *
      * @return the argument of the complex number
      */
@@ -108,7 +115,7 @@ public class Complex {
      * @param b the complex number to add
      * @return the sum of the two complex numbers
      */
-    public Complex plus(Complex b) {
+    public Complex plus(final Complex b) {
         Complex a = this;
         double real = a.re + b.re;
         double image = a.im + b.im;
@@ -121,7 +128,7 @@ public class Complex {
      * @param b the complex number to subtract
      * @return the difference between the two complex numbers
      */
-    public Complex minus(Complex b) {
+    public Complex minus(final Complex b) {
         Complex a = this;
         double real = a.re - b.re;
         double image = a.im - b.im;
@@ -134,7 +141,7 @@ public class Complex {
      * @param b the complex number to multiply with
      * @return the product of the two complex numbers
      */
-    public Complex times(Complex b) {
+    public Complex times(final Complex b) {
         Complex a = this;
         double real = a.re * b.re - a.im * b.im;
         double image = a.re * b.im + a.im * b.re;
@@ -147,7 +154,7 @@ public class Complex {
      * @param alpha the real number to scale by
      * @return a new complex number scaled by alpha
      */
-    public Complex scale(double alpha) {
+    public Complex scale(final double alpha) {
         return new Complex(alpha * re, alpha * im);
     }
 
@@ -161,7 +168,8 @@ public class Complex {
     }
 
     /**
-     * Returns the multiplicative inverse (reciprocal) of the current complex number.
+     * Returns the multiplicative inverse (reciprocal) of the current complex
+     * number.
      *
      * @return the reciprocal of the complex number
      */
@@ -194,7 +202,7 @@ public class Complex {
      * @param b the complex number to divide by
      * @return the result of dividing the two complex numbers
      */
-    public Complex divides(Complex b) {
+    public Complex divides(final Complex b) {
         Complex a = this;
         return a.times(b.reciprocal());
     }
@@ -205,7 +213,7 @@ public class Complex {
      * @param x the complex number to compare with
      * @return true if the complex numbers are equal, false otherwise
      */
-    public boolean equals(Complex x) {
-        return (this.re == x.re) && (this.im == x.im);
+    public boolean equals(final Complex x) {
+        return this.re == x.re && this.im == x.im;
     }
 }

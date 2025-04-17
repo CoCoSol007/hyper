@@ -25,7 +25,7 @@ public class HyperbolicMath {
      * @return the inverse hyperbolic cosine of {@code x}
      * @throws IllegalArgumentException if {@code x < 1}, as acosh is undefined for values less than 1
      */
-    public static double acosh(double x) {
+    public static double acosh(final double x) {
         if (x < 1) {
             throw new IllegalArgumentException("acosh is only defined for x >= 1");
         }
@@ -40,7 +40,7 @@ public class HyperbolicMath {
      * @param x the value for which the inverse hyperbolic sine is computed
      * @return the inverse hyperbolic sine of {@code x}
      */
-    public static double asinh(double x) {
+    public static double asinh(final double x) {
         return Math.log(x + Math.sqrt(x * x + 1));
     }
 
@@ -51,9 +51,11 @@ public class HyperbolicMath {
      *
      * @param x the value for which the inverse hyperbolic tangent is computed
      * @return the inverse hyperbolic tangent of {@code x}
-     * @throws IllegalArgumentException if {@code |x| >= 1}, as atanh is undefined for values greater than or equal to 1 in magnitude
+     * @throws IllegalArgumentException if {@code |x| >= 1}, as atanh is undefined
+     *                                  for values greater than or equal to 1 in
+     *                                  magnitude
      */
-    public static double atanh(double x) {
+    public static double atanh(final double x) {
         if (Math.abs(x) >= 1) {
             throw new IllegalArgumentException("atanh is only defined for |x| < 1");
         }
@@ -61,16 +63,19 @@ public class HyperbolicMath {
     }
 
     /**
-     * Computes the inverse of a point with respect to a given geodesic in the hyperbolic plane.
+     * Computes the inverse of a point with respect to a given geodesic in the
+     * hyperbolic plane.
      * <p>
-     * This operation reflects a point across a geodesic, which is a straight line or arc in the hyperbolic plane.
+     * This operation reflects a point across a geodesic, which is a straight line
+     * or arc in the hyperbolic plane.
      * 
-     * @param point the point to be inverted
+     * @param point    the point to be inverted
      * @param geodesic the geodesic with respect to which the inversion is performed
      * @return the inverted point
-     * @throws IllegalArgumentException if the point lies at the center of the geodesic
+     * @throws IllegalArgumentException if the point lies at the center of the
+     *                                  geodesic
      */
-    public static Point inverseWithRespectToGeodesic(Point point, Geodesic geodesic) {
+    public static Point inverseWithRespectToGeodesic(final Point point, final Geodesic geodesic) {
         double R = geodesic.getEuclideanRadius();
         Point c = geodesic.getEuclideanCenter();
 
