@@ -12,6 +12,8 @@ In a Euclidean tiling, a discrete coordinate system is rather straightforward (s
 2. **Determining Neighboring Tile Directions:**  
    Once the initial orientation is set, we can, for instance, define the direction to reach the immediately adjacent left tile. The rule applied here is: the “upward” direction corresponds to the edge directly in front of the incoming edge. By repeatedly applying this rule, we can assign a direction to every neighboring tile in the tiling.
 
+![coordinates](https://github.com/user-attachments/assets/747fc1ee-0ace-44b0-91a4-5bda74878908)
+
 Below is a brief example that demonstrates how to build a list of directions, and how the order of these directions is crucial. In this system, the sequence "Forward, Right" is not equivalent to "Right, Forward."
 
 **"Forward, Right":**  
@@ -56,6 +58,8 @@ The simplification rule for `Y'` is:
 
 This rule is applied recursively and removes unnecessary steps, helping reduce the sequence to a canonical form.
 
+![backward_destruction](https://github.com/user-attachments/assets/0c6d03f6-2ab0-410f-8416-bdcc3971b1f9)
+
 ### Rule 2: Repeated Direction Merging
 
 This rule detects consecutive duplicate directions like two **Right** or two **Left** in a row. These often indicate a local rotation pattern, which can be simplified by transforming them into a different sequence that produces the same movement but in fewer or clearer steps.
@@ -72,6 +76,8 @@ Examples:
 
 These rewrites not only reduce the number of steps but also stabilize the orientation for further simplification.
 
+![repeated_direction_merging](https://github.com/user-attachments/assets/dffaf00a-2c80-49a1-a035-26a4b012f2f2)
+
 ### Rule 3: LF Pattern Transformation
 
 This more advanced rule handles a very specific but frequent pattern in movement:  
@@ -86,7 +92,7 @@ X.clockwise + (Left + Forward) * n + Left + Y.clockwise
 
 This transformation reorients the structure and reinterprets the motion path in a cleaner, mirrored format.
 
-Bien sûr ! Voici une version réécrite de la partie sur l’**holonomy**, intégrée naturellement avec ton système :
+![lf_pattern_transformation](https://github.com/user-attachments/assets/02f86a1b-40c2-4969-b8f0-8ceca6b20691)
 
 ### Holonomy
 
