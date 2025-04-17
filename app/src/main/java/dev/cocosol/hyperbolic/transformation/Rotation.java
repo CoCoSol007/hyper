@@ -27,7 +27,7 @@ public class Rotation {
      *
      * @param theta  the angle of rotation in radians
      */
-    public Rotation(double theta) {
+    public Rotation(final double theta) {
         this.theta = theta;
     }
 
@@ -39,7 +39,7 @@ public class Rotation {
      * @param point the point to rotate
      * @return the rotated point
      */
-    public Point apply(Point point) {
+    public Point apply(final Point point) {
         Complex z = point.toComplex();
         Complex e = Complex.exponent(1, theta);
         return Point.fromComplex(e.times(z));

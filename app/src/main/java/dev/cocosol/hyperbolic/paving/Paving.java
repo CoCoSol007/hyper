@@ -25,7 +25,7 @@ public class Paving {
     * The central chunk located at the origin of the disk.
     * This is the “true” central tile of the paving.
     */
-    public Chunk centerChunk = Chunk.ORIGIN();
+    public Chunk centerChunk = Chunk.origin();
 
     /**
      * Applies a translational movement in the hyperbolic plane,
@@ -34,12 +34,13 @@ public class Paving {
      *
      * @param angle the angle (in radians) indicating the direction of movement
      */
-    public void applyMovement(double angle) {
-        double SPEED = 0.01;
+    public void applyMovement(final double angle) {
+        final double SPEED = 0.01;
         Complex newCenter = Complex.exponent(SPEED, angle);
         Translation translation = new Translation(Point.fromComplex(newCenter));
 
-        // Apply the translation to each vertex of the centerChunk and the approximateCenterChunk.
+        // Apply the translation to each vertex of the centerChunk and the
+        // approximateCenterChunk.
         for (int i = 0; i < 4; i++) {
             // Update the vertex positions for the center chunk.
             Point p = translation.apply(this.centerChunk.vertices.get(i));
@@ -58,9 +59,12 @@ public class Paving {
         }
     }
 
-    /** Finds the exit edge of the current chunk based on the orientation of the vertices.
+    /**
+     * Finds the exit edge of the current chunk based on the orientation of the
+     * vertices.
      * 
-     * @return an array of two points representing the exit edge, or null if no exit edge is found
+     * @return an array of two points representing the exit edge, or null if no exit
+     *         edge is found
      */
     public Point[] findExitEdge() {
         Point[] quad = centerChunk.vertices.toArray(new Point[0]);
@@ -73,7 +77,7 @@ public class Paving {
             double orientOutside = Point.ORIGIN.orientation(p1, p2);
 
             if (orientInside * orientOutside < 0) {
-                return new Point[]{p1, p2};
+                return new Point[] {p1, p2};
             }
         }
         return null;
@@ -85,9 +89,10 @@ public class Paving {
      *
      * @param angle the angle (in radians) to rotate
      */
-    public void applyRotation(double angle) {
+    public void applyRotation(final double angle) {
         Rotation rotation = new Rotation(angle);
-        // Apply the rotation transformation to each vertex of the center and approximate chunks.
+        // Apply the rotation transformation to each vertex of the center and
+        // approximate chunks.
         for (int i = 0; i < 4; i++) {
             Point p = rotation.apply(centerChunk.vertices.get(i));
             centerChunk.vertices.get(i).x = p.x;
@@ -103,14 +108,14 @@ public class Paving {
      * @param n the depth of neighbor retrieval; 0 returns only the center chunk
      * @return a list of all unique neighboring chunks up to the given depth
      */
-    public List<Chunk> getAllNeighbors(int n) {
+    public List<Chunk> getAllNeighbors(final int n) {
         if (n == 0) {
             // Base case: only the approximate center is needed.
             return new ArrayList<>(List.of(centerChunk));
         }
         List<Chunk> neighbors = getAllNeighbors(n - 1);
-        for (Chunk chunk : new ArrayList<>(neighbors)) {
-            for (Direction direction : Direction.values()) {
+        for (final Chunk chunk : new ArrayList<>(neighbors)) {
+            for (final Direction direction : Direction.values()) {
                 Chunk newChunk = chunk.getNeighbors(direction);
                 if (!neighbors.contains(newChunk)) {
                     neighbors.add(newChunk);

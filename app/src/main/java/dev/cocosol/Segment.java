@@ -31,7 +31,7 @@ public class Segment {
      * @param end the second point of the segment
      * @throws IllegalArgumentException if the two points are identical
      */
-    public Segment(Point start, Point end) {
+    public Segment(final Point start, final Point end) {
         if (start.equals(end)) {
             throw new IllegalArgumentException("Points must be different");
         }
@@ -43,7 +43,7 @@ public class Segment {
      * Use in the intersect method ; more details on the link below
      * https://bryceboe.com/2006/10/23/line-segment-intersection-algorithm/
      */
-    private boolean ccw(Point a, Point b, Point c) {
+    private boolean ccw(final Point a, final Point b, final Point c) {
         return (c.y - a.y) * (b.x - a.x) > (b.y - a.y) * (c.x - a.x);
     }
 
@@ -53,11 +53,11 @@ public class Segment {
      *
      * @param segment the segment
      * @return true if the segment intersects the ray in Euclidean space
-    */
-    public boolean intersect(Segment segment) {
-        return (
-            ccw(segment.start, this.start, this.end) != ccw(segment.end, this.start, this.end) && 
-            ccw(segment.start, segment.end, this.start) != ccw(segment.start, segment.end, this.end)
-        );
+     */
+    public boolean intersect(final Segment segment) {
+        return 
+            ccw(segment.start, this.start, this.end) != ccw(segment.end, this.start, this.end) 
+            && 
+            ccw(segment.start, segment.end, this.start) != ccw(segment.start, segment.end, this.end);
     }
 }

@@ -31,15 +31,16 @@ public class Geodesic {
      * True if the geodesic is a diameter. 
      * If true, the geodesic is defined by the equation {@code ax + by = 0}.
      */
-    boolean diameter = false;
+    boolean diameter;
 
     /**
-     * Constructor for creating a geodesic from the parameters {@code a} and {@code b}.
+     * Constructor for creating a geodesic from the parameters {@code a} and
+     * {@code b}.
      *
      * @param a the first parameter of the geodesic equation
      * @param b the second parameter of the geodesic equation
      */
-    public Geodesic(double a, double b) {
+    public Geodesic(final double a, final double b) {
         this.a = a;
         this.b = b;
     }
@@ -47,13 +48,14 @@ public class Geodesic {
     /**
      * Constructs a geodesic from two points in the hyperbolic plane.
      * <p>
-     * The geodesic is determined by solving the system of equations for the points {@code u} and {@code v}.
+     * The geodesic is determined by solving the system of equations for the points
+     * {@code u} and {@code v}.
      *
      * @param u the first point
      * @param v the second point
      * @return the resulting geodesic defined by the points {@code u} and {@code v}
      */
-    public static Geodesic fromTwoPoints(Point u, Point v) {
+    public static Geodesic fromTwoPoints(final Point u, final Point v) {
         double det = (u.x * v.y) - (u.y * v.x);
 
         if (Math.abs(det) < 0.000001) {
@@ -72,16 +74,18 @@ public class Geodesic {
     /**
      * Constructs a geodesic from a point and a tangent vector.
      * <p>
-     * The geodesic is determined by solving the system of equations involving the point {@code u}
+     * The geodesic is determined by solving the system of equations involving the
+     * point {@code u}
      * and the tangent vector {@code (t1, t2)}.
      *
-     * @param u the point that the geodesic passes through
+     * @param u  the point that the geodesic passes through
      * @param t1 the first component of the tangent vector
      * @param t2 the second component of the tangent vector
      * @return the resulting geodesic defined by the point and tangent vector
-     * @throws IllegalArgumentException if the tangent vector is null (i.e., {@code t1 == 0} and {@code t2 == 0})
+     * @throws IllegalArgumentException if the tangent vector is null (i.e.,
+     *                                  {@code t1 == 0} and {@code t2 == 0})
      */
-    public static Geodesic fromPointAndTangent(Point u, double t1, double t2) {
+    public static Geodesic fromPointAndTangent(final Point u, final double t1, final double t2) {
         if (t1 == 0 && t2 == 0) {
             throw new IllegalArgumentException("Vector tangent must not be null");
         }
@@ -103,14 +107,15 @@ public class Geodesic {
     /**
      * Constructs a geodesic from a point and an angle.
      * <p>
-     * This method calls {@link #fromPointAndTangent(Point, double, double)} with a tangent vector
+     * This method calls {@link #fromPointAndTangent(Point, double, double)} with a
+     * tangent vector
      * corresponding to the given angle.
      *
-     * @param u the point that the geodesic passes through
+     * @param u     the point that the geodesic passes through
      * @param angle the angle used to create the tangent vector (in radians)
      * @return the resulting geodesic defined by the point and angle
      */
-    public static Geodesic fromPointAndAngle(Point u, double angle) {
+    public static Geodesic fromPointAndAngle(final Point u, final double angle) {
         return fromPointAndTangent(u, Math.cos(angle), Math.sin(angle));
     }
 
@@ -120,14 +125,15 @@ public class Geodesic {
      * This method checks if the point satisfies the equation of the geodesic.
      *
      * @param point the point to check
-     * @return {@code true} if the point lies on the geodesic, {@code false} otherwise
+     * @return {@code true} if the point lies on the geodesic, {@code false}
+     *         otherwise
      */
-    public boolean isOnGeodesic(Point point) {
+    public boolean isOnGeodesic(final Point point) {
         if (this.diameter) {
-            return (this.a * point.x + this.b * point.y == 0);
+            return this.a * point.x + this.b * point.y == 0;
         }
         // Due to imprecision of floating point numbers, we use a tolerance for comparison
-        return (point.x * point.x + point.y * point.y + this.a * point.x + this.b * point.y + 1 < 0.000001);
+        return point.x * point.x + point.y * point.y + this.a * point.x + this.b * point.y + 1 < 0.000001;
     }
 
     /**

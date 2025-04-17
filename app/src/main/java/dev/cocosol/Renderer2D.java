@@ -6,29 +6,33 @@
 
 package dev.cocosol;
 
-import dev.cocosol.Point;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+ 
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+
 import dev.cocosol.hyperbolic.paving.Chunk;
 import dev.cocosol.hyperbolic.paving.Direction;
 import dev.cocosol.hyperbolic.paving.Paving;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-
+ 
 /**
  * A 2D renderer for visualizing the Poincaré disk.
  * <p>
  * This class creates a window that visualizes the hyperbolic paving, with controls to move and rotate the paving.
  */
 public class Renderer2D {
-    
     /**
      * The main entry point of the application. It initializes the Paving and JFrame, 
      * and sets up key listeners for user interaction.
      *
      * @param args command-line arguments (not used)
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         Paving paving = new Paving();
         JFrame frame = new JFrame("hyper");
 
@@ -37,7 +41,7 @@ public class Renderer2D {
         // Add key listener for user interaction
         panel.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyPressed(KeyEvent e) {
+            public void keyPressed(final KeyEvent e) {
                 boolean needsRepaint = false;
 
                 // Process key events for movement and rotation
@@ -66,6 +70,9 @@ public class Renderer2D {
                         paving.applyRotation(-Math.PI / 100);
                         needsRepaint = true;
                     }
+                    default -> {
+                        break;
+                    }
                 }
 
                 // Repaint the panel if needed
@@ -92,34 +99,36 @@ public class Renderer2D {
      * @param paving the Paving object to render
      * @return the JPanel that will render the Paving
      */
-    private static JPanel getJPanel(Paving paving) {
-        JPanel panel = new JPanel() {
+    private static JPanel getJPanel(final Paving paving) {
+        final JPanel panel = new JPanel() {
             @Override
-            protected void paintComponent(Graphics g) {
+            protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D) g;
+                Graphics2D g2 = (Graphics2D)g;
 
-                int w = getWidth(), h = getHeight();
+                int w = getWidth();
+                int h = getHeight();
                 int scale = Math.min(w, h) / 2 - 20;
-                int centerX = w / 2, centerY = h / 2;
+                int centerX = w / 2;
 
+                int centerY = h / 2;
                 // Draw the unit circle
                 g2.setColor(Color.GRAY);
                 g2.drawOval(centerX - scale, centerY - scale, scale * 2, scale * 2);
-                g2.drawOval(centerX, centerY, 2, 2);  // Draw the center point
+                g2.drawOval(centerX, centerY, 2, 2); // Draw the center point
 
                 // Draw the neighbors of the Paving
-                for (Chunk chunk : paving.getAllNeighbors(5)) {
-                    for (Direction direction : Direction.values()) {
+                for (final Chunk chunk : paving.getAllNeighbors(5)) {
+                    for (final Direction direction : Direction.values()) {
                         Point[] points = chunk.getPointFromDirection(direction);
                         g2.setColor(Color.DARK_GRAY);
                         int[] xPoints = new int[] {
-                                (int) (points[0].x * scale + centerX),
-                                (int) (points[1].x * scale + centerX)
+                            (int)(points[0].x * scale + centerX),
+                            (int)(points[1].x * scale + centerX)
                         };
                         int[] yPoints = new int[] {
-                                (int) (-points[0].y * scale + centerY),
-                                (int) (-points[1].y * scale + centerY)
+                            (int)(-points[0].y * scale + centerY),
+                            (int)(-points[1].y * scale + centerY)
                         };
                         g2.drawPolygon(xPoints, yPoints, 2);  // Draw a line between points
                     }
