@@ -105,3 +105,6 @@ When that happens, instead of applying the transformation directly, we **store t
 Later, when we want to determine the neighbors of the current tile or adjust its orientation, we can apply this stored holonomy to ensure we’re using the correct direction. This allows us to keep the simplified path consistent with how the full, unsimplified version would have behaved.
 
 Importantly, **holonomy does not affect the position** of the tile — it only captures and tracks **missing or delayed rotations** so they can be reapplied at the right time.
+
+> [!NOTE]
+> You can find the complete implementation of the rules in the file [Chunk.java](../../app/src/main/java/dev/cocosol/hyperbolic/paving/Chunk.java).
