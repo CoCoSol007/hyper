@@ -8,6 +8,7 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
+    id 'checkstyle'
 }
 
 repositories {
@@ -34,6 +35,14 @@ task poincare2D(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass.set 'dev.cocosol.Renderer2D'
 }
+
+checkstyle {
+    toolVersion = '10.12.4'  // Spécifie la version de Checkstyle
+    configFile = file("checkstyle.xml")  // Référence ton fichier de configuration personnalisé in the app directory
+}
+
+// Ensure the build task depends on the Checkstyle analysis for the main source set
+tasks.build.dependsOn tasks.checkstyleMain
 
 application {
     // Define the main class for the application.
