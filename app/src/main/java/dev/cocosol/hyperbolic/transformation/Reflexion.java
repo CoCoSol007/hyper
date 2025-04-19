@@ -42,13 +42,17 @@ public class Reflexion {
         Point c = geodesic.getEuclideanCenter();
 
         if (this.geodesic.diameter) {
-            // If the geodesic is a diameter of the circle, apply a specific formula
             double a = geodesic.a;
             double b = geodesic.b;
             double xa = point.x;
             double ya = point.y;
-            double x1 = ((b * b - a * a) * xa - 2 * a * b * ya) / (a * a + b * b);
-            double y1 = ((a * a - b * b) * ya + 2 * b * b * xa) / (a * a + b * b);
+            
+            double dot = a * xa + b * ya;
+            double denom = a * a + b * b;
+            
+            double x1 = xa - 2 * a * dot / denom;
+            double y1 = ya - 2 * b * dot / denom;
+            
             return new Point(x1, y1);
         }
 
