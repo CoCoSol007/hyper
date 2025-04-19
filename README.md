@@ -41,6 +41,7 @@ https://github.com/user-attachments/assets/cd564d2c-b59d-4107-a9d4-a5095251b5a3
 ### II. Tessellations
 - A . [Introduction to Tessellation](docs/II/introduction_to_tesslation.md)
 - B . [Coordinate System](docs/II/coordinates_system.md)
+- C . [Implementation](docs/II/implementation.md)
 
 ### III. Ray Casting
 TODO

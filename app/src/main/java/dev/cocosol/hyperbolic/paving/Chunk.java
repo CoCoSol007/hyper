@@ -13,7 +13,7 @@ import java.util.List;
 
 import dev.cocosol.Point;
 import dev.cocosol.hyperbolic.Geodesic;
-import dev.cocosol.hyperbolic.HyperbolicMath;
+import dev.cocosol.hyperbolic.transformation.Reflexion;
 
 /**
  * Represents a single tile (chunk) in the hyperbolic tiling.
@@ -306,7 +306,8 @@ public class Chunk {
         case RIGHT -> new Point[] {vertices.get(2), vertices.get(1), vertices.get(0), vertices.get(3)};
         };
         for (int i = 0; i < 4; i++) {
-            newPoint[i] = HyperbolicMath.inverseWithRespectToGeodesic(newPoint[i], geodesic);
+            Reflexion reflexion = new Reflexion(geodesic);
+            newPoint[i] = reflexion.apply(newPoint[i]);
         }
 
         List<Direction> newDirections = new ArrayList<>(directions);
