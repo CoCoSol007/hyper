@@ -6,6 +6,8 @@
 
 package dev.cocosol;
 
+import dev.cocosol.hyperbolic.Distance;
+
 /**
  * Represents a point.
  * <p>
@@ -147,6 +149,22 @@ public class Point {
      */
     public double orientation(final Point a, final Point b) {
         return (b.x - a.x) * (y - a.y) - (b.y - a.y) * (x - a.x);
+    }
+
+    /**
+     * Converts this point to the Klein model.
+     * <p>
+     * The conversion is done by scaling the point with the factor 2 / (1 + dist^2)
+     * where dist is the Euclidean distance from the point to the origin.
+     * <p>
+     * This method is used to convert points to the Klein model, which is the
+     * projective model of the hyperbolic plane.
+     *
+     * @return the corresponding point in the Klein model
+     */
+    public Point toKleinModel() {
+        double dist = Distance.euclideanDistanceToCenter(this);
+        return this.mul(2 / (1 + dist * dist));
     }
 
     /**
