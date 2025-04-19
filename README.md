@@ -42,6 +42,12 @@ https://github.com/user-attachments/assets/cd564d2c-b59d-4107-a9d4-a5095251b5a3
 - A . [Introduction to Tessellation](docs/II/introduction_to_tesslation.md)
 - B . [Coordinate System](docs/II/coordinates_system.md)
 
+### III. Ray Casting
+TODO
+
+### IV. In-Depth Explorations
+- A . [Other Models](docs/IV/other_models.md)
+
 ## Licence
 
 See all about our license [here](/LICENCE)
