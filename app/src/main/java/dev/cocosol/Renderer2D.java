@@ -118,9 +118,12 @@ public class Renderer2D {
                 g2.drawOval(centerX, centerY, 2, 2); // Draw the center point
 
                 // Draw the neighbors of the Paving
-                for (final Chunk chunk : paving.getAllNeighbors(5)) {
+                for (final Chunk chunk : paving.getAllNeighbors(4)) {
                     for (final Direction direction : Direction.values()) {
                         Point[] points = chunk.getPointFromDirection(direction);
+                        for (int i = 0; i < points.length; i++) {
+                            points[i] = points[i].toKleinModel(); // Convert to Klein model
+                        }
                         g2.setColor(Color.DARK_GRAY);
                         int[] xPoints = new int[] {
                             (int)(points[0].x * scale + centerX),

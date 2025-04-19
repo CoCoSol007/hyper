@@ -43,6 +43,12 @@ https://github.com/user-attachments/assets/cd564d2c-b59d-4107-a9d4-a5095251b5a3
 - B . [Coordinate System](docs/II/coordinates_system.md)
 - C . [Implementation](docs/II/implementation.md)
 
+### III. Ray Casting
+TODO
+
+### IV. In-Depth Explorations
+- A . [Other Models](docs/IV/other_models.md)
+
 ## Licence
 
 See all about our license [here](/LICENCE)
