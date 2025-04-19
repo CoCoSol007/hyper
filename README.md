@@ -67,6 +67,12 @@ To run the 2D Poicaré disk model, run the command
 - B . [Coordinate System](docs/II/coordinates_system.md)
 - C . [Implementation](docs/II/implementation.md)
 
+### III. Ray Casting
+TODO
+
+### IV. In-Depth Explorations
+- A . [Other Models](docs/IV/other_models.md)
+
 ## Licence
 
 See all about our license [here](/LICENCE)
