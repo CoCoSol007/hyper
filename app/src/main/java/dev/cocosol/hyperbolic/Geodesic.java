@@ -31,7 +31,7 @@ public class Geodesic {
      * True if the geodesic is a diameter. 
      * If true, the geodesic is defined by the equation {@code ax + by = 0}.
      */
-    boolean diameter;
+    public boolean diameter;
 
     /**
      * Constructor for creating a geodesic from the parameters {@code a} and
