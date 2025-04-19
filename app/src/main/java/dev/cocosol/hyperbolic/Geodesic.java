@@ -72,54 +72,6 @@ public class Geodesic {
     }
 
     /**
-     * Constructs a geodesic from a point and a tangent vector.
-     * <p>
-     * The geodesic is determined by solving the system of equations involving the
-     * point {@code u}
-     * and the tangent vector {@code (t1, t2)}.
-     *
-     * @param u  the point that the geodesic passes through
-     * @param t1 the first component of the tangent vector
-     * @param t2 the second component of the tangent vector
-     * @return the resulting geodesic defined by the point and tangent vector
-     * @throws IllegalArgumentException if the tangent vector is null (i.e.,
-     *                                  {@code t1 == 0} and {@code t2 == 0})
-     */
-    public static Geodesic fromPointAndTangent(final Point u, final double t1, final double t2) {
-        if (t1 == 0 && t2 == 0) {
-            throw new IllegalArgumentException("Vector tangent must not be null");
-        }
-
-        double det = t1 * u.y - t2 * u.x;
-        if (det == 0) {
-            // The geodesic is a diameter
-            Geodesic geodesic = new Geodesic(-t2, t1);
-            geodesic.diameter = true;
-            return geodesic;
-        }
-
-        double x = -2 * (t1 * u.x + t2 * u.y) * u.y + (u.x * u.x + u.y * u.y + 1) * t2;
-        double y = 2 * (t1 * u.x + t2 * u.y) * u.x - (u.x * u.x + u.y * u.y + 1) * t1;
-
-        return new Geodesic(x / det, y / det);
-    }
-
-    /**
-     * Constructs a geodesic from a point and an angle.
-     * <p>
-     * This method calls {@link #fromPointAndTangent(Point, double, double)} with a
-     * tangent vector
-     * corresponding to the given angle.
-     *
-     * @param u     the point that the geodesic passes through
-     * @param angle the angle used to create the tangent vector (in radians)
-     * @return the resulting geodesic defined by the point and angle
-     */
-    public static Geodesic fromPointAndAngle(final Point u, final double angle) {
-        return fromPointAndTangent(u, Math.cos(angle), Math.sin(angle));
-    }
-
-    /**
      * Determines if a given point lies on the geodesic.
      * <p>
      * This method checks if the point satisfies the equation of the geodesic.
@@ -133,7 +85,7 @@ public class Geodesic {
             return this.a * point.x + this.b * point.y == 0;
         }
         // Due to imprecision of floating point numbers, we use a tolerance for comparison
-        return point.x * point.x + point.y * point.y + this.a * point.x + this.b * point.y + 1 < 0.000001;
+        return Math.abs(point.x * point.x + point.y * point.y + this.a * point.x + this.b * point.y + 1) < 0.000001;
     }
 
     /**

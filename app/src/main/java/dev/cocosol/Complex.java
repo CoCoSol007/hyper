@@ -100,16 +100,6 @@ public class Complex {
     }
 
     /**
-     * Returns the argument (angle) of the complex number, normalized to be between
-     * 0 and 2π.
-     *
-     * @return the argument of the complex number
-     */
-    public double arg() {
-        return Math.atan2(im, re) + Math.PI;
-    }
-
-    /**
      * Adds the current complex number to another complex number.
      *
      * @param b the complex number to add
