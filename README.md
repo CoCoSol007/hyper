@@ -25,9 +25,33 @@
 
 ## Examples
 
+### Ray-Caster
+
 https://github.com/user-attachments/assets/cd564d2c-b59d-4107-a9d4-a5095251b5a3
 
-## Table of Contents
+### Poincaré disk model
+
+https://github.com/user-attachments/assets/f33a6d26-bf75-46ea-b32a-51f93f574bbc
+
+## Quickstart
+
+Clone the repository
+```bash
+git clone https://github.com/cocosol007/hyper.git
+cd hyper
+```
+
+To run the RayCaster, run the command 
+```bash
+./gradlew run
+```
+To run the 2D Poicaré disk model, run the command 
+```bash
+./gradlew run2D --args='poincare'
+```
+
+
+## Documentation
 
 ### 0. Project Setup
 - A . [How to Run the Project](docs/running-the-project.md)
