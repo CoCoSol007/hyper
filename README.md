@@ -50,6 +50,11 @@ To run the 2D Poicaré disk model, run the command
 ./gradlew run2D --args='poincare'
 ```
 
+To run the 2D Klein model, run the command
+```bash
+./gradlew run2D --args='Klein'
+```
+
 
 ## Documentation
 
