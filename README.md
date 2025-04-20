@@ -29,9 +29,9 @@
 
 https://github.com/user-attachments/assets/cd564d2c-b59d-4107-a9d4-a5095251b5a3
 
-### Poincaré disk model
+### Poincaré and Beltrami–Klein disk model
 
-https://github.com/user-attachments/assets/f33a6d26-bf75-46ea-b32a-51f93f574bbc
+https://github.com/user-attachments/assets/cd1cf6c3-3550-4b40-a5ad-6ffeced9316c
 
 ## Quickstart
 
