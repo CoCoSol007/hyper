@@ -31,14 +31,14 @@ java {
     }
 }
 
-task poincare2D(type: JavaExec) {
+task run2D(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass.set 'dev.cocosol.Renderer2D'
 }
 
 checkstyle {
-    toolVersion = '10.12.4'  // Spécifie la version de Checkstyle
-    configFile = file("checkstyle.xml")  // Référence ton fichier de configuration personnalisé in the app directory
+    toolVersion = '10.12.4'
+    configFile = file("checkstyle.xml")
 }
 
 // Ensure the build task depends on the Checkstyle analysis for the main source set
