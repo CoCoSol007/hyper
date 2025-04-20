@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
+import dev.cocosol.hyperbolic.Projection;
 import dev.cocosol.hyperbolic.paving.Chunk;
 import dev.cocosol.hyperbolic.paving.Direction;
 import dev.cocosol.hyperbolic.paving.Paving;
@@ -33,10 +34,15 @@ public class Renderer2D {
      * @param args command-line arguments (not used)
      */
     public static void main(final String[] args) {
+        Projection type = Projection.defaultProjection();
+        if (args.length != 0) {
+            type = Projection.fromString(args[0]);
+        }
+
         Paving paving = new Paving();
         JFrame frame = new JFrame("hyper");
 
-        JPanel panel = getJPanel(paving);
+        JPanel panel = getJPanel(paving, type);
 
         // Add key listener for user interaction
         panel.addKeyListener(new KeyAdapter() {
@@ -99,7 +105,7 @@ public class Renderer2D {
      * @param paving the Paving object to render
      * @return the JPanel that will render the Paving
      */
-    private static JPanel getJPanel(final Paving paving) {
+    private static JPanel getJPanel(final Paving paving, final Projection projection) {
         final JPanel panel = new JPanel() {
             @Override
             protected void paintComponent(final Graphics g) {
@@ -121,9 +127,13 @@ public class Renderer2D {
                 for (final Chunk chunk : paving.getAllNeighbors(4)) {
                     for (final Direction direction : Direction.values()) {
                         Point[] points = chunk.getPointFromDirection(direction);
-                        for (int i = 0; i < points.length; i++) {
-                            points[i] = points[i].toKleinModel(); // Convert to Klein model
+
+                        if (projection == Projection.KLEIN) {
+                            for (int i = 0; i < points.length; i++) {
+                                points[i] = points[i].toKleinModel(); // Convert to Klein model
+                            }
                         }
+                        
                         g2.setColor(Color.DARK_GRAY);
                         int[] xPoints = new int[] {
                             (int)(points[0].x * scale + centerX),
