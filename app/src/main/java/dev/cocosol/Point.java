@@ -168,6 +168,22 @@ public class Point {
     }
 
     /**
+     * Converts this point to the gnomonic model.
+     * <p>
+     * The conversion is done by converting the distance from the point to the center
+     * of the hyperbolic disk to the real hyperbolic distance between them.
+     * <p>
+     * 
+     * @return the corresponding point in the gnomonic model
+     */
+    public Point toGnomonicModel() {
+        Complex c = toComplex();
+        return Point.fromComplex(
+            c.scale(Distance.hyperbolicDistanceToCenter(this) / (c.module()))
+        );
+    }
+
+    /**
      * Compares this point to the specified object for equality.
      * <p>
      * Two points are considered equal if their {@code x} and {@code y} coordinates
