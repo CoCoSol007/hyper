@@ -54,6 +54,11 @@ To run the 2D Klein model, run the command
 ```bash
 ./gradlew run2D --args='Klein'
 ```
+To run the 2D ./gradlew run2D --args='gnomonic'
+ model, run the command
+```bash
+./gradlew run2D --args='gnomonic'
+```
 
 
 ## Documentation

@@ -22,7 +22,12 @@ public enum Projection {
      * Klein projection.
      * This projection is a unconformal map of the hyperbolic plane onto the unit disk.
      */
-    KLEIN;
+    KLEIN,
+
+    /**
+     * Gnomonic projection.
+     */
+    GNOMONIC;
 
     /**
      * Returns the projection matching the given name, or the default projection if no match is found.
