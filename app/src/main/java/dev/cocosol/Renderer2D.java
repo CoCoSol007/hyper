@@ -119,8 +119,11 @@ public class Renderer2D {
 
                 int centerY = h / 2;
                 // Draw the unit circle
-                g2.setColor(Color.GRAY);
-                g2.drawOval(centerX - scale, centerY - scale, scale * 2, scale * 2);
+
+                if (projection != Projection.GNOMONIC) {
+                    g2.setColor(Color.GRAY);
+                    g2.drawOval(centerX - scale, centerY - scale, scale * 2, scale * 2);
+                }
                 g2.drawOval(centerX, centerY, 2, 2); // Draw the center point
 
                 // Draw the neighbors of the Paving
@@ -131,6 +134,11 @@ public class Renderer2D {
                         if (projection == Projection.KLEIN) {
                             for (int i = 0; i < points.length; i++) {
                                 points[i] = points[i].toKleinModel(); // Convert to Klein model
+                            }
+                        }
+                        if (projection == Projection.GNOMONIC) {
+                            for (int i = 0; i < points.length; i++) {
+                                points[i] = points[i].toGnomonicModel().mul(0.3); // Convert to GAns model
                             }
                         }
                         
