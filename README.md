@@ -23,20 +23,6 @@
 
 **Hyper** is an experimental rendering engine exploring **non-Euclidean spaces**. It begins with the **Poincaré disk model** (2D) and evolves into a hybrid 3D system where the X and Y axes are hyperbolic, and Z remains Euclidean. Using **ray-casting**, the engine renders an infinite hyperbolic maze—an educational and interactive experience designed to visualize **non-Euclidean geometry**, **hyperbolic tilings**, and **maze algorithms**. Concepts are made accessible through animations, simulations, and hands-on exploration.
 
-## Examples
-
-### Ray-Caster
-
-https://github.com/user-attachments/assets/cd564d2c-b59d-4107-a9d4-a5095251b5a3
-
-### Poincaré and Beltrami–Klein disk model
-
-https://github.com/user-attachments/assets/cd1cf6c3-3550-4b40-a5ad-6ffeced9316c
-
-### Gnomonic projection
-
-https://github.com/user-attachments/assets/23b0f337-2429-4373-aad7-e0cc986aa4b7
-
 ## Quickstart
 
 Clone the repository
@@ -45,10 +31,17 @@ git clone https://github.com/cocosol007/hyper.git
 cd hyper
 ```
 
+### Ray-Caster
+
 To run the RayCaster, run the command 
 ```bash
 ./gradlew run
 ```
+
+https://github.com/user-attachments/assets/cd564d2c-b59d-4107-a9d4-a5095251b5a3
+
+### Poincaré and Beltrami–Klein disk model
+
 To run the 2D Poicaré disk model, run the command 
 ```bash
 ./gradlew run2D --args='poincare'
@@ -58,12 +51,18 @@ To run the 2D Klein model, run the command
 ```bash
 ./gradlew run2D --args='Klein'
 ```
+
+https://github.com/user-attachments/assets/cd1cf6c3-3550-4b40-a5ad-6ffeced9316c
+
+### Gnomonic projection
+
 To run the 2D ./gradlew run2D --args='gnomonic'
  model, run the command
 ```bash
 ./gradlew run2D --args='gnomonic'
 ```
 
+https://github.com/user-attachments/assets/23b0f337-2429-4373-aad7-e0cc986aa4b7
 
 ## Documentation
 
