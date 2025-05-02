@@ -33,6 +33,10 @@ https://github.com/user-attachments/assets/cd564d2c-b59d-4107-a9d4-a5095251b5a3
 
 https://github.com/user-attachments/assets/cd1cf6c3-3550-4b40-a5ad-6ffeced9316c
 
+### Gnomonic projection
+
+https://github.com/user-attachments/assets/23b0f337-2429-4373-aad7-e0cc986aa4b7
+
 ## Quickstart
 
 Clone the repository
