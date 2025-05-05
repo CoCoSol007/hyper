@@ -4,7 +4,7 @@
  * Copyright (C) 2025 Plouf-Charles - Hyper
  */
 
-package dev.cocosol;
+package dev.cocosol.renderer;
 
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;

@@ -6,6 +6,7 @@
 
 package dev.cocosol;
 
+import dev.cocosol.renderer.WindowManager;
 import org.lwjgl.Version;
  
 public class Main {
