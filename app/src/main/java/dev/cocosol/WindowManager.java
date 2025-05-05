@@ -21,26 +21,31 @@ import org.lwjgl.system.MemoryUtil;
  * It provides methods to create the window, initialize the OpenGL context, and update and clean up the window.
  */
 public class WindowManager {
-    public static final float FOV = (float) Math.toRadians(60);
+    public static final float FOV = (float)Math.toRadians(60);
 
     public static final float Z_NEAR = 0.1f;
     public static final float Z_FAR = 100f;
 
     public final String title;
 
-    public int width, height;
+    public int width;
+
+    public int height;
+
     public long window;
 
-    private boolean resize, vSync;
+    private boolean resize;
+
+    private boolean vSync;
 
     private final Matrix4f projection;
 
-    public WindowManager(String title, int width, int height, boolean vSync) {
+    public WindowManager(final String title, final int width, final int height, final boolean vSync) {
         this.title = title;
         this.width = width;
         this.height = height;
         this.vSync = vSync;
-        
+
         projection = new Matrix4f();
     }
 
@@ -126,7 +131,7 @@ public class WindowManager {
         GLFW.glfwTerminate();
     }
 
-    public boolean isKeyPressed(int key) {
+    public boolean isKeyPressed(final int key) {
         return GLFW.glfwGetKey(window, key) == GLFW.GLFW_PRESS;
     }
 
@@ -135,12 +140,12 @@ public class WindowManager {
     }
 
     public Matrix4f updateProjectionMatrix() {
-        float aspectRatio = width / (float) height;
+        float aspectRatio = width / (float)height;
         return projection.setPerspective(FOV, aspectRatio, Z_NEAR, Z_FAR);
     }
 
-    public Matrix4f updateProjectionMatrix(Matrix4f matrix, int width, int height) {
-        float aspectRatio = width / (float) height;
+    public Matrix4f updateProjectionMatrix(final Matrix4f matrix, final int width, final int height) {
+        float aspectRatio = width / (float)height;
         return matrix.setPerspective(FOV, aspectRatio, Z_NEAR, Z_FAR);
     }
 
@@ -148,7 +153,7 @@ public class WindowManager {
         return resize;
     }
 
-    public void setResize(boolean resize) {
+    public void setResize(final boolean resize) {
         this.resize = resize;
     }
 }
