@@ -8,6 +8,8 @@ package dev.cocosol;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.KeyInput;
@@ -99,6 +101,7 @@ public class Main extends SimpleApplication {
         app.setPauseOnLostFocus(false);
         app.setDisplayStatView(false);
         app.loseFocus();
+        Logger.getLogger("com.jme3").setLevel(Level.SEVERE);
 
         app.start();
     }
