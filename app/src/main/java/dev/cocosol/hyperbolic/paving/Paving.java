@@ -34,9 +34,8 @@ public class Paving {
      *
      * @param angle the angle (in radians) indicating the direction of movement
      */
-    public void applyMovement(final double angle) {
-        final double SPEED = 0.01;
-        Complex newCenter = Complex.exponent(SPEED, angle);
+    public void applyMovement(final double angle, final double speed) {
+        Complex newCenter = Complex.exponent(speed, angle);
         Translation translation = new Translation(Point.fromComplex(newCenter));
 
         // Apply the translation to each vertex of the centerChunk and the
