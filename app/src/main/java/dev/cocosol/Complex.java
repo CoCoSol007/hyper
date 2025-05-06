@@ -99,6 +99,16 @@ public class Complex {
         return Math.sqrt(re * re + im * im);
     }
 
+    
+    /**
+     * Returns the argument (angle) of the complex number.
+     *
+     * @return the argument of the complex number
+     */
+    public double getAngle() {
+        return Math.atan2(this.im, this.re);
+    }
+
     /**
      * Adds the current complex number to another complex number.
      *

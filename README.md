@@ -35,7 +35,7 @@ cd hyper
 
 To run the RayCaster, run the command 
 ```bash
-./gradlew run
+./gradlew runRayCaster
 ```
 
 https://github.com/user-attachments/assets/cd564d2c-b59d-4107-a9d4-a5095251b5a3

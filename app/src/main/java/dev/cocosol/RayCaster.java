@@ -81,19 +81,19 @@ public class RayCaster {
                 // Respond to movement and rotation key events.
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_Q, KeyEvent.VK_LEFT -> {
-                        paving.applyMovement(Math.PI);
+                        paving.applyMovement(Math.PI, 0.001);
                         needsRepaint = true;
                     }
                     case KeyEvent.VK_D, KeyEvent.VK_RIGHT -> {
-                        paving.applyMovement(0);
+                        paving.applyMovement(0, 0.001);
                         needsRepaint = true;
                     }
                     case KeyEvent.VK_Z, KeyEvent.VK_UP -> {
-                        paving.applyMovement(Math.PI / 2);
+                        paving.applyMovement(Math.PI / 2, 0.001);
                         needsRepaint = true;
                     }
                     case KeyEvent.VK_S, KeyEvent.VK_DOWN -> {
-                        paving.applyMovement(-Math.PI / 2);
+                        paving.applyMovement(-Math.PI / 2, 0.001);
                         needsRepaint = true;
                     }
                     default -> {
