@@ -6,6 +6,8 @@
 
 package dev.cocosol;
 
+import com.jme3.math.FastMath;
+
 /**
  * A class representing complex numbers.
  * <p>
@@ -97,6 +99,16 @@ public class Complex {
      */
     public double module() {
         return Math.sqrt(re * re + im * im);
+    }
+
+    
+    /**
+     * Returns the argument (angle) of the complex number.
+     *
+     * @return the argument of the complex number
+     */
+    public double getAngle() {
+        return FastMath.atan2((float)this.im, (float)this.re);
     }
 
     /**
