@@ -69,6 +69,7 @@ https://github.com/user-attachments/assets/23b0f337-2429-4373-aad7-e0cc986aa4b7
 ### 0. Project Setup
 - A . [How to Run the Project](docs/running-the-project.md)
 - B . [How to contribute](.github/CONTRIBUTING.md)
+- C . [What for?](docs/what_for.md)
 
 ### I. Foundations in Hyperbolic Geometry
 - A . [Introduction](docs/I/introduction.md)  
