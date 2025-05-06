@@ -35,7 +35,7 @@ import dev.cocosol.hyperbolic.paving.Paving;
  * of the main rendering area.
  * </p>
  */
-public class Main {
+public class RayCaster {
     /**
      * The scale factor for the 3D projection.
      */

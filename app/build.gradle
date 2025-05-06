@@ -36,6 +36,11 @@ task run2D(type: JavaExec) {
     mainClass.set 'dev.cocosol.Renderer2D'
 }
 
+task runRayCaster(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass.set 'dev.cocosol.RayCaster'
+}
+
 checkstyle {
     toolVersion = '10.12.4'
     configFile = file("checkstyle.xml")
@@ -46,5 +51,5 @@ tasks.build.dependsOn tasks.checkstyleMain
 
 application {
     // Define the main class for the application.
-    mainClass = 'dev.cocosol.Main'
+    mainClass = 'dev.cocosol.RayCaster'
 }
