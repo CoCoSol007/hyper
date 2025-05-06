@@ -10,23 +10,6 @@ plugins {
     id 'checkstyle'
 }
 
-ext {
-    lwjglVersion = '3.3.3'
-    jomlVersion = '1.10.5'
-    lwjglNatives = ""
-    switch (org.gradle.internal.os.OperatingSystem.current()) {
-        case org.gradle.internal.os.OperatingSystem.WINDOWS:
-            lwjglNatives = "natives-windows"; break
-        case org.gradle.internal.os.OperatingSystem.LINUX:
-            lwjglNatives = "natives-linux"; break
-        case org.gradle.internal.os.OperatingSystem.MAC_OS:
-            lwjglNatives = "natives-macos"; break
-        default:
-            throw new IllegalStateException("Unsupported OS for LWJGL natives.")
-    }
-    println "Using LWJGL Natives: $lwjglNatives" 
-}
-
 repositories {
     // Use Maven Central for resolving dependencies.
     mavenCentral()
@@ -38,20 +21,11 @@ dependencies {
 
     // This dependency is used by the application.
     implementation libs.guava
-    
-    implementation platform("org.lwjgl:lwjgl-bom:$lwjglVersion")
 
-    implementation 'org.lwjgl:lwjgl'
-    implementation 'org.lwjgl:lwjgl-glfw'
-    implementation 'org.lwjgl:lwjgl-opengl'
-    implementation 'org.lwjgl:lwjgl-stb' 
-
-    runtimeOnly "org.lwjgl:lwjgl::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-glfw::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-opengl::$lwjglNatives"
-    runtimeOnly "org.lwjgl:lwjgl-stb::$lwjglNatives"
-
-    implementation "org.joml:joml:${jomlVersion}"
+    implementation "org.jmonkeyengine:jme3-core:3.3.2-stable"
+    implementation "org.jmonkeyengine:jme3-desktop:3.3.2-stable"
+    implementation "org.jmonkeyengine:jme3-lwjgl3:3.3.2-stable"
+    implementation "org.jmonkeyengine:jme3-plugins:3.3.2-stable"
 
 }
 
