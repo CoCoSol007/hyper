@@ -109,7 +109,7 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         // BACKGROUND
-        viewPort.setBackgroundColor(new ColorRGBA(0.3f, 0.3f, 0.3f, 1));
+        viewPort.setBackgroundColor(ColorRGBA.Cyan);
 
         // CAMERA
         flyCam.setMoveSpeed(0);
@@ -143,6 +143,7 @@ public class Main extends SimpleApplication {
             geometries.add(g);
             rootNode.attachChild(g);
         }
+        updateGeometry();
     }
 
     /**
@@ -189,7 +190,6 @@ public class Main extends SimpleApplication {
         Geometry geom = new Geometry("Block", mesh);
 
         Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", getColorTexture(verticesList));
         geom.setMaterial(mat);
 
         return geom;
@@ -246,7 +246,7 @@ public class Main extends SimpleApplication {
             mesh.setBuffer(Type.Position, 3, BufferUtils.createFloatBuffer(verts));
             mesh.updateBound();
 
-            g.getMaterial().setColor("Color", getColorTexture(vertices));
+            g.getMaterial().setColor("Color", getColorTexture(chunk));
             g.updateModelBound();
             g.updateGeometricState();
         }
@@ -260,27 +260,13 @@ public class Main extends SimpleApplication {
      * @param vertices the vertices of the chunk as seen on the screen
      * @return the color for the chunk
      */
-    private ColorRGBA getColorTexture(final List<Point> vertices) {
-        Vector2f center = new Vector2f();
-
-        for (int j = 0; j < 4; j++) {
-            center.addLocal(new Vector2f((float)vertices.get(j).x, (float)vertices.get(j).y));
-        }
-        center.divideLocal(SHADOW);
-        float distance = center.length();
-        float t = Math.min(distance / 5f, 1f);
-        return new ColorRGBA(lerp(0.7f, 0f, t), lerp(0.7f, 0, t), lerp(0.7f, 0, t), 1);
-    }
-
-    /**
-     * Linearly interpolate between two values.
-     *
-     * @param v0 the start value
-     * @param v1 the end value
-     * @param t the interpolation factor, must be between 0 and 1
-     * @return the interpolated value
-     */
-    private float lerp(final float v0, final float v1, final float t) {
-        return (1 - t) * v0 + t * v1;
+    private ColorRGBA getColorTexture(final Chunk chunk) {
+        int index = chunk.hashCode();
+        
+        int r = (index & 0xFF0000) >> 16;
+        int g = (index & 0x00FF00) >> 8;
+        int b = index & 0x0000FF;
+        
+        return new ColorRGBA(r / 255f, g / 255f, b / 255f, 1);
     }
 }
