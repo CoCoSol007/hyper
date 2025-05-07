@@ -73,7 +73,7 @@ public class Main extends SimpleApplication {
      */
     private final ActionListener actionListener = new ActionListener() {
         public void onAction(final String name, final boolean isPressed, final float tpf) {
-            if ("MoveUp" == name && isPressed && cam.getLocation().y <= 3) {
+            if ("MoveUp".equals(name) && isPressed && cam.getLocation().y <= 3) {
                 move.z = 7;
             }
             switch (name) {
