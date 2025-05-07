@@ -31,7 +31,7 @@ public class Main extends SimpleApplication {
     /**
      * Depth of the paving
      */
-    static final int DEPTH = 5;
+    static final int DEPTH = 6;
 
     /**
      * Scale of the paving
@@ -230,7 +230,7 @@ public class Main extends SimpleApplication {
             List<Point> vertices = new ArrayList<>(chunk.vertices);
 
             for (int j = 0; j < 4; j++) {
-                vertices.set(j, chunk.vertices.get(j).mul(SCALE));
+                vertices.set(j, chunk.vertices.get(j).toGnomonicModel().mul(SCALE));
             }
 
             Vector3f[] base3D = new Vector3f[4];
