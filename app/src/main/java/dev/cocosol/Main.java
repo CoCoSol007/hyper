@@ -49,6 +49,11 @@ public class Main extends SimpleApplication {
     static final float SPEED = 0.25f;
 
     /**
+     * The gravity of the world
+     */
+    static final float GRAVITY = 0.3f;
+
+    /**
      * The paving of the scene
      */
     Paving paving = new Paving();
@@ -68,6 +73,9 @@ public class Main extends SimpleApplication {
      */
     private final ActionListener actionListener = new ActionListener() {
         public void onAction(final String name, final boolean isPressed, final float tpf) {
+            if ("MoveUp" == name && isPressed && cam.getLocation().y <= 3) {
+                move.z = 7;
+            }
             switch (name) {
                 case "MoveForward":
                     move.x = isPressed ? 1 : (move.x == 1 ? 0 : move.x);
@@ -81,14 +89,7 @@ public class Main extends SimpleApplication {
                 case "MoveRight":
                     move.y = isPressed ? -1 : (move.y == -1 ? 0 : move.y);
                     break;
-                case "MoveUp":
-                    move.z = isPressed ? 1 : (move.z == 1 ? 0 : move.z);
-                    break;
-                case "MoveDown":
-                    move.z = isPressed ? -1 : (move.z == -1 ? 0 : move.z);
-                    break;
-                default:
-                    break;
+                default: break;
             }
         }        
     };
@@ -121,7 +122,6 @@ public class Main extends SimpleApplication {
         inputManager.addMapping("MoveRight", new KeyTrigger(KeyInput.KEY_D));
         inputManager.addMapping("MoveLeft", new KeyTrigger(KeyInput.KEY_A));
         inputManager.addMapping("MoveUp", new KeyTrigger(KeyInput.KEY_SPACE));
-        inputManager.addMapping("MoveDown", new KeyTrigger(KeyInput.KEY_LSHIFT));
         inputManager.addListener(actionListener, "MoveForward", "MoveDown", "MoveBackward", "MoveRight", "MoveLeft",
                 "MoveUp");
 
@@ -205,8 +205,14 @@ public class Main extends SimpleApplication {
             updateGeometry();
         }
 
-        if (move.z != 0) {
+        if (cam.getLocation().y >= 3 || move.z != 0) {
+            move.z -= GRAVITY;
             cam.setLocation(cam.getLocation().add(0, move.z * tpf, 0));
+            if (cam.getLocation().y < 3) {
+                move.z = 0;
+                cam.setLocation(cam.getLocation().add(0, 3 - cam.getLocation().y, 0));
+            }
+
         }
     }
 
