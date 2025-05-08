@@ -22,7 +22,9 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer.Type;
+import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
+import dev.cocosol.hyperbolic.Projection;
 import dev.cocosol.hyperbolic.paving.Chunk;
 import dev.cocosol.hyperbolic.paving.Paving;
 
@@ -31,7 +33,7 @@ public class Main extends SimpleApplication {
     /**
      * Depth of the paving
      */
-    static final int DEPTH = 6;
+    static final int DEPTH = 7;
 
     /**
      * Scale of the paving
@@ -51,7 +53,17 @@ public class Main extends SimpleApplication {
     /**
      * The gravity of the world
      */
-    static final float GRAVITY = 0.3f;
+    static final float GRAVITY = 15f;
+
+    /**
+     * The jump force of the camera
+     */
+    static final float JUMP_FORCE = 7f;
+
+    /**
+     * The projection of the hyperbolic plane
+     */
+    static Projection projection = Projection.defaultProjection();
 
     /**
      * The paving of the scene
@@ -74,7 +86,7 @@ public class Main extends SimpleApplication {
     private final ActionListener actionListener = new ActionListener() {
         public void onAction(final String name, final boolean isPressed, final float tpf) {
             if ("MoveUp".equals(name) && isPressed && cam.getLocation().y <= 3) {
-                move.z = 7;
+                move.z = JUMP_FORCE;
             }
             switch (name) {
                 case "MoveForward":
@@ -95,6 +107,11 @@ public class Main extends SimpleApplication {
     };
 
     public static void main(final String[] args) {
+
+        if (args.length != 0) {
+            projection = Projection.fromString(args[0]);
+        }
+
         Main app = new Main();
         
         // SETTINGS
@@ -102,6 +119,12 @@ public class Main extends SimpleApplication {
         app.setPauseOnLostFocus(false);
         app.setDisplayStatView(false);
         app.loseFocus();
+        AppSettings settings = new AppSettings(true);
+        settings.setTitle("Hyper");
+        settings.setVSync(true);
+        settings.setResolution(1920, 1080);
+        settings.setFullscreen(true);        
+        app.setSettings(settings);
         Logger.getLogger("com.jme3").setLevel(Level.SEVERE);
 
         app.start();
@@ -206,7 +229,7 @@ public class Main extends SimpleApplication {
         }
 
         if (cam.getLocation().y >= 3 || move.z != 0) {
-            move.z -= GRAVITY;
+            move.z -= GRAVITY * tpf;
             cam.setLocation(cam.getLocation().add(0, move.z * tpf, 0));
             if (cam.getLocation().y < 3) {
                 move.z = 0;
@@ -230,7 +253,14 @@ public class Main extends SimpleApplication {
             List<Point> vertices = new ArrayList<>(chunk.vertices);
 
             for (int j = 0; j < 4; j++) {
-                vertices.set(j, chunk.vertices.get(j).toGnomonicModel().mul(SCALE));
+                Point p = vertices.get(j);
+                p = switch (projection) {
+                case KLEIN -> p.toKleinModel();
+                case GNOMONIC -> p.toGnomonicModel();
+                case POINCARE -> p;
+                };
+                p = p.mul(SCALE);
+                vertices.set(j, p);
             }
 
             Vector3f[] base3D = new Vector3f[4];
