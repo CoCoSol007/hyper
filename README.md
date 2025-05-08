@@ -31,9 +31,36 @@ git clone https://github.com/cocosol007/hyper.git
 cd hyper
 ```
 
-### Ray-Caster
+### 3D
 
-To run the RayCaster, run the command 
+To run the 3D view, run the command 
+```bash
+./gradlew run
+```
+
+https://github.com/user-attachments/assets/5156987d-9099-42a6-9bd4-1a86abcd819e
+
+#### 3D Klein model
+
+To run the 3D Klein model view, run the command 
+```bash
+./gradlew run --args="klein"
+```
+
+https://github.com/user-attachments/assets/b18b1862-54cd-4e70-bc3e-eb668aba2c67
+
+#### 3D Gnomonic model
+
+To run the 3D Gnomonic model view, run the command 
+```bash
+./gradlew run --args="gnomonic"
+```
+
+https://github.com/user-attachments/assets/bc754d07-b1c2-435d-b459-7e679d5f27de
+
+#### Ray-Caster Maze
+
+To run the RayCaster maze, run the command 
 ```bash
 ./gradlew runRayCaster
 ```
