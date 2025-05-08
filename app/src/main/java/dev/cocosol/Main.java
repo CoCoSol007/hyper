@@ -86,7 +86,7 @@ public class Main extends SimpleApplication {
     private final ActionListener actionListener = new ActionListener() {
         public void onAction(final String name, final boolean isPressed, final float tpf) {
             if ("MoveUp".equals(name) && isPressed && cam.getLocation().y <= 3) {
-                move.z = JUMP_FORCE;
+                move.y = JUMP_FORCE;
             }
             switch (name) {
                 case "MoveForward":
@@ -96,10 +96,10 @@ public class Main extends SimpleApplication {
                     move.x = isPressed ? -1 : (move.x == -1 ? 0 : move.x);
                     break;
                 case "MoveLeft":
-                    move.y = isPressed ? 1 : (move.y == 1 ? 0 : move.y);
+                    move.z = isPressed ? 1 : (move.z == 1 ? 0 : move.z);
                     break;
                 case "MoveRight":
-                    move.y = isPressed ? -1 : (move.y == -1 ? 0 : move.y);
+                    move.z = isPressed ? -1 : (move.z == -1 ? 0 : move.z);
                     break;
                 default: break;
             }
@@ -222,17 +222,17 @@ public class Main extends SimpleApplication {
     public void simpleUpdate(final float tpf) {
         Complex direction2D = new Complex(cam.getDirection().x, cam.getDirection().z);
 
-        if (move.x != 0 || move.y != 0) {
-            Complex move2D = Complex.exponent(1,  new Vector2f(move.x, move.y).getAngle());
+        if (move.x != 0 || move.z != 0) {
+            Complex move2D = Complex.exponent(1,  new Vector2f(move.x, move.z).getAngle());
             paving.applyMovement(-move2D.getAngle() + direction2D.getAngle(), tpf * SPEED);
             updateGeometry();
         }
 
-        if (cam.getLocation().y >= 3 || move.z != 0) {
-            move.z -= GRAVITY * tpf;
-            cam.setLocation(cam.getLocation().add(0, move.z * tpf, 0));
+        if (cam.getLocation().y >= 3 || move.y != 0) {
+            move.y -= GRAVITY * tpf;
+            cam.setLocation(cam.getLocation().add(0, move.y * tpf, 0));
             if (cam.getLocation().y < 3) {
-                move.z = 0;
+                move.y = 0;
                 cam.setLocation(cam.getLocation().add(0, 3 - cam.getLocation().y, 0));
             }
 
