@@ -108,8 +108,9 @@ https://github.com/user-attachments/assets/23b0f337-2429-4373-aad7-e0cc986aa4b7
 - B . [Coordinate System](docs/II/coordinates_system.md)
 - C . [Implementation](docs/II/implementation.md)
 
-### III. Ray Casting
-TODO
+### III. 3D Rendering
+- A . Ray-Caster Maze (WIP)
+- B . [Visual effects](docs/III/3d-effects.md)
 
 ### IV. In-Depth Explorations
 - A . [Other Models](docs/IV/other_models.md)
