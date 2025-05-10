@@ -71,7 +71,7 @@ public class RayCaster {
     public static void main(final String[] args) {
         Paving paving = new Paving();
         // Initialize Caster with base dimensions, will be updated dynamically
-        Caster caster = new Caster(paving, 1000, 500, SEED);
+        Caster caster = new Caster(paving, 1280, 720, SEED);
 
         JFrame frame = new JFrame("hyper - ray casting");
         JPanel panel = createRenderPanel(paving, caster);
@@ -84,7 +84,7 @@ public class RayCaster {
 
                 // Respond to movement and rotation key events.
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_Q, KeyEvent.VK_LEFT -> {
+                    case KeyEvent.VK_Q, KeyEvent.VK_A, KeyEvent.VK_LEFT -> {
                         paving.applyMovement(Math.PI, 0.01);
                         needsRepaint = true;
                     }
@@ -92,7 +92,7 @@ public class RayCaster {
                         paving.applyMovement(0, 0.01);
                         needsRepaint = true;
                     }
-                    case KeyEvent.VK_Z, KeyEvent.VK_UP -> {
+                    case KeyEvent.VK_Z, KeyEvent.VK_W, KeyEvent.VK_UP -> {
                         paving.applyMovement(Math.PI / 2, 0.01);
                         needsRepaint = true;
                     }

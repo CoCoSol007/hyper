@@ -54,7 +54,7 @@ public class Renderer2D {
 
                 // Process key events for movement and rotation
                 switch (e.getKeyCode()) {
-                    case KeyEvent.VK_Q, KeyEvent.VK_LEFT -> {
+                    case KeyEvent.VK_Q, KeyEvent.VK_A, KeyEvent.VK_LEFT -> {
                         paving.applyMovement(Math.PI, 0.01);
                         needsRepaint = true;
                     }
@@ -62,7 +62,7 @@ public class Renderer2D {
                         paving.applyMovement(0, 0.01);
                         needsRepaint = true;
                     }
-                    case KeyEvent.VK_Z, KeyEvent.VK_UP -> {
+                    case KeyEvent.VK_Z, KeyEvent.VK_W, KeyEvent.VK_UP -> {
                         paving.applyMovement(Math.PI / 2, 0.01);
                         needsRepaint = true;
                     }
@@ -70,11 +70,11 @@ public class Renderer2D {
                         paving.applyMovement(-Math.PI / 2, 0.01);
                         needsRepaint = true;
                     }
-                    case KeyEvent.VK_L -> {
+                    case KeyEvent.VK_M -> {
                         paving.applyRotation(Math.PI / 100);
                         needsRepaint = true;
                     }
-                    case KeyEvent.VK_M -> {
+                    case KeyEvent.VK_L -> {
                         paving.applyRotation(-Math.PI / 100);
                         needsRepaint = true;
                     }
