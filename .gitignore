@@ -76,6 +76,7 @@ nb-configuration.xml
 ## Miscellaneous
 ##############################
 *.log
+.direnv
 
 ##############################
 ## Python
