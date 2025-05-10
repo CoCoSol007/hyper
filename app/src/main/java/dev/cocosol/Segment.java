@@ -9,8 +9,10 @@ package dev.cocosol;
 /**
  * Represents a geodesic segment in the euclidean plane.
  * <p>
- * A geodesic segment is defined by two points on a geodesic. The segment belongs to the geodesic,
- * and it checks that both the start and end points lie on the corresponding geodesic.
+ * A geodesic segment is defined by two points on a geodesic. The segment
+ * belongs to the geodesic,
+ * and it checks that both the start and end points lie on the corresponding
+ * geodesic.
  */
 public class Segment {
 
@@ -28,7 +30,7 @@ public class Segment {
      * Creates a geodesic segment from two points.
      *
      * @param start the first point of the segment
-     * @param end the second point of the segment
+     * @param end   the second point of the segment
      * @throws IllegalArgumentException if the two points are identical
      */
     public Segment(final Point start, final Point end) {
@@ -55,9 +57,8 @@ public class Segment {
      * @return true if the segment intersects the ray in Euclidean space
      */
     public boolean intersect(final Segment segment) {
-        return 
-            ccw(segment.start, this.start, this.end) != ccw(segment.end, this.start, this.end) 
-            && 
-            ccw(segment.start, segment.end, this.start) != ccw(segment.start, segment.end, this.end);
+        return ccw(segment.start, this.start, this.end) != ccw(segment.end, this.start, this.end)
+                &&
+                ccw(segment.start, segment.end, this.start) != ccw(segment.start, segment.end, this.end);
     }
 }

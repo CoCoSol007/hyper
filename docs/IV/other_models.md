@@ -14,6 +14,7 @@ You can also observe the differences between the two models in the image below:
 ### Key Characteristics
 
 The Beltrami–Klein model is notable for its **projective nature**. It maps the hyperbolic plane into the interior of the Euclidean unit disk, just like the Poincaré disk model. However, unlike the Poincaré model, it **does not preserve angles**. As a result:
+
 - Angles are distorted, especially near the boundary of the disk.
 - Circles in the hyperbolic plane appear as **flattened ellipses**.
 - **Geodesics** are represented by **straight line segments** within the disk, connecting points inside the boundary—this is one of the major strengths of the model.
@@ -57,16 +58,18 @@ This model is [conformal](https://en.wikipedia.org/wiki/Conformal_map), like the
 
 ![example](https://en.wikipedia.org/wiki/Poincar%C3%A9_half-plane_model#/media/File:Poincare_halfplane_heptagonal_hb.svg)
 
-* **Geodesics** in the half-plane model are either:
+- **Geodesics** in the half-plane model are either:
 
-  * **Vertical straight lines**, or
-  * **Semicircles** centered on the x-axis (i.e., with their centers on the boundary \$y = 0\$).
-* **Hyperbolic distances** are different from Euclidean distances. The infinitesimal hyperbolic metric is given by:
+  - **Vertical straight lines**, or
+  - **Semicircles** centered on the x-axis (i.e., with their centers on the boundary \$y = 0\$).
+
+- **Hyperbolic distances** are different from Euclidean distances. The infinitesimal hyperbolic metric is given by:
 
   $$ds^2 = \frac{dx^2 + dy^2}{y^2},$$
 
   meaning that distances increase rapidly as one moves closer to the boundary at \$y = 0\$.
-* The boundary \$y = 0\$ is **not part of the hyperbolic plane**, but represents "points at infinity," much like the boundary circle in the Poincaré disk model.
+
+- The boundary \$y = 0\$ is **not part of the hyperbolic plane**, but represents "points at infinity," much like the boundary circle in the Poincaré disk model.
 
 ### Conversion from the Disk Model
 

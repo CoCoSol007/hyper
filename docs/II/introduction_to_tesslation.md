@@ -41,8 +41,8 @@ $\frac{1}{p} + \frac{1}{q} = \frac{1}{2}$
 
 Solving this, we find that **only three regular tilings** are possible in the Euclidean plane:
 
-- {3, 6} — triangle tiling  
-- {4, 4} — square tiling  
+- {3, 6} — triangle tiling
+- {4, 4} — square tiling
 - {6, 3} — hexagonal tiling
 
 ---
@@ -53,7 +53,7 @@ In **hyperbolic geometry**, the space is curved negatively—think of a saddle s
 
 ### Hyperbolic Condition
 
-In hyperbolic tilings, the angle sum around a point can be *less than* 360°, which changes our condition to:
+In hyperbolic tilings, the angle sum around a point can be _less than_ 360°, which changes our condition to:
 
 $\frac{1}{p} + \frac{1}{q} < \frac{1}{2}$
 
@@ -68,6 +68,5 @@ Here are a few beautiful examples of hyperbolic tilings:
 ![45](https://github.com/user-attachments/assets/10625ba6-19bf-43cd-b392-66276e57fa71)
 
 ![73](https://github.com/user-attachments/assets/a48dc8f4-4bfb-434d-95e9-a9ad505794ee)
-
 
 You can play with these and generate your own using [this interactive site](https://www.malinc.se/noneuclidean/en/poincaretiling.php). Choose different values for $p$ and $q$ and explore how hyperbolic tilings behave!

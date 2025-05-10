@@ -11,7 +11,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
- 
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
@@ -20,15 +20,17 @@ import dev.cocosol.hyperbolic.Projection;
 import dev.cocosol.hyperbolic.paving.Chunk;
 import dev.cocosol.hyperbolic.paving.Direction;
 import dev.cocosol.hyperbolic.paving.Paving;
- 
+
 /**
  * A 2D renderer for visualizing the Poincaré disk.
  * <p>
- * This class creates a window that visualizes the hyperbolic paving, with controls to move and rotate the paving.
+ * This class creates a window that visualizes the hyperbolic paving, with
+ * controls to move and rotate the paving.
  */
 public class Renderer2D {
     /**
-     * The main entry point of the application. It initializes the Paving and JFrame, 
+     * The main entry point of the application. It initializes the Paving and
+     * JFrame,
      * and sets up key listeners for user interaction.
      *
      * @param args command-line arguments (not used)
@@ -110,7 +112,7 @@ public class Renderer2D {
             @Override
             protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D)g;
+                Graphics2D g2 = (Graphics2D) g;
 
                 int w = getWidth();
                 int h = getHeight();
@@ -141,17 +143,17 @@ public class Renderer2D {
                                 points[i] = points[i].toGnomonicModel().mul(0.3); // Convert to GAns model
                             }
                         }
-                        
+
                         g2.setColor(Color.DARK_GRAY);
                         int[] xPoints = new int[] {
-                            (int)(points[0].x * scale + centerX),
-                            (int)(points[1].x * scale + centerX)
+                                (int) (points[0].x * scale + centerX),
+                                (int) (points[1].x * scale + centerX)
                         };
                         int[] yPoints = new int[] {
-                            (int)(-points[0].y * scale + centerY),
-                            (int)(-points[1].y * scale + centerY)
+                                (int) (-points[0].y * scale + centerY),
+                                (int) (-points[1].y * scale + centerY)
                         };
-                        g2.drawPolygon(xPoints, yPoints, 2);  // Draw a line between points
+                        g2.drawPolygon(xPoints, yPoints, 2); // Draw a line between points
                     }
                 }
             }

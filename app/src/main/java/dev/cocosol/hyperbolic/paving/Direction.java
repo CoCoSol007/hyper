@@ -9,8 +9,10 @@ package dev.cocosol.hyperbolic.paving;
 /**
  * Represents a direction in the hyperbolic paving.
  * <p>
- * The four possible directions are {@code LEFT}, {@code RIGHT}, {@code FORWARD}, and {@code BACKWARD}.
- * These are typically used to navigate across tiles or apply geometric transformations.
+ * The four possible directions are {@code LEFT}, {@code RIGHT},
+ * {@code FORWARD}, and {@code BACKWARD}.
+ * These are typically used to navigate across tiles or apply geometric
+ * transformations.
  */
 public enum Direction {
 
@@ -29,46 +31,48 @@ public enum Direction {
     /**
      * Returns the opposite of this direction.
      * <ul>
-     *     <li>{@code LEFT} ↔ {@code RIGHT}</li>
-     *     <li>{@code FORWARD} ↔ {@code BACKWARD}</li>
+     * <li>{@code LEFT} ↔ {@code RIGHT}</li>
+     * <li>{@code FORWARD} ↔ {@code BACKWARD}</li>
      * </ul>
      *
      * @return the opposite direction
      */
     public Direction opposite() {
         return switch (this) {
-        case LEFT -> RIGHT;
-        case RIGHT -> LEFT;
-        case FORWARD -> BACKWARD;
-        case BACKWARD -> FORWARD;
+            case LEFT -> RIGHT;
+            case RIGHT -> LEFT;
+            case FORWARD -> BACKWARD;
+            case BACKWARD -> FORWARD;
         };
     }
 
     /**
-     * Returns the direction obtained by rotating 90 degrees clockwise from this one.
+     * Returns the direction obtained by rotating 90 degrees clockwise from this
+     * one.
      *
      * @return the direction after a clockwise rotation
      */
     public Direction clockwise() {
         return switch (this) {
-        case LEFT -> FORWARD;
-        case RIGHT -> BACKWARD;
-        case FORWARD -> RIGHT;
-        case BACKWARD -> LEFT;
+            case LEFT -> FORWARD;
+            case RIGHT -> BACKWARD;
+            case FORWARD -> RIGHT;
+            case BACKWARD -> LEFT;
         };
     }
 
     /**
-     * Returns the direction obtained by rotating 90 degrees counterclockwise from this one.
+     * Returns the direction obtained by rotating 90 degrees counterclockwise from
+     * this one.
      *
      * @return the direction after a counterclockwise rotation
      */
     public Direction anticlockwise() {
         return switch (this) {
-        case LEFT -> BACKWARD;
-        case RIGHT -> FORWARD;
-        case FORWARD -> LEFT;
-        case BACKWARD -> RIGHT;
+            case LEFT -> BACKWARD;
+            case RIGHT -> FORWARD;
+            case FORWARD -> LEFT;
+            case BACKWARD -> RIGHT;
         };
     }
 
@@ -80,21 +84,20 @@ public enum Direction {
      */
     public Direction add(final Direction direction) {
         return switch (direction) {
-        case LEFT -> anticlockwise();
-        case RIGHT -> clockwise();
-        case FORWARD -> this;
-        case BACKWARD -> opposite();
+            case LEFT -> anticlockwise();
+            case RIGHT -> clockwise();
+            case FORWARD -> this;
+            case BACKWARD -> opposite();
         };
     }
 
-    
     /**
      * Returns a single character string representation of this direction.
      * <ul>
-     *     <li>{@code LEFT} = {@code "L"}</li>
-     *     <li>{@code RIGHT} = {@code "R"}</li>
-     *     <li>{@code FORWARD} = {@code "F"}</li>
-     *     <li>{@code BACKWARD} = {@code "B"}</li>
+     * <li>{@code LEFT} = {@code "L"}</li>
+     * <li>{@code RIGHT} = {@code "R"}</li>
+     * <li>{@code FORWARD} = {@code "F"}</li>
+     * <li>{@code BACKWARD} = {@code "B"}</li>
      * </ul>
      *
      * @return a single character string representation of this direction
@@ -102,10 +105,10 @@ public enum Direction {
     @Override
     public String toString() {
         return switch (this) {
-        case LEFT -> "L";
-        case RIGHT -> "R";
-        case FORWARD -> "F";
-        case BACKWARD -> "B";
+            case LEFT -> "L";
+            case RIGHT -> "R";
+            case FORWARD -> "F";
+            case BACKWARD -> "B";
         };
     }
 }

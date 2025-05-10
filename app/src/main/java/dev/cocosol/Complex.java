@@ -9,8 +9,10 @@ package dev.cocosol;
 /**
  * A class representing complex numbers.
  * <p>
- * This class provides various operations for complex numbers such as addition, subtraction, multiplication, 
- * division, and the calculation of modulus, argument, conjugate, and reciprocal.
+ * This class provides various operations for complex numbers such as addition,
+ * subtraction, multiplication,
+ * division, and the calculation of modulus, argument, conjugate, and
+ * reciprocal.
  */
 public class Complex {
 
@@ -52,7 +54,7 @@ public class Complex {
     /**
      * Constructs a new complex number with the specified real and imaginary parts.
      *
-     * @param real the real part of the complex number
+     * @param real  the real part of the complex number
      * @param image the imaginary part of the complex number
      */
     public Complex(final double real, final double image) {
@@ -99,7 +101,6 @@ public class Complex {
         return Math.sqrt(re * re + im * im);
     }
 
-    
     /**
      * Returns the argument (angle) of the complex number.
      *

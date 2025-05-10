@@ -11,18 +11,23 @@ import dev.cocosol.Point;
 /**
  * Provides methods for calculating distances in the hyperbolic plane.
  * <p>
- * The class includes methods for computing both Euclidean and hyperbolic distances,
- * including distances between points and from points to the center of the hyperbolic disk.
+ * The class includes methods for computing both Euclidean and hyperbolic
+ * distances,
+ * including distances between points and from points to the center of the
+ * hyperbolic disk.
  */
 public class Distance {
 
     /**
-     * Returns the hyperbolic distance between a point and the origin (center of the hyperbolic disk).
+     * Returns the hyperbolic distance between a point and the origin (center of the
+     * hyperbolic disk).
      * <p>
-     * This method uses the Euclidean distance to the center and applies the formula for
+     * This method uses the Euclidean distance to the center and applies the formula
+     * for
      * hyperbolic distance in the Poincaré disk model.
      *
-     * @param point the point for which the hyperbolic distance to the origin is computed
+     * @param point the point for which the hyperbolic distance to the origin is
+     *              computed
      * @return the hyperbolic distance between the point and the center
      */
     public static double hyperbolicDistanceToCenter(final Point point) {

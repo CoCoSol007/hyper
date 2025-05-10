@@ -15,7 +15,7 @@ We begin by constructing the initial tile (a quadrilateral, for simplicity) cent
 - **4 vertices**: the corners of the polygon in Euclidean coordinates,
 - **a list of directions**: which define neighboring tiles.
 
-These two elements are stored in a structure we call a *chunk*.
+These two elements are stored in a structure we call a _chunk_.
 
 To compute the distance from the center $C_\infty$ to a vertex of the central polygon, we use the following formula:
 
@@ -91,7 +91,7 @@ public Point[] findExitEdge() {
 
 ## Generation of the neighbor chunks
 
-To render the hyperbolic tiling beyond the central tile, we need to generate all adjacent *chunks* — that is, the tiles directly or indirectly connected to the central one.
+To render the hyperbolic tiling beyond the central tile, we need to generate all adjacent _chunks_ — that is, the tiles directly or indirectly connected to the central one.
 
 The generation of neighbors is done iteratively by expanding layers of adjacency around the center. Each chunk has a fixed number of sides (in our case, four), and each side corresponds to a possible direction toward a neighboring chunk.
 
@@ -99,10 +99,11 @@ To find a neighboring chunk in a given direction, we use **reflection**. This op
 
 ### Neighbor Expansion by Depth
 
-The algorithm works recursively:  
-- At **depth 0**, only the central chunk is present.  
-- At **depth 1**, we compute the 4 direct neighbors by reflecting the central chunk across each of its 4 edges.  
-- At **depth 2**, we repeat the process for each of those neighbors, adding any new chunks that weren’t already generated.  
+The algorithm works recursively:
+
+- At **depth 0**, only the central chunk is present.
+- At **depth 1**, we compute the 4 direct neighbors by reflecting the central chunk across each of its 4 edges.
+- At **depth 2**, we repeat the process for each of those neighbors, adding any new chunks that weren’t already generated.
 - And so on, until we reach the desired depth.
 
 This mechanism ensures that we systematically explore the tiling, without duplicating chunks. Each newly generated chunk is compared to those already known, and only unique ones are added. The result is a "wave" of reflections propagating outward from the center.

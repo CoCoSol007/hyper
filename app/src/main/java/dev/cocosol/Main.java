@@ -40,7 +40,7 @@ public class Main extends SimpleApplication {
      */
     static final float SCALE = 10;
 
-    /** 
+    /**
      * Intensity of the shadow
      */
     static final float SHADOW = 10;
@@ -79,7 +79,7 @@ public class Main extends SimpleApplication {
      * The geometries of the scene, it regroups all the chunks
      */
     List<Geometry> geometries = new ArrayList<>();
-    
+
     /**
      * The action listener, it handles the inputs
      */
@@ -101,9 +101,10 @@ public class Main extends SimpleApplication {
                 case "MoveRight":
                     move.z = isPressed ? -1 : (move.z == -1 ? 0 : move.z);
                     break;
-                default: break;
+                default:
+                    break;
             }
-        }        
+        }
     };
 
     public static void main(final String[] args) {
@@ -113,7 +114,7 @@ public class Main extends SimpleApplication {
         }
 
         Main app = new Main();
-        
+
         // SETTINGS
         app.setShowSettings(false);
         app.setPauseOnLostFocus(false);
@@ -123,7 +124,7 @@ public class Main extends SimpleApplication {
         settings.setTitle("Hyper");
         settings.setVSync(true);
         settings.setResolution(1920, 1080);
-        settings.setFullscreen(true);        
+        settings.setFullscreen(true);
         app.setSettings(settings);
         Logger.getLogger("com.jme3").setLevel(Level.SEVERE);
 
@@ -156,10 +157,10 @@ public class Main extends SimpleApplication {
             }
 
             Vector2f[] quad = new Vector2f[] {
-                new Vector2f((float)vertices.get(0).x, (float)vertices.get(0).y),
-                new Vector2f((float)vertices.get(1).x, (float)vertices.get(1).y),
-                new Vector2f((float)vertices.get(2).x, (float)vertices.get(2).y),
-                new Vector2f((float)vertices.get(3).x, (float)vertices.get(3).y)
+                    new Vector2f((float) vertices.get(0).x, (float) vertices.get(0).y),
+                    new Vector2f((float) vertices.get(1).x, (float) vertices.get(1).y),
+                    new Vector2f((float) vertices.get(2).x, (float) vertices.get(2).y),
+                    new Vector2f((float) vertices.get(3).x, (float) vertices.get(3).y)
             };
 
             Geometry g = createBlockFrom2DQuad(quad, 1);
@@ -172,9 +173,11 @@ public class Main extends SimpleApplication {
     /**
      * Creates a 3D block geometry from a 2D quadrilateral base.
      *
-     * @param base2D an array of 2D vectors representing the vertices of the base quadrilateral.
+     * @param base2D an array of 2D vectors representing the vertices of the base
+     *               quadrilateral.
      * @param height the height to extrude the base quadrilateral into a 3D block.
-     * @return a Geometry object representing the 3D block with the specified base and height.
+     * @return a Geometry object representing the 3D block with the specified base
+     *         and height.
      */
     public Geometry createBlockFrom2DQuad(final Vector2f[] base2D, final float height) {
 
@@ -197,12 +200,12 @@ public class Main extends SimpleApplication {
         }
 
         int[] indices = {
-            0, 1, 2, 0, 2, 3,
-            4, 6, 5, 4, 7, 6,
-            0, 4, 5, 0, 5, 1,
-            1, 5, 6, 1, 6, 2,
-            2, 6, 7, 2, 7, 3,
-            3, 7, 4, 3, 4, 0
+                0, 1, 2, 0, 2, 3,
+                4, 6, 5, 4, 7, 6,
+                0, 4, 5, 0, 5, 1,
+                1, 5, 6, 1, 6, 2,
+                2, 6, 7, 2, 7, 3,
+                3, 7, 4, 3, 4, 0
         };
 
         Mesh mesh = new Mesh();
@@ -223,7 +226,7 @@ public class Main extends SimpleApplication {
         Complex direction2D = new Complex(cam.getDirection().x, cam.getDirection().z);
 
         if (move.x != 0 || move.z != 0) {
-            Complex move2D = Complex.exponent(1,  new Vector2f(move.x, move.z).getAngle());
+            Complex move2D = Complex.exponent(1, new Vector2f(move.x, move.z).getAngle());
             paving.applyMovement(-move2D.getAngle() + direction2D.getAngle(), tpf * SPEED);
             updateGeometry();
         }
@@ -240,7 +243,8 @@ public class Main extends SimpleApplication {
     }
 
     /**
-     * Updates the geometries in the scene based on the current positioning of chunks.
+     * Updates the geometries in the scene based on the current positioning of
+     * chunks.
      * This method recalculates the 3D positions of the vertices for each chunk,
      * scales them, and updates the corresponding mesh buffers. It ensures that
      * the visual representation of the tiling reflects the current state of the
@@ -255,9 +259,9 @@ public class Main extends SimpleApplication {
             for (int j = 0; j < 4; j++) {
                 Point p = vertices.get(j);
                 p = switch (projection) {
-                case KLEIN -> p.toKleinModel();
-                case GNOMONIC -> p.toGnomonicModel();
-                case POINCARE -> p;
+                    case KLEIN -> p.toKleinModel();
+                    case GNOMONIC -> p.toGnomonicModel();
+                    case POINCARE -> p;
                 };
                 p = p.mul(SCALE);
                 vertices.set(j, p);
@@ -267,10 +271,10 @@ public class Main extends SimpleApplication {
             Vector3f[] top3D = new Vector3f[4];
 
             for (int j = 0; j < 4; j++) {
-                base3D[j] = new Vector3f((float)vertices.get(j).x, 0, (float)vertices.get(j).y);
+                base3D[j] = new Vector3f((float) vertices.get(j).x, 0, (float) vertices.get(j).y);
                 top3D[j] = base3D[j].add(0, 1, 0);
             }
-            
+
             Geometry g = geometries.get(i);
             Mesh mesh = g.getMesh();
 
@@ -288,7 +292,6 @@ public class Main extends SimpleApplication {
         }
     }
 
-
     /**
      * Calculates a color for the given chunk based on its distance from the
      * center of the screen.
@@ -298,11 +301,11 @@ public class Main extends SimpleApplication {
      */
     private ColorRGBA getColorTexture(final Chunk chunk) {
         int index = chunk.hashCode();
-        
+
         int r = (index & 0xFF0000) >> 16;
         int g = (index & 0x00FF00) >> 8;
         int b = index & 0x0000FF;
-        
+
         return new ColorRGBA(r / 255f, g / 255f, b / 255f, 1);
     }
 }

@@ -17,15 +17,15 @@ import dev.cocosol.Point;
  */
 public class Rotation {
 
-    /** 
-     * The angle of rotation in radians. 
-    */
+    /**
+     * The angle of rotation in radians.
+     */
     public double theta;
 
     /**
      * Constructs a new {@code Rotation} with the specified angle.
      *
-     * @param theta  the angle of rotation in radians
+     * @param theta the angle of rotation in radians
      */
     public Rotation(final double theta) {
         this.theta = theta;

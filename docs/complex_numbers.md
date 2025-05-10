@@ -23,6 +23,7 @@ Complex numbers have a natural connection to geometry, as they can be used to re
 - **Perform translations**: Adding a complex number to another complex number translates the point in the complex plane by the amount of the added complex number.
 
 Two other properties of complex numbers are useful in geometry:
+
 - **Modulus**: The modulus of a complex number $a + bi$ is its distance from the origin in the complex plane, and is given by $|a + bi| = \sqrt{a^2 + b^2}$.
 - **Argument**: The argument of a complex number $a + bi$ is the angle between the real and imaginary parts, and is given by $\arg(a + bi) = \tan^{-1}(\frac{b}{a})$.
 

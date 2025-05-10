@@ -22,7 +22,8 @@ public class Ray {
     private static final int STEPS = 6;
 
     /**
-     * The unit vector representing the ray’s direction (its endpoint on the unit circle).
+     * The unit vector representing the ray’s direction (its endpoint on the unit
+     * circle).
      * This is the direction of the ray.
      */
     public Point end;

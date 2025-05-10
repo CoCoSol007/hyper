@@ -15,6 +15,7 @@ In this space, distances expand **exponentially** relative to the center of the 
 In hyperbolic geometry, the rules of parallelism and parallel transport differ significantly from those of Euclidean space. When moving sideways (for example, to the right), **parallel transport** in hyperbolic space is non-trivial: the orientation of a "fixed" vector changes as you move, even if you're maintaining a constant heading.
 
 You can better visualize this effect by running the 2D Poincaré renderer. And move to the right or left to see how the paving changes orientation.
+
 ```bash
 ./gradlew run2D # On Mac or Linux
 ./gradlew.bat run2D # On Windows

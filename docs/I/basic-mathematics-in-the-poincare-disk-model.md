@@ -4,7 +4,7 @@
 
 ### hyperboloid
 
-In hyperbolic geometry, one elegant way to visualize non-Euclidean space is through the Poincaré disk model. This model can be derived from a higher-dimensional perspective by considering a [two-sheeted hyperboloid](https://en.wikipedia.org/wiki/Hyperboloid#Hyperboloid_of_two_sheets). By introducing an extra dimension, we can construct the [hyperboloid](https://en.wikipedia.org/wiki/Hyperboloid) where its equation typically takes the form : $$x^2 + y^2 - z^2 = -1$$ with one sheet (usually the upper one) representing the set of points with $z > 0$. 
+In hyperbolic geometry, one elegant way to visualize non-Euclidean space is through the Poincaré disk model. This model can be derived from a higher-dimensional perspective by considering a [two-sheeted hyperboloid](https://en.wikipedia.org/wiki/Hyperboloid#Hyperboloid_of_two_sheets). By introducing an extra dimension, we can construct the [hyperboloid](https://en.wikipedia.org/wiki/Hyperboloid) where its equation typically takes the form : $$x^2 + y^2 - z^2 = -1$$ with one sheet (usually the upper one) representing the set of points with $z > 0$.
 
 https://github.com/user-attachments/assets/fc13c232-8755-4ced-a09e-4cbd4d35e02d
 
@@ -25,7 +25,7 @@ $$P' \left( x, y \right) = \left( \frac{a}{c+1}, \frac{b}{c+1} \right).$$
 
 This establishes a map between the upper sheet of the hyperboloid and the unit disk.
 
-*A simple [Desmos](https://www.desmos.com/3d/nh9airbdob) example*
+_A simple [Desmos](https://www.desmos.com/3d/nh9airbdob) example_
 
 https://github.com/user-attachments/assets/43b8c25a-ea0f-447e-a6e8-42bb7ddf9f10
 
@@ -64,6 +64,7 @@ $$
 ### Geodesics in the Poincaré Disk
 
 In hyperbolic geometry, geodesics are the paths of shortest distance between two points. In the Poincaré disk model, these paths are not Euclidean straight lines (unless they pass through the center of the disk). Instead, geodesics take two forms:
+
 - Diameters: Any straight line segment that passes through the center of the disk (i.e., a diameter) represents a hyperbolic geodesic.
 - Circular Arcs Orthogonal to the Boundary: Any arc of a Euclidean circle that intersects the boundary circle ($x^2+y^2=1$) at a right angle (90 degrees) represents a hyperbolic geodesic.
 
@@ -74,4 +75,3 @@ https://github.com/user-attachments/assets/f39a0f90-59ad-4b11-a409-f35d7ea86962
 ### Circles (Brief Mention)
 
 Hyperbolic circles (sets of points equidistant from a hyperbolic center) are also represented within the Poincaré disk. They appear as Euclidean circles, but crucially, their Euclidean center does not generally coincide with their hyperbolic center (unless the center is at the origin of the disk). Furthermore, the relationship between the hyperbolic radius and the Euclidean radius is non-linear, reflecting the distortion of distance near the boundary. However, for the scope of this project, we won't delve deeply into the properties and construction of hyperbolic circles.
-

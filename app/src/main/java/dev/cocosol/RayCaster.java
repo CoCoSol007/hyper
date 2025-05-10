@@ -27,11 +27,15 @@ import dev.cocosol.hyperbolic.paving.Direction;
 import dev.cocosol.hyperbolic.paving.Paving;
 
 /**
- * A 3D renderer for visualizing the Poincaré disk and hyperbolic paving using ray casting.
+ * A 3D renderer for visualizing the Poincaré disk and hyperbolic paving using
+ * ray casting.
  * <p>
- * This class creates a window, renders the hyperbolic paving along with walls, and
- * displays the rays cast in the scene. It also responds to key events to allow user interaction,
- * such as moving and rotating the paving. The window is resizable while maintaining the aspect ratio
+ * This class creates a window, renders the hyperbolic paving along with walls,
+ * and
+ * displays the rays cast in the scene. It also responds to key events to allow
+ * user interaction,
+ * such as moving and rotating the paving. The window is resizable while
+ * maintaining the aspect ratio
  * of the main rendering area.
  * </p>
  */
@@ -147,7 +151,7 @@ public class RayCaster {
             @Override
             protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D)g;
+                Graphics2D g2 = (Graphics2D) g;
 
                 int panelWidth = getWidth();
                 int panelHeight = getHeight();
@@ -158,15 +162,15 @@ public class RayCaster {
                 int offsetX = 0;
                 int offsetY = 0;
 
-                double panelRatio = (double)panelWidth / panelHeight;
+                double panelRatio = (double) panelWidth / panelHeight;
 
                 if (panelRatio > TARGET_ASPECT_RATIO) {
                     renderHeight = panelHeight;
-                    renderWidth = (int)(renderHeight * TARGET_ASPECT_RATIO);
+                    renderWidth = (int) (renderHeight * TARGET_ASPECT_RATIO);
                     offsetX = (panelWidth - renderWidth) / 2;
                 } else {
                     renderWidth = panelWidth;
-                    renderHeight = (int)(renderWidth / TARGET_ASPECT_RATIO);
+                    renderHeight = (int) (renderWidth / TARGET_ASPECT_RATIO);
                     offsetY = (panelHeight - renderHeight) / 2;
                 }
 
@@ -200,15 +204,15 @@ public class RayCaster {
                     double projectedHalfHeight = effectiveScaleFactor / (Math.cosh(depth));
 
                     // Calculate screen Y coordinates relative to the render area center
-                    int yTop = (int)(renderHeight / 2.0 - projectedHalfHeight);
-                    int yBottom = (int)(renderHeight / 2.0 + projectedHalfHeight);
+                    int yTop = (int) (renderHeight / 2.0 - projectedHalfHeight);
+                    int yBottom = (int) (renderHeight / 2.0 + projectedHalfHeight);
 
                     // Clamp Y coordinates within the render area height [0, renderHeight]
                     yTop = Math.max(0, yTop);
                     yBottom = Math.min(renderHeight, yBottom);
 
                     // Calculate brightness based on depth using exponential decay.
-                    float brightness = (float)Math.exp(-depth * FOG_DENSITY);
+                    float brightness = (float) Math.exp(-depth * FOG_DENSITY);
                     brightness = Math.max(0.0f, Math.min(1.0f, brightness));
                     g2.setColor(new Color(brightness, brightness, brightness));
 
@@ -259,10 +263,10 @@ public class RayCaster {
                         }
 
                         g2.setColor(Color.BLACK);
-                        int x1 = (int)(wallPoints[0].x * scale + mapCenterX);
-                        int y1 = (int)(-wallPoints[0].y * scale + mapCenterY); // Invert Y for screen coordinates
-                        int x2 = (int)(wallPoints[1].x * scale + mapCenterX);
-                        int y2 = (int)(-wallPoints[1].y * scale + mapCenterY); // Invert Y
+                        int x1 = (int) (wallPoints[0].x * scale + mapCenterX);
+                        int y1 = (int) (-wallPoints[0].y * scale + mapCenterY); // Invert Y for screen coordinates
+                        int x2 = (int) (wallPoints[1].x * scale + mapCenterX);
+                        int y2 = (int) (-wallPoints[1].y * scale + mapCenterY); // Invert Y
 
                         g2.drawLine(x1, y1, x2, y2);
                     }

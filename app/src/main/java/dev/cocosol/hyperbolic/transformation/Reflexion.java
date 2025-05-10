@@ -32,7 +32,7 @@ public class Reflexion {
      * This operation reflects a point across a geodesic, which is a straight line
      * or arc in the hyperbolic plane.
      * 
-     * @param point    the point to be inverted
+     * @param point the point to be inverted
      * @return the inverted point
      * @throws IllegalArgumentException if the point lies at the center of the
      *                                  geodesic
@@ -46,13 +46,13 @@ public class Reflexion {
             double b = geodesic.b;
             double xa = point.x;
             double ya = point.y;
-            
+
             double dot = a * xa + b * ya;
             double denom = a * a + b * b;
-            
+
             double x1 = xa - 2 * a * dot / denom;
             double y1 = ya - 2 * b * dot / denom;
-            
+
             return new Point(x1, y1);
         }
 
@@ -70,5 +70,5 @@ public class Reflexion {
 
         return new Point(xPrime, yPrime);
     }
-    
+
 }

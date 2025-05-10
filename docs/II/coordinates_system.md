@@ -16,15 +16,17 @@ In a Euclidean tiling, a discrete coordinate system is rather straightforward (s
 
 Below is a brief example that demonstrates how to build a list of directions, and how the order of these directions is crucial. In this system, the sequence "Forward, Right" is not equivalent to "Right, Forward."
 
-**"Forward, Right":**  
-  1. Start at the center of the hyperbolic plane.  
-  2. Move "Forward" — you advance in your initial, arbitrarily chosen direction.  
-  3. Then, turn "Right" — you change your orientation from the previous forward direction and step into the adjacent tile that lies in that new direction.
+**"Forward, Right":**
 
-**"Right, Forward":**  
-  1. Start at the center of the hyperbolic plane.  
-  2. First, turn "Right" — you immediately adjust your direction from the start, without having advanced.  
-  3. Then, move "Forward" — you advance in this newly set direction.
+1. Start at the center of the hyperbolic plane.
+2. Move "Forward" — you advance in your initial, arbitrarily chosen direction.
+3. Then, turn "Right" — you change your orientation from the previous forward direction and step into the adjacent tile that lies in that new direction.
+
+**"Right, Forward":**
+
+1. Start at the center of the hyperbolic plane.
+2. First, turn "Right" — you immediately adjust your direction from the start, without having advanced.
+3. Then, move "Forward" — you advance in this newly set direction.
 
 ## Addressing Redundancy: Simplification Rules
 
@@ -45,15 +47,16 @@ X + B + Y = Y'
 ```
 
 Where:
+
 - `X` is any direction before a **Backward**,
 - `B` is the **Backward** direction,
 - `Y` is the direction following the backward step,
 
 The simplification rule for `Y'` is:
 
-- `Y' = Y` if `X == Backward`  
-- `Y' = Y.opposite` if `X == Forward`  
-- `Y' = Y.anticlockwise` if `X == Right`  
+- `Y' = Y` if `X == Backward`
+- `Y' = Y.opposite` if `X == Forward`
+- `Y' = Y.anticlockwise` if `X == Right`
 - `Y' = Y.clockwise` if `X == Left`
 
 This rule is applied recursively and removes unnecessary steps, helping reduce the sequence to a canonical form.
@@ -65,11 +68,12 @@ This rule is applied recursively and removes unnecessary steps, helping reduce t
 This rule detects consecutive duplicate directions like two **Right** or two **Left** in a row. These often indicate a local rotation pattern, which can be simplified by transforming them into a different sequence that produces the same movement but in fewer or clearer steps.
 
 Examples:
-- Two consecutive **Right** turns (`Right, Right`) indicate a sharp turn that can be represented as:  
+
+- Two consecutive **Right** turns (`Right, Right`) indicate a sharp turn that can be represented as:
   ```
   X + Right + Right + Y → X.clockwise + Left + Y.clockwise
   ```
-- Two **Left**s work similarly:  
+- Two **Left**s work similarly:
   ```
   X + Left + Left + Y → X.anticlockwise + Right + Y.anticlockwise
   ```
@@ -80,12 +84,14 @@ These rewrites not only reduce the number of steps but also stabilize the orient
 
 ### Rule 3: LF Pattern Transformation
 
-This more advanced rule handles a very specific but frequent pattern in movement:  
+This more advanced rule handles a very specific but frequent pattern in movement:
+
 ```
 X + Right + (Forward * n) + Right + Y
 ```
 
 This pattern is equivalent to:
+
 ```
 X.clockwise + (Left + Forward) * n + Left + Y.clockwise
 ```

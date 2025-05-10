@@ -17,7 +17,7 @@ import dev.cocosol.Point;
 import dev.cocosol.hyperbolic.Geodesic;
 
 public class ReflexionTest {
-    
+
     @Test
     public void testReflexionConstruction() {
         Point p1 = new Point(0.2, 0.0);

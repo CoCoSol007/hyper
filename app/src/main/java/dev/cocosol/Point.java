@@ -11,11 +11,13 @@ import dev.cocosol.hyperbolic.Distance;
 /**
  * Represents a point.
  * <p>
- * A point is defined by its {@code x} and {@code y} coordinates. This class provides various operations
- * for manipulating points, including addition, subtraction, and multiplication by a scalar.
+ * A point is defined by its {@code x} and {@code y} coordinates. This class
+ * provides various operations
+ * for manipulating points, including addition, subtraction, and multiplication
+ * by a scalar.
  */
 public class Point {
-    
+
     /**
      * The origin point (0, 0).
      */
@@ -170,7 +172,8 @@ public class Point {
     /**
      * Converts this point to the gnomonic model.
      * <p>
-     * The conversion is done by converting the distance from the point to the center
+     * The conversion is done by converting the distance from the point to the
+     * center
      * of the hyperbolic disk to the real hyperbolic distance between them.
      * <p>
      * 
@@ -179,8 +182,7 @@ public class Point {
     public Point toGnomonicModel() {
         Complex c = toComplex();
         return Point.fromComplex(
-            c.scale(Distance.hyperbolicDistanceToCenter(this) / (c.module()))
-        );
+                c.scale(Distance.hyperbolicDistanceToCenter(this) / (c.module())));
     }
 
     /**
@@ -201,7 +203,7 @@ public class Point {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Point point = (Point)o;
+        Point point = (Point) o;
         return Math.abs(x - point.x) < 0.000001 && Math.abs(y - point.y) < 0.000001;
     }
 

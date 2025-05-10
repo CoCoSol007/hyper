@@ -9,8 +9,10 @@ package dev.cocosol.hyperbolic;
 /**
  * Provides mathematical functions for hyperbolic geometry operations.
  * <p>
- * This class includes implementations for hyperbolic trigonometric functions (such as acosh, asinh, and atanh),
- * as well as methods for geometric operations like finding the inverse of a point with respect to a geodesic.
+ * This class includes implementations for hyperbolic trigonometric functions
+ * (such as acosh, asinh, and atanh),
+ * as well as methods for geometric operations like finding the inverse of a
+ * point with respect to a geodesic.
  */
 public class HyperbolicMath {
 
@@ -21,7 +23,8 @@ public class HyperbolicMath {
      *
      * @param x the value for which the inverse hyperbolic cosine is computed
      * @return the inverse hyperbolic cosine of {@code x}
-     * @throws IllegalArgumentException if {@code x < 1}, as acosh is undefined for values less than 1
+     * @throws IllegalArgumentException if {@code x < 1}, as acosh is undefined for
+     *                                  values less than 1
      */
     public static double acosh(final double x) {
         if (x < 1) {

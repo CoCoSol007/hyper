@@ -95,7 +95,7 @@ public class GeodesicTest {
     public void testGetEuclideanRadiusForDiameter() {
         Geodesic g = new Geodesic(3.0, 4.0);
         g.diameter = true;
-        assertEquals(-1.0, g.getEuclideanRadius(), 0.000001); 
+        assertEquals(-1.0, g.getEuclideanRadius(), 0.000001);
     }
 
     @Test

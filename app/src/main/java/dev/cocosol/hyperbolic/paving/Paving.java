@@ -22,9 +22,9 @@ import dev.cocosol.hyperbolic.transformation.Translation;
 public class Paving {
 
     /**
-    * The central chunk located at the origin of the disk.
-    * This is the “true” central tile of the paving.
-    */
+     * The central chunk located at the origin of the disk.
+     * This is the “true” central tile of the paving.
+     */
     public Chunk centerChunk = Chunk.origin();
 
     /**
@@ -76,7 +76,7 @@ public class Paving {
             double orientOutside = Point.ORIGIN.orientation(p1, p2);
 
             if (orientInside * orientOutside < 0) {
-                return new Point[] {p1, p2};
+                return new Point[] { p1, p2 };
             }
         }
         return null;

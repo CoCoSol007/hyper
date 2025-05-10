@@ -2,6 +2,7 @@ from manim import *
 import numpy as np
 import cmath
 
+
 class Main(Scene):
     def construct(self):
         disk_radius = 2
@@ -9,7 +10,9 @@ class Main(Scene):
         geodesic_center_y = 0
         geodesic_center_coords = np.array([geodesic_center_x, geodesic_center_y, 0])
 
-        geodesic_radius_sq = geodesic_center_x**2 + geodesic_center_y**2 - disk_radius**2
+        geodesic_radius_sq = (
+            geodesic_center_x**2 + geodesic_center_y**2 - disk_radius**2
+        )
         geodesic_radius = np.sqrt(geodesic_radius_sq)
 
         grid_step = 0.4
@@ -26,8 +29,10 @@ class Main(Scene):
             dist_sq = delta_x**2 + delta_y**2
 
             if dist_sq < 1e-12:
-                 print(f"Warning: Point {point[:2]} is very close to the center of inversion {geodesic_center_coords[:2]}")
-                 return point
+                print(
+                    f"Warning: Point {point[:2]} is very close to the center of inversion {geodesic_center_coords[:2]}"
+                )
+                return point
 
             factor = R2 / dist_sq
 
@@ -72,7 +77,7 @@ class Main(Scene):
             intersect_p2,
             radius=geodesic_radius,
             color=GREEN,
-            stroke_width=3
+            stroke_width=3,
         )
 
         self.play(Create(geodesic_arc))
@@ -83,7 +88,7 @@ class Main(Scene):
         self.play(
             ApplyPointwiseFunction(transform_function, points_group),
             origin_marker.animate.move_to(reflect_point_across_circle(ORIGIN)),
-            run_time=animation_runtime
+            run_time=animation_runtime,
         )
         self.wait(2)
 
@@ -93,5 +98,5 @@ class Main(Scene):
             FadeOut(origin_marker),
             FadeOut(title),
             FadeOut(geodesic_arc),
-            )
+        )
         self.wait(1)

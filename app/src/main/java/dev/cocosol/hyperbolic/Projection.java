@@ -14,13 +14,15 @@ public enum Projection {
 
     /**
      * Poincaré projection.
-     * This projection is a conformal map of the hyperbolic plane onto the unit disk.
+     * This projection is a conformal map of the hyperbolic plane onto the unit
+     * disk.
      */
     POINCARE,
 
     /**
      * Klein projection.
-     * This projection is a unconformal map of the hyperbolic plane onto the unit disk.
+     * This projection is a unconformal map of the hyperbolic plane onto the unit
+     * disk.
      */
     KLEIN,
 
@@ -30,10 +32,12 @@ public enum Projection {
     GNOMONIC;
 
     /**
-     * Returns the projection matching the given name, or the default projection if no match is found.
+     * Returns the projection matching the given name, or the default projection if
+     * no match is found.
      *
      * @param name the name of the projection, case insensitive
-     * @return the projection matching the given name, or the default projection if no match is found
+     * @return the projection matching the given name, or the default projection if
+     *         no match is found
      */
     public static Projection fromString(final String name) {
         for (final Projection projection : Projection.values()) {
@@ -47,6 +51,7 @@ public enum Projection {
 
     /**
      * Returns the default projection, which is Poincaré.
+     * 
      * @return the default projection
      */
     public static Projection defaultProjection() {

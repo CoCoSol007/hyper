@@ -10,14 +10,14 @@ This project takes you on a journey into non-Euclidean rendering — creating vi
 
 ## Why It Matters
 
-* **New Ways to Think**: It challenges how we perceive and simulate space, pushing the limits of both mathematics and computer graphics.
-* **Educational Value**: It transforms abstract geometric concepts into something tangible and engaging, providing a hands-on way to explore complex math in a fun and interactive format.
+- **New Ways to Think**: It challenges how we perceive and simulate space, pushing the limits of both mathematics and computer graphics.
+- **Educational Value**: It transforms abstract geometric concepts into something tangible and engaging, providing a hands-on way to explore complex math in a fun and interactive format.
 
 ## Why It’s Challenging
 
-* Standard graphics engines assume Euclidean geometry — and this project boldly decides to throw that assumption out the window.
-* It demands a deep understanding of advanced mathematics and innovative algorithmic techniques.
-* It's not easy to visualize, optimize, or make smooth — but the payoff? Totally worth it.
+- Standard graphics engines assume Euclidean geometry — and this project boldly decides to throw that assumption out the window.
+- It demands a deep understanding of advanced mathematics and innovative algorithmic techniques.
+- It's not easy to visualize, optimize, or make smooth — but the payoff? Totally worth it.
 
 ## Why It’s Worth It
 

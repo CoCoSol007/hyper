@@ -11,12 +11,13 @@ import dev.cocosol.Point;
 /**
  * Represents a geodesic in the Poincaré disk model of hyperbolic geometry.
  * <p>
- * A geodesic in this model is represented by a circle orthogonal to the unit circle,
+ * A geodesic in this model is represented by a circle orthogonal to the unit
+ * circle,
  * and it can be described by the equation {@code x² + y² + ax + by + 1 = 0}.
  * Additionally, geodesics can also represent diameters of the unit disk.
  */
 public class Geodesic {
-    
+
     /**
      * One parameter of the geodesic equation.
      */
@@ -28,7 +29,7 @@ public class Geodesic {
     public double b;
 
     /**
-     * True if the geodesic is a diameter. 
+     * True if the geodesic is a diameter.
      * If true, the geodesic is defined by the equation {@code ax + by = 0}.
      */
     public boolean diameter;
@@ -84,16 +85,19 @@ public class Geodesic {
         if (this.diameter) {
             return this.a * point.x + this.b * point.y == 0;
         }
-        // Due to imprecision of floating point numbers, we use a tolerance for comparison
+        // Due to imprecision of floating point numbers, we use a tolerance for
+        // comparison
         return Math.abs(point.x * point.x + point.y * point.y + this.a * point.x + this.b * point.y + 1) < 0.000001;
     }
 
     /**
      * Returns the center of the Euclidean circle that represents the geodesic.
      * <p>
-     * Returns {@code null} if the geodesic is a diameter, as a diameter has no well-defined center.
+     * Returns {@code null} if the geodesic is a diameter, as a diameter has no
+     * well-defined center.
      *
-     * @return the center of the Euclidean circle or {@code null} if the geodesic is a diameter
+     * @return the center of the Euclidean circle or {@code null} if the geodesic is
+     *         a diameter
      */
     public Point getEuclideanCenter() {
         if (this.diameter) {
@@ -103,9 +107,11 @@ public class Geodesic {
     }
 
     /**
-     * Returns the Euclidean radius of the Euclidean circle that represents the geodesic.
+     * Returns the Euclidean radius of the Euclidean circle that represents the
+     * geodesic.
      * <p>
-     * Returns {@code -1} if the geodesic is a diameter, as a diameter has no well-defined radius.
+     * Returns {@code -1} if the geodesic is a diameter, as a diameter has no
+     * well-defined radius.
      *
      * @return the Euclidean radius or {@code -1} if the geodesic is a diameter
      */
@@ -119,10 +125,12 @@ public class Geodesic {
     /**
      * Returns the ideal points of the geodesic.
      * <p>
-     * The ideal points are the intersection of the geodesic with the Euclidean unit circle.
+     * The ideal points are the intersection of the geodesic with the Euclidean unit
+     * circle.
      * If the geodesic is a diameter, it returns the two points of intersection.
      *
-     * @return an array of two {@link Point}s representing the ideal points, or {@code null} if the geodesic is a diameter
+     * @return an array of two {@link Point}s representing the ideal points, or
+     *         {@code null} if the geodesic is a diameter
      */
     public Point[] getIdealPoints() {
         if (this.diameter) {
@@ -130,10 +138,11 @@ public class Geodesic {
             double delta = 4 * ((a * a) / (b * b)) + 4;
             double x1 = Math.sqrt(delta) / ((a * a) / (b * b) + 1);
             double y1 = (a * x1) / b;
-            return new Point[]{new Point(x1, y1), new Point(-x1, -y1)};
+            return new Point[] { new Point(x1, y1), new Point(-x1, -y1) };
         }
 
-        // Solve the quadratic equation to get the ideal points for a non-diameter geodesic
+        // Solve the quadratic equation to get the ideal points for a non-diameter
+        // geodesic
         double delta = 16 * a * a - 4 * (b * b + a * a) * (4 - b * b);
 
         double x1 = (-4 * a - Math.sqrt(delta)) / ((a * a + b * b) * 2);
@@ -142,6 +151,6 @@ public class Geodesic {
         double x2 = (-4 * a + Math.sqrt(delta)) / ((a * a + b * b) * 2);
         double y2 = -(2 + a * x2) / b;
 
-        return new Point[]{new Point(x1, y1), new Point(x2, y2)};
+        return new Point[] { new Point(x1, y1), new Point(x2, y2) };
     }
 }

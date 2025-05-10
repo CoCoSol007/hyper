@@ -73,10 +73,6 @@
             <property name="option" value="top"/>
             <property name="sortStaticImportsAlphabetically" value="true"/>
         </module>
-        <module name="Indentation">
-            <property name="basicOffset" value="4"/>
-            <property name="caseIndent" value="0"/>
-        </module>
         <module name="InnerAssignment"/>
         <module name="InnerTypeLast"/>
         <module name="LeftCurly">
@@ -102,9 +98,6 @@
         <module name="NoFinalizer"/>
         <module name="NoArrayTrailingComma"/>
         <module name="NoEnumTrailingComma"/>
-        <module name="NoWhitespaceAfter">
-            <property name="tokens" value="ARRAY_INIT, AT, INC, DEC, UNARY_MINUS, UNARY_PLUS, BNOT, LNOT, DOT, ARRAY_DECLARATOR, INDEX_OP, TYPECAST"/>
-        </module>
         <module name="NoWhitespaceBefore"/>
         <module name="NoWhitespaceBeforeCaseDefaultColon"/>
         <module name="OneStatementPerLine"/>
