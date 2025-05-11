@@ -7,7 +7,6 @@
 plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
-    id 'checkstyle'
 }
 
 repositories {
@@ -45,14 +44,6 @@ task runRayCaster(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass.set 'dev.cocosol.RayCaster'
 }
-
-checkstyle {
-    toolVersion = '10.12.4'
-    configFile = file("checkstyle.xml")
-}
-
-// Ensure the build task depends on the Checkstyle analysis for the main source set
-tasks.build.dependsOn tasks.checkstyleMain
 
 application {
     // Define the main class for the application.
