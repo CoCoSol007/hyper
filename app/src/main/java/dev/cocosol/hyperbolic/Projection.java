@@ -46,7 +46,7 @@ public enum Projection {
             }
         }
         System.err.println("Unknown projection: " + name);
-        return defaultProjection();
+        return Projection.defaultProjection();
     }
 
     /**

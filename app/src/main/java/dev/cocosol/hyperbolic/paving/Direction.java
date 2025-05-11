@@ -8,7 +8,7 @@ package dev.cocosol.hyperbolic.paving;
 
 /**
  * Represents a direction in the hyperbolic paving.
- * <p>
+ * 
  * The four possible directions are {@code LEFT}, {@code RIGHT},
  * {@code FORWARD}, and {@code BACKWARD}.
  * These are typically used to navigate across tiles or apply geometric
@@ -84,10 +84,10 @@ public enum Direction {
      */
     public Direction add(final Direction direction) {
         return switch (direction) {
-            case LEFT -> anticlockwise();
-            case RIGHT -> clockwise();
+            case LEFT -> this.anticlockwise();
+            case RIGHT -> this.clockwise();
             case FORWARD -> this;
-            case BACKWARD -> opposite();
+            case BACKWARD -> this.opposite();
         };
     }
 

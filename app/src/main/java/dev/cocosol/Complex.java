@@ -8,7 +8,7 @@ package dev.cocosol;
 
 /**
  * A class representing complex numbers.
- * <p>
+ * 
  * This class provides various operations for complex numbers such as addition,
  * subtraction, multiplication,
  * division, and the calculation of modulus, argument, conjugate, and
@@ -58,8 +58,8 @@ public class Complex {
      * @param image the imaginary part of the complex number
      */
     public Complex(final double real, final double image) {
-        re = real;
-        im = image;
+        this.re = real;
+        this.im = image;
     }
 
     /**
@@ -80,16 +80,16 @@ public class Complex {
      */
     @Override
     public String toString() {
-        if (im == 0) {
-            return re + "";
+        if (this.im == 0) {
+            return this.re + "";
         }
-        if (re == 0) {
-            return im + "i";
+        if (this.re == 0) {
+            return this.im + "i";
         }
-        if (im < 0) {
-            return re + " - " + (-im) + "i";
+        if (this.im < 0) {
+            return this.re + " - " + (-this.im) + "i";
         }
-        return re + " + " + im + "i";
+        return this.re + " + " + this.im + "i";
     }
 
     /**
@@ -98,7 +98,7 @@ public class Complex {
      * @return the modulus of the complex number
      */
     public double module() {
-        return Math.sqrt(re * re + im * im);
+        return Math.sqrt(this.re * this.re + this.im * this.im);
     }
 
     /**
@@ -117,9 +117,9 @@ public class Complex {
      * @return the sum of the two complex numbers
      */
     public Complex plus(final Complex b) {
-        Complex a = this;
-        double real = a.re + b.re;
-        double image = a.im + b.im;
+        final Complex a = this;
+        final double real = a.re + b.re;
+        final double image = a.im + b.im;
         return new Complex(real, image);
     }
 
@@ -130,9 +130,9 @@ public class Complex {
      * @return the difference between the two complex numbers
      */
     public Complex minus(final Complex b) {
-        Complex a = this;
-        double real = a.re - b.re;
-        double image = a.im - b.im;
+        final Complex a = this;
+        final double real = a.re - b.re;
+        final double image = a.im - b.im;
         return new Complex(real, image);
     }
 
@@ -143,9 +143,9 @@ public class Complex {
      * @return the product of the two complex numbers
      */
     public Complex times(final Complex b) {
-        Complex a = this;
-        double real = a.re * b.re - a.im * b.im;
-        double image = a.re * b.im + a.im * b.re;
+        final Complex a = this;
+        final double real = a.re * b.re - a.im * b.im;
+        final double image = a.re * b.im + a.im * b.re;
         return new Complex(real, image);
     }
 
@@ -156,7 +156,7 @@ public class Complex {
      * @return a new complex number scaled by alpha
      */
     public Complex scale(final double alpha) {
-        return new Complex(alpha * re, alpha * im);
+        return new Complex(alpha * this.re, alpha * this.im);
     }
 
     /**
@@ -165,7 +165,7 @@ public class Complex {
      * @return the complex conjugate
      */
     public Complex conjugate() {
-        return new Complex(re, -im);
+        return new Complex(this.re, -this.im);
     }
 
     /**
@@ -175,8 +175,8 @@ public class Complex {
      * @return the reciprocal of the complex number
      */
     public Complex reciprocal() {
-        double scale = re * re + im * im;
-        return new Complex(re / scale, -im / scale);
+        final double scale = this.re * this.re + this.im * this.im;
+        return new Complex(this.re / scale, -this.im / scale);
     }
 
     /**
@@ -185,7 +185,7 @@ public class Complex {
      * @return the real part of the complex number
      */
     public double re() {
-        return re;
+        return this.re;
     }
 
     /**
@@ -194,7 +194,7 @@ public class Complex {
      * @return the imaginary part of the complex number
      */
     public double im() {
-        return im;
+        return this.im;
     }
 
     /**
@@ -204,7 +204,7 @@ public class Complex {
      * @return the result of dividing the two complex numbers
      */
     public Complex divides(final Complex b) {
-        Complex a = this;
+        final Complex a = this;
         return a.times(b.reciprocal());
     }
 

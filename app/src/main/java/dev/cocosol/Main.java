@@ -6,6 +6,9 @@
 
 package dev.cocosol;
 
+import java.awt.DisplayMode;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,6 +27,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
+
 import dev.cocosol.hyperbolic.Projection;
 import dev.cocosol.hyperbolic.paving.Chunk;
 import dev.cocosol.hyperbolic.paving.Paving;
@@ -83,49 +87,56 @@ public class Main extends SimpleApplication {
     /**
      * The action listener, it handles the inputs
      */
-    private final ActionListener actionListener = new ActionListener() {
-        public void onAction(final String name, final boolean isPressed, final float tpf) {
-            if ("MoveUp".equals(name) && isPressed && cam.getLocation().y <= 3) {
-                move.y = JUMP_FORCE;
-            }
-            switch (name) {
-                case "MoveForward":
-                    move.x = isPressed ? 1 : (move.x == 1 ? 0 : move.x);
-                    break;
-                case "MoveBackward":
-                    move.x = isPressed ? -1 : (move.x == -1 ? 0 : move.x);
-                    break;
-                case "MoveLeft":
-                    move.z = isPressed ? 1 : (move.z == 1 ? 0 : move.z);
-                    break;
-                case "MoveRight":
-                    move.z = isPressed ? -1 : (move.z == -1 ? 0 : move.z);
-                    break;
-                default:
-                    break;
-            }
+    private final ActionListener actionListener = (name, isPressed, tpf) -> {
+        if ("MoveUp".equals(name) && isPressed && this.cam.getLocation().y <= 3) {
+            this.move.y = Main.JUMP_FORCE;
+        }
+        switch (name) {
+            case "MoveForward":
+                this.move.x = isPressed ? 1 : (this.move.x == 1 ? 0 : this.move.x);
+                break;
+            case "MoveBackward":
+                this.move.x = isPressed ? -1 : (this.move.x == -1 ? 0 : this.move.x);
+                break;
+            case "MoveLeft":
+                this.move.z = isPressed ? 1 : (this.move.z == 1 ? 0 : this.move.z);
+                break;
+            case "MoveRight":
+                this.move.z = isPressed ? -1 : (this.move.z == -1 ? 0 : this.move.z);
+                break;
+            default:
+                break;
         }
     };
 
     public static void main(final String[] args) {
 
         if (args.length != 0) {
-            projection = Projection.fromString(args[0]);
+            Main.projection = Projection.fromString(args[0]);
         }
 
-        Main app = new Main();
+        Logger.getLogger("com.jme3").setLevel(Level.SEVERE);
 
-        // SETTINGS
+        final Main app = new Main();
+
         app.setShowSettings(false);
         app.setPauseOnLostFocus(false);
         app.setDisplayStatView(false);
-        app.loseFocus();
-        AppSettings settings = new AppSettings(true);
+
+        final AppSettings settings = new AppSettings(true);
+
         settings.setTitle("Hyper");
         settings.setVSync(true);
-        settings.setFullscreen(true);
+
+        final GraphicsDevice device = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+        final DisplayMode[] modes = device.getDisplayModes();
+        final int i = 0;
+        settings.setResolution(modes[i].getWidth(), modes[i].getHeight());
+        settings.setFrequency(modes[i].getRefreshRate());
+        settings.setBitsPerPixel(modes[i].getBitDepth());
+        settings.setFullscreen(device.isFullScreenSupported());
+
         app.setSettings(settings);
-        Logger.getLogger("com.jme3").setLevel(Level.SEVERE);
 
         app.start();
     }
@@ -133,40 +144,41 @@ public class Main extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         // BACKGROUND
-        viewPort.setBackgroundColor(ColorRGBA.Cyan);
+        this.viewPort.setBackgroundColor(ColorRGBA.Cyan);
 
         // CAMERA
-        flyCam.setMoveSpeed(0);
-        cam.setLocation(new Vector3f(0, 3, 0));
+        this.flyCam.setMoveSpeed(0);
+        this.cam.setLocation(new Vector3f(0, 3, 0));
 
         // INPUT
-        inputManager.addMapping("MoveForward", new KeyTrigger(KeyInput.KEY_W));
-        inputManager.addMapping("MoveBackward", new KeyTrigger(KeyInput.KEY_S));
-        inputManager.addMapping("MoveRight", new KeyTrigger(KeyInput.KEY_D));
-        inputManager.addMapping("MoveLeft", new KeyTrigger(KeyInput.KEY_A));
-        inputManager.addMapping("MoveUp", new KeyTrigger(KeyInput.KEY_SPACE));
-        inputManager.addListener(actionListener, "MoveForward", "MoveDown", "MoveBackward", "MoveRight", "MoveLeft",
+        this.inputManager.addMapping("MoveForward", new KeyTrigger(KeyInput.KEY_W));
+        this.inputManager.addMapping("MoveBackward", new KeyTrigger(KeyInput.KEY_S));
+        this.inputManager.addMapping("MoveRight", new KeyTrigger(KeyInput.KEY_D));
+        this.inputManager.addMapping("MoveLeft", new KeyTrigger(KeyInput.KEY_A));
+        this.inputManager.addMapping("MoveUp", new KeyTrigger(KeyInput.KEY_SPACE));
+        this.inputManager.addListener(this.actionListener, "MoveForward", "MoveDown", "MoveBackward", "MoveRight",
+                "MoveLeft",
                 "MoveUp");
 
-        for (final Chunk chunk : paving.getAllNeighbors(DEPTH)) {
-            List<Point> vertices = new ArrayList<>(chunk.vertices);
+        for (final Chunk chunk : this.paving.getAllNeighbors(Main.DEPTH)) {
+            final List<Point> vertices = new ArrayList<>(chunk.vertices);
 
             for (int i = 0; i < 4; i++) {
-                vertices.set(i, chunk.vertices.get(i).mul(SCALE));
+                vertices.set(i, chunk.vertices.get(i).mul(Main.SCALE));
             }
 
-            Vector2f[] quad = new Vector2f[] {
+            final Vector2f[] quad = new Vector2f[] {
                     new Vector2f((float) vertices.get(0).x, (float) vertices.get(0).y),
                     new Vector2f((float) vertices.get(1).x, (float) vertices.get(1).y),
                     new Vector2f((float) vertices.get(2).x, (float) vertices.get(2).y),
                     new Vector2f((float) vertices.get(3).x, (float) vertices.get(3).y)
             };
 
-            Geometry g = createBlockFrom2DQuad(quad, 1);
-            geometries.add(g);
-            rootNode.attachChild(g);
+            final Geometry g = this.createBlockFrom2DQuad(quad, 1);
+            this.geometries.add(g);
+            this.rootNode.attachChild(g);
         }
-        updateGeometry();
+        this.updateGeometry();
     }
 
     /**
@@ -180,25 +192,25 @@ public class Main extends SimpleApplication {
      */
     public Geometry createBlockFrom2DQuad(final Vector2f[] base2D, final float height) {
 
-        Vector3f[] base3D = new Vector3f[4];
-        Vector3f[] top3D = new Vector3f[4];
+        final Vector3f[] base3D = new Vector3f[4];
+        final Vector3f[] top3D = new Vector3f[4];
 
         for (int i = 0; i < 4; i++) {
             base3D[i] = new Vector3f(base2D[i].x, 0, base2D[i].y);
             top3D[i] = base3D[i].add(0, height, 0);
         }
 
-        Vector3f[] vertices = new Vector3f[] {
+        final Vector3f[] vertices = new Vector3f[] {
                 base3D[0], base3D[1], base3D[2], base3D[3],
                 top3D[0], top3D[1], top3D[2], top3D[3]
         };
 
-        List<Point> verticesList = new ArrayList<>();
+        final List<Point> verticesList = new ArrayList<>();
         for (final Vector3f v : vertices) {
             verticesList.add(new Point(v.x, v.z));
         }
 
-        int[] indices = {
+        final int[] indices = {
                 0, 1, 2, 0, 2, 3,
                 4, 6, 5, 4, 7, 6,
                 0, 4, 5, 0, 5, 1,
@@ -207,14 +219,14 @@ public class Main extends SimpleApplication {
                 3, 7, 4, 3, 4, 0
         };
 
-        Mesh mesh = new Mesh();
+        final Mesh mesh = new Mesh();
         mesh.setBuffer(Type.Position, 3, BufferUtils.createFloatBuffer(vertices));
         mesh.setBuffer(Type.Index, 3, BufferUtils.createIntBuffer(indices));
         mesh.updateBound();
 
-        Geometry geom = new Geometry("Block", mesh);
+        final Geometry geom = new Geometry("Block", mesh);
 
-        Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        final Material mat = new Material(this.assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
         geom.setMaterial(mat);
 
         return geom;
@@ -222,20 +234,20 @@ public class Main extends SimpleApplication {
 
     @Override
     public void simpleUpdate(final float tpf) {
-        Complex direction2D = new Complex(cam.getDirection().x, cam.getDirection().z);
+        final Complex direction2D = new Complex(this.cam.getDirection().x, this.cam.getDirection().z);
 
-        if (move.x != 0 || move.z != 0) {
-            Complex move2D = Complex.exponent(1, new Vector2f(move.x, move.z).getAngle());
-            paving.applyMovement(-move2D.getAngle() + direction2D.getAngle(), tpf * SPEED);
-            updateGeometry();
+        if (this.move.x != 0 || this.move.z != 0) {
+            final Complex move2D = Complex.exponent(1, new Vector2f(this.move.x, this.move.z).getAngle());
+            this.paving.applyMovement(-move2D.getAngle() + direction2D.getAngle(), tpf * Main.SPEED);
+            this.updateGeometry();
         }
 
-        if (cam.getLocation().y >= 3 || move.y != 0) {
-            move.y -= GRAVITY * tpf;
-            cam.setLocation(cam.getLocation().add(0, move.y * tpf, 0));
-            if (cam.getLocation().y < 3) {
-                move.y = 0;
-                cam.setLocation(cam.getLocation().add(0, 3 - cam.getLocation().y, 0));
+        if (this.cam.getLocation().y >= 3 || this.move.y != 0) {
+            this.move.y -= Main.GRAVITY * tpf;
+            this.cam.setLocation(this.cam.getLocation().add(0, this.move.y * tpf, 0));
+            if (this.cam.getLocation().y < 3) {
+                this.move.y = 0;
+                this.cam.setLocation(this.cam.getLocation().add(0, 3 - this.cam.getLocation().y, 0));
             }
 
         }
@@ -250,34 +262,34 @@ public class Main extends SimpleApplication {
      * hyperbolic paving and applies appropriate color textures.
      */
     private void updateGeometry() {
-        List<Chunk> chunks = paving.getAllNeighbors(DEPTH);
+        final List<Chunk> chunks = this.paving.getAllNeighbors(Main.DEPTH);
         for (int i = 0; i < chunks.size(); i++) {
-            Chunk chunk = chunks.get(i);
-            List<Point> vertices = new ArrayList<>(chunk.vertices);
+            final Chunk chunk = chunks.get(i);
+            final List<Point> vertices = new ArrayList<>(chunk.vertices);
 
             for (int j = 0; j < 4; j++) {
                 Point p = vertices.get(j);
-                p = switch (projection) {
+                p = switch (Main.projection) {
                     case KLEIN -> p.toKleinModel();
                     case GNOMONIC -> p.toGnomonicModel();
                     case POINCARE -> p;
                 };
-                p = p.mul(SCALE);
+                p = p.mul(Main.SCALE);
                 vertices.set(j, p);
             }
 
-            Vector3f[] base3D = new Vector3f[4];
-            Vector3f[] top3D = new Vector3f[4];
+            final Vector3f[] base3D = new Vector3f[4];
+            final Vector3f[] top3D = new Vector3f[4];
 
             for (int j = 0; j < 4; j++) {
                 base3D[j] = new Vector3f((float) vertices.get(j).x, 0, (float) vertices.get(j).y);
                 top3D[j] = base3D[j].add(0, 1, 0);
             }
 
-            Geometry g = geometries.get(i);
-            Mesh mesh = g.getMesh();
+            final Geometry g = this.geometries.get(i);
+            final Mesh mesh = g.getMesh();
 
-            Vector3f[] verts = new Vector3f[] {
+            final Vector3f[] verts = new Vector3f[] {
                     base3D[0], base3D[1], base3D[2], base3D[3],
                     top3D[0], top3D[1], top3D[2], top3D[3]
             };
@@ -285,7 +297,7 @@ public class Main extends SimpleApplication {
             mesh.setBuffer(Type.Position, 3, BufferUtils.createFloatBuffer(verts));
             mesh.updateBound();
 
-            g.getMaterial().setColor("Color", getColorTexture(chunk));
+            g.getMaterial().setColor("Color", this.getColorTexture(chunk));
             g.updateModelBound();
             g.updateGeometricState();
         }
@@ -299,11 +311,11 @@ public class Main extends SimpleApplication {
      * @return the color for the chunk
      */
     private ColorRGBA getColorTexture(final Chunk chunk) {
-        int index = chunk.hashCode();
+        final int index = chunk.hashCode();
 
-        int r = (index & 0xFF0000) >> 16;
-        int g = (index & 0x00FF00) >> 8;
-        int b = index & 0x0000FF;
+        final int r = (index & 0xFF0000) >> 16;
+        final int g = (index & 0x00FF00) >> 8;
+        final int b = index & 0x0000FF;
 
         return new ColorRGBA(r / 255f, g / 255f, b / 255f, 1);
     }

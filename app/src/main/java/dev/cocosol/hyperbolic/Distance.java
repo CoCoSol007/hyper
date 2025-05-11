@@ -10,7 +10,7 @@ import dev.cocosol.Point;
 
 /**
  * Provides methods for calculating distances in the hyperbolic plane.
- * <p>
+ * 
  * The class includes methods for computing both Euclidean and hyperbolic
  * distances,
  * including distances between points and from points to the center of the
@@ -21,7 +21,7 @@ public class Distance {
     /**
      * Returns the hyperbolic distance between a point and the origin (center of the
      * hyperbolic disk).
-     * <p>
+     * 
      * This method uses the Euclidean distance to the center and applies the formula
      * for
      * hyperbolic distance in the Poincaré disk model.
@@ -31,8 +31,8 @@ public class Distance {
      * @return the hyperbolic distance between the point and the center
      */
     public static double hyperbolicDistanceToCenter(final Point point) {
-        double euclideanDistSquared = point.x * point.x + point.y * point.y;
-        double intermediate = 1 + 2 * (euclideanDistSquared / (1 - euclideanDistSquared));
+        final double euclideanDistSquared = point.x * point.x + point.y * point.y;
+        final double intermediate = 1 + 2 * (euclideanDistSquared / (1 - euclideanDistSquared));
         if (intermediate < 1) {
             return Double.POSITIVE_INFINITY;
         }
@@ -41,7 +41,7 @@ public class Distance {
 
     /**
      * Returns the Euclidean distance between two points.
-     * <p>
+     * 
      * This method computes the length of the vector between the two points in the
      * Euclidean plane.
      *
@@ -56,7 +56,7 @@ public class Distance {
     /**
      * Returns the Euclidean distance between a point and the origin (center of the
      * hyperbolic disk).
-     * <p>
+     * 
      * This method computes the length of the vector from the point to the origin in
      * the Euclidean plane.
      *
@@ -70,7 +70,7 @@ public class Distance {
 
     /**
      * Returns the hyperbolic distance between two points in the hyperbolic plane.
-     * <p>
+     * 
      * This method uses the Euclidean distance between the points and applies the
      * formula for
      * hyperbolic distance in the Poincaré disk model.
@@ -80,12 +80,12 @@ public class Distance {
      * @return the hyperbolic distance between the two points
      */
     public static double hyperbolicDistance(final Point point1, final Point point2) {
-        double euclideanDist = Distance.euclideanDistanceToCenter(point1.minus(point2));
-        double eucDist1 = Distance.euclideanDistanceToCenter(point1);
-        double eucDist2 = Distance.euclideanDistanceToCenter(point2);
+        final double euclideanDist = Distance.euclideanDistanceToCenter(point1.minus(point2));
+        final double eucDist1 = Distance.euclideanDistanceToCenter(point1);
+        final double eucDist2 = Distance.euclideanDistanceToCenter(point2);
 
-        double numerator = Math.pow(euclideanDist, 2);
-        double denominator = (1 - Math.pow(eucDist1, 2)) * (1 - Math.pow(eucDist2, 2));
+        final double numerator = Math.pow(euclideanDist, 2);
+        final double denominator = (1 - Math.pow(eucDist1, 2)) * (1 - Math.pow(eucDist2, 2));
 
         return HyperbolicMath.acosh(1 + 2 * (numerator / denominator));
     }

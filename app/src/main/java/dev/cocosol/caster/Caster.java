@@ -52,15 +52,15 @@ public class Caster {
      *         disk).
      */
     public Point[] castRay() {
-        Point[] intersectionPoints = new Point[this.screenWidth];
+        final Point[] intersectionPoints = new Point[this.screenWidth];
         for (int i = 0; i < this.screenWidth; i++) {
             // Compute the angle of the current ray.
             // The rays are distributed across the FOV, with a half FOV offset and an added
             // PI/2 rotation.
-            double angle = FOV * (0.5 - (i / (double) this.screenWidth)) + Math.PI / 2;
-            Ray ray = new Ray(angle, wallSeed);
+            final double angle = Caster.FOV * (0.5 - (i / (double) this.screenWidth)) + Math.PI / 2;
+            final Ray ray = new Ray(angle, this.wallSeed);
             // The ray is thrown from the central chunk of the paving
-            intersectionPoints[i] = ray.throwRay(paving.centerChunk);
+            intersectionPoints[i] = ray.throwRay(this.paving.centerChunk);
         }
         return intersectionPoints;
     }

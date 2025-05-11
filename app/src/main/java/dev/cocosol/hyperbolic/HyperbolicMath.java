@@ -8,7 +8,7 @@ package dev.cocosol.hyperbolic;
 
 /**
  * Provides mathematical functions for hyperbolic geometry operations.
- * <p>
+ * 
  * This class includes implementations for hyperbolic trigonometric functions
  * (such as acosh, asinh, and atanh),
  * as well as methods for geometric operations like finding the inverse of a
@@ -18,7 +18,7 @@ public class HyperbolicMath {
 
     /**
      * Computes the inverse hyperbolic cosine (acosh) of a given number.
-     * <p>
+     * 
      * This is the inverse function of the hyperbolic cosine function.
      *
      * @param x the value for which the inverse hyperbolic cosine is computed
@@ -35,7 +35,7 @@ public class HyperbolicMath {
 
     /**
      * Computes the inverse hyperbolic sine (asinh) of a given number.
-     * <p>
+     * 
      * This is the inverse function of the hyperbolic sine function.
      *
      * @param x the value for which the inverse hyperbolic sine is computed
@@ -47,7 +47,7 @@ public class HyperbolicMath {
 
     /**
      * Computes the inverse hyperbolic tangent (atanh) of a given number.
-     * <p>
+     * 
      * This is the inverse function of the hyperbolic tangent function.
      *
      * @param x the value for which the inverse hyperbolic tangent is computed

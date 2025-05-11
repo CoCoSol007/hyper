@@ -28,7 +28,7 @@ public class Reflexion {
     /**
      * Computes the inverse of a point with respect to a given geodesic in the
      * hyperbolic plane.
-     * <p>
+     * 
      * This operation reflects a point across a geodesic, which is a straight line
      * or arc in the hyperbolic plane.
      * 
@@ -38,35 +38,35 @@ public class Reflexion {
      *                                  geodesic
      */
     public Point apply(final Point point) {
-        double R = geodesic.getEuclideanRadius();
-        Point c = geodesic.getEuclideanCenter();
+        final double R = this.geodesic.getEuclideanRadius();
+        final Point c = this.geodesic.getEuclideanCenter();
 
         if (this.geodesic.diameter) {
-            double a = geodesic.a;
-            double b = geodesic.b;
-            double xa = point.x;
-            double ya = point.y;
+            final double a = this.geodesic.a;
+            final double b = this.geodesic.b;
+            final double xa = point.x;
+            final double ya = point.y;
 
-            double dot = a * xa + b * ya;
-            double denom = a * a + b * b;
+            final double dot = a * xa + b * ya;
+            final double denom = a * a + b * b;
 
-            double x1 = xa - 2 * a * dot / denom;
-            double y1 = ya - 2 * b * dot / denom;
+            final double x1 = xa - 2 * a * dot / denom;
+            final double y1 = ya - 2 * b * dot / denom;
 
             return new Point(x1, y1);
         }
 
         // For general geodesics
-        double dx = point.x - c.x;
-        double dy = point.y - c.y;
-        double OM2 = dx * dx + dy * dy;
+        final double dx = point.x - c.x;
+        final double dy = point.y - c.y;
+        final double OM2 = dx * dx + dy * dy;
 
         if (OM2 == 0) {
             throw new IllegalArgumentException("The point must not be the center of the geodesic");
         }
 
-        double xPrime = c.x + (R * R * dx) / OM2;
-        double yPrime = c.y + (R * R * dy) / OM2;
+        final double xPrime = c.x + (R * R * dx) / OM2;
+        final double yPrime = c.y + (R * R * dy) / OM2;
 
         return new Point(xPrime, yPrime);
     }

@@ -45,14 +45,14 @@ public class Chunk {
      * @param points     the four corner points of the chunk
      */
     public Chunk(final List<Direction> directions, final Point[] points) {
-        SimpleEntry<List<Direction>, Direction> entry = simplifyDirections(directions, Direction.FORWARD);
+        final SimpleEntry<List<Direction>, Direction> entry = Chunk.simplifyDirections(directions, Direction.FORWARD);
         this.directions = entry.getKey();
         this.holonomy = entry.getValue();
 
-        Point topRight = points[0];
-        Point topLeft = points[1];
-        Point bottomLeft = points[2];
-        Point bottomRight = points[3];
+        final Point topRight = points[0];
+        final Point topLeft = points[1];
+        final Point bottomLeft = points[2];
+        final Point bottomRight = points[3];
 
         this.vertices = new ArrayList<>();
         Collections.addAll(this.vertices, topRight, topLeft, bottomLeft, bottomRight);
@@ -64,11 +64,11 @@ public class Chunk {
      * @return the central chunk at the origin
      */
     public static Chunk origin() {
-        double position = size();
-        Point topRight = new Point(position, position);
-        Point topLeft = new Point(-position, position);
-        Point bottomLeft = new Point(-position, -position);
-        Point bottomRight = new Point(position, -position);
+        final double position = Chunk.size();
+        final Point topRight = new Point(position, position);
+        final Point topLeft = new Point(-position, position);
+        final Point bottomLeft = new Point(-position, -position);
+        final Point bottomRight = new Point(position, -position);
 
         return new Chunk(List.of(), new Point[] { topRight, topLeft, bottomLeft, bottomRight });
     }
@@ -79,8 +79,8 @@ public class Chunk {
      * @return the size as a double
      */
     private static double size() {
-        double numerator = Math.tan(Math.PI / 2 - Math.PI / 5) - Math.tan(Math.PI / 4);
-        double denominator = Math.tan(Math.PI / 2 - Math.PI / 5) + Math.tan(Math.PI / 4);
+        final double numerator = Math.tan(Math.PI / 2 - Math.PI / 5) - Math.tan(Math.PI / 4);
+        final double denominator = Math.tan(Math.PI / 2 - Math.PI / 5) + Math.tan(Math.PI / 4);
         return Math.sqrt(numerator / (denominator * 2));
     }
 
@@ -92,12 +92,12 @@ public class Chunk {
      */
     private static SimpleEntry<List<Direction>, Direction> simplifyDirections(final List<Direction> directions,
             final Direction holonomy) {
-        SimpleEntry<List<Direction>, Direction> entry = applySimplifications(directions, holonomy);
+        final SimpleEntry<List<Direction>, Direction> entry = Chunk.applySimplifications(directions, holonomy);
 
         if (entry.getKey().equals(directions)) {
             return entry;
         }
-        return simplifyDirections(entry.getKey(), entry.getValue());
+        return Chunk.simplifyDirections(entry.getKey(), entry.getValue());
     }
 
     /**
@@ -115,15 +115,15 @@ public class Chunk {
         }
 
         // Rule 1: Undo BACKWARD operations
-        List<Direction> firstPass = new ArrayList<>();
+        final List<Direction> firstPass = new ArrayList<>();
         for (int i = 1; i < input.size(); i++) {
-            Direction fst = input.get(i - 1);
-            Direction cur = input.get(i);
-            boolean last = i == input.size() - 1;
+            final Direction fst = input.get(i - 1);
+            final Direction cur = input.get(i);
+            final boolean last = i == input.size() - 1;
 
             if (cur == Direction.BACKWARD) {
                 if (!last) {
-                    Direction newDirection = switch (fst) {
+                    final Direction newDirection = switch (fst) {
                         case LEFT -> input.get(i + 1).clockwise();
                         case RIGHT -> input.get(i + 1).anticlockwise();
                         case FORWARD -> input.get(i + 1).opposite();
@@ -147,13 +147,13 @@ public class Chunk {
             return new SimpleEntry<>(firstPass, holonomy);
         }
 
-        List<Direction> secondPass = new ArrayList<>();
+        final List<Direction> secondPass = new ArrayList<>();
         for (int i = 2; i < firstPass.size(); i++) {
-            Direction fst = firstPass.get(i - 2);
-            Direction snd = firstPass.get(i - 1);
-            Direction cur = firstPass.get(i);
+            final Direction fst = firstPass.get(i - 2);
+            final Direction snd = firstPass.get(i - 1);
+            final Direction cur = firstPass.get(i);
 
-            boolean last = i == firstPass.size() - 1;
+            final boolean last = i == firstPass.size() - 1;
 
             if (snd == cur && cur == Direction.RIGHT) {
                 secondPass.addAll(List.of(fst.clockwise(), Direction.LEFT));
@@ -189,7 +189,7 @@ public class Chunk {
         if (secondPass.size() < 4) {
             return new SimpleEntry<>(secondPass, holonomy);
         }
-        List<Direction> thirdPass = new ArrayList<>();
+        final List<Direction> thirdPass = new ArrayList<>();
 
         int i = 0;
 
@@ -200,8 +200,8 @@ public class Chunk {
                 continue;
             }
 
-            Direction y = secondPass.get(i);
-            Direction r1 = secondPass.get(i + 1);
+            final Direction y = secondPass.get(i);
+            final Direction r1 = secondPass.get(i + 1);
 
             if (r1 == Direction.RIGHT) {
                 int fCount = 0;
@@ -216,7 +216,7 @@ public class Chunk {
                 if (fCount > 0
                         && currentScanIndex < secondPass.size()
                         && secondPass.get(currentScanIndex) == Direction.RIGHT) {
-                    int r2Index = currentScanIndex;
+                    final int r2Index = currentScanIndex;
 
                     thirdPass.add(y.clockwise());
 
@@ -226,9 +226,9 @@ public class Chunk {
                     }
                     thirdPass.add(Direction.LEFT);
 
-                    int xIndex = r2Index + 1;
+                    final int xIndex = r2Index + 1;
                     if (xIndex < secondPass.size()) {
-                        Direction x = secondPass.get(xIndex);
+                        final Direction x = secondPass.get(xIndex);
                         thirdPass.add(x.clockwise());
                         thirdPass.addAll(secondPass.subList(xIndex + 1, secondPass.size()));
                     } else {
@@ -259,7 +259,7 @@ public class Chunk {
     public int encode() {
         int result = 0;
         for (int i = 0; i < this.directions.size(); i++) {
-            Direction direction = this.directions.get(i);
+            final Direction direction = this.directions.get(i);
             result += (int) (direction.ordinal() * Math.pow(4, i));
         }
         return result;
@@ -274,12 +274,12 @@ public class Chunk {
      * @return a pseudo-random boolean value
      */
     public boolean getHash(final int seed, final Direction direction) {
-        Chunk nextChunk = getNeighbors(direction);
-        int num1 = nextChunk.encode();
-        int num2 = this.encode();
+        final Chunk nextChunk = this.getNeighbors(direction);
+        final int num1 = nextChunk.encode();
+        final int num2 = this.encode();
 
-        int a = Math.min(num1, num2);
-        int b = Math.max(num1, num2);
+        final int a = Math.min(num1, num2);
+        final int b = Math.max(num1, num2);
 
         long hash = seed;
         hash ^= 0x9E3779B97F4A7C15L;
@@ -298,21 +298,25 @@ public class Chunk {
      * @return the neighboring chunk
      */
     public Chunk getNeighbors(final Direction direction) {
-        Geodesic geodesic = Geodesic.fromTwoPoints(getPointFromDirection(direction)[0],
-                getPointFromDirection(direction)[1]);
-        Point[] newPoint = switch (direction) {
-            case FORWARD -> new Point[] { vertices.get(3), vertices.get(2), vertices.get(1), vertices.get(0) };
-            case BACKWARD -> new Point[] { vertices.get(1), vertices.get(0), vertices.get(3), vertices.get(2) };
-            case LEFT -> new Point[] { vertices.get(0), vertices.get(3), vertices.get(2), vertices.get(1) };
-            case RIGHT -> new Point[] { vertices.get(2), vertices.get(1), vertices.get(0), vertices.get(3) };
+        final Geodesic geodesic = Geodesic.fromTwoPoints(this.getPointFromDirection(direction)[0],
+                this.getPointFromDirection(direction)[1]);
+        final Point[] newPoint = switch (direction) {
+            case FORWARD ->
+                new Point[] { this.vertices.get(3), this.vertices.get(2), this.vertices.get(1), this.vertices.get(0) };
+            case BACKWARD ->
+                new Point[] { this.vertices.get(1), this.vertices.get(0), this.vertices.get(3), this.vertices.get(2) };
+            case LEFT ->
+                new Point[] { this.vertices.get(0), this.vertices.get(3), this.vertices.get(2), this.vertices.get(1) };
+            case RIGHT ->
+                new Point[] { this.vertices.get(2), this.vertices.get(1), this.vertices.get(0), this.vertices.get(3) };
         };
         for (int i = 0; i < 4; i++) {
-            Reflexion reflexion = new Reflexion(geodesic);
+            final Reflexion reflexion = new Reflexion(geodesic);
             newPoint[i] = reflexion.apply(newPoint[i]);
         }
 
-        List<Direction> newDirections = new ArrayList<>(directions);
-        newDirections.add(holonomy.add(direction));
+        final List<Direction> newDirections = new ArrayList<>(this.directions);
+        newDirections.add(this.holonomy.add(direction));
         return new Chunk(newDirections, newPoint);
     }
 
@@ -331,13 +335,13 @@ public class Chunk {
      * @return an array of two points corresponding to that edge
      */
     public Point[] getPointFromDirection(final Direction direction) {
-        int index = switch (direction) {
+        final int index = switch (direction) {
             case FORWARD -> 0;
             case LEFT -> 1;
             case BACKWARD -> 2;
             case RIGHT -> 3;
         };
-        return new Point[] { vertices.get(index), vertices.get((index + 1) % 4) };
+        return new Point[] { this.vertices.get(index), this.vertices.get((index + 1) % 4) };
     }
 
     /**
@@ -351,7 +355,7 @@ public class Chunk {
     public Direction getDirectionFromPoints(final Point a, final Point b) {
         int index = -1;
         for (int i = 0; i < 4; i++) {
-            if (vertices.get(i).equals(a) && vertices.get((i + 1) % 4).equals(b)) {
+            if (this.vertices.get(i).equals(a) && this.vertices.get((i + 1) % 4).equals(b)) {
                 index = i;
             }
         }
@@ -375,7 +379,7 @@ public class Chunk {
     @Override
     public String toString() {
         String text = "";
-        for (final Direction direction : directions) {
+        for (final Direction direction : this.directions) {
             text += direction;
         }
         return text;
@@ -393,11 +397,11 @@ public class Chunk {
         if (this == obj) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (obj == null || this.getClass() != obj.getClass()) {
             return false;
         }
 
-        Chunk other = (Chunk) obj;
+        final Chunk other = (Chunk) obj;
         return this.directions.equals(other.directions);
     }
 
@@ -409,6 +413,6 @@ public class Chunk {
      */
     @Override
     public int hashCode() {
-        return directions.hashCode();
+        return this.directions.hashCode();
     }
 }

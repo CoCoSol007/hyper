@@ -11,7 +11,7 @@ import dev.cocosol.Point;
 
 /**
  * Represents a rotation transformation in the hyperbolic plane.
- * <p>
+ * 
  * The rotation is defined by an angle (in radians).
  * It supports origin-centered transformations.
  */
@@ -33,15 +33,15 @@ public class Rotation {
 
     /**
      * Applies this rotation to a given point.
-     * <p>
+     * 
      * The rotation center is the origin, a simplified formula is used.
      *
      * @param point the point to rotate
      * @return the rotated point
      */
     public Point apply(final Point point) {
-        Complex z = point.toComplex();
-        Complex e = Complex.exponent(1, theta);
+        final Complex z = point.toComplex();
+        final Complex e = Complex.exponent(1, this.theta);
         return Point.fromComplex(e.times(z));
     }
 }

@@ -35,26 +35,26 @@ public class Paving {
      * @param angle the angle (in radians) indicating the direction of movement
      */
     public void applyMovement(final double angle, final double speed) {
-        Complex newCenter = Complex.exponent(speed, angle);
-        Translation translation = new Translation(Point.fromComplex(newCenter));
+        final Complex newCenter = Complex.exponent(speed, angle);
+        final Translation translation = new Translation(Point.fromComplex(newCenter));
 
         // Apply the translation to each vertex of the centerChunk and the
         // approximateCenterChunk.
         for (int i = 0; i < 4; i++) {
             // Update the vertex positions for the center chunk.
-            Point p = translation.apply(this.centerChunk.vertices.get(i));
+            final Point p = translation.apply(this.centerChunk.vertices.get(i));
             this.centerChunk.vertices.get(i).x = p.x;
             this.centerChunk.vertices.get(i).y = p.y;
         }
 
         // Check if we are in the current chunk
         while (true) {
-            Point[] exitingEdge = findExitEdge();
+            final Point[] exitingEdge = this.findExitEdge();
             if (exitingEdge == null) {
                 break;
             }
-            Direction dir = centerChunk.getDirectionFromPoints(exitingEdge[0], exitingEdge[1]);
-            centerChunk = centerChunk.getNeighbors(dir);
+            final Direction dir = this.centerChunk.getDirectionFromPoints(exitingEdge[0], exitingEdge[1]);
+            this.centerChunk = this.centerChunk.getNeighbors(dir);
         }
     }
 
@@ -66,14 +66,14 @@ public class Paving {
      *         edge is found
      */
     public Point[] findExitEdge() {
-        Point[] quad = centerChunk.vertices.toArray(new Point[0]);
+        final Point[] quad = this.centerChunk.vertices.toArray(new Point[0]);
 
         for (int i = 0; i < 4; i++) {
-            Point p1 = quad[i];
-            Point p2 = quad[(i + 1) % 4];
+            final Point p1 = quad[i];
+            final Point p2 = quad[(i + 1) % 4];
 
-            double orientInside = centerChunk.getCenter().orientation(p1, p2);
-            double orientOutside = Point.ORIGIN.orientation(p1, p2);
+            final double orientInside = this.centerChunk.getCenter().orientation(p1, p2);
+            final double orientOutside = Point.ORIGIN.orientation(p1, p2);
 
             if (orientInside * orientOutside < 0) {
                 return new Point[] { p1, p2 };
@@ -89,13 +89,13 @@ public class Paving {
      * @param angle the angle (in radians) to rotate
      */
     public void applyRotation(final double angle) {
-        Rotation rotation = new Rotation(angle);
+        final Rotation rotation = new Rotation(angle);
         // Apply the rotation transformation to each vertex of the center and
         // approximate chunks.
         for (int i = 0; i < 4; i++) {
-            Point p = rotation.apply(centerChunk.vertices.get(i));
-            centerChunk.vertices.get(i).x = p.x;
-            centerChunk.vertices.get(i).y = p.y;
+            final Point p = rotation.apply(this.centerChunk.vertices.get(i));
+            this.centerChunk.vertices.get(i).x = p.x;
+            this.centerChunk.vertices.get(i).y = p.y;
         }
     }
 
@@ -110,12 +110,12 @@ public class Paving {
     public List<Chunk> getAllNeighbors(final int n) {
         if (n == 0) {
             // Base case: only the approximate center is needed.
-            return new ArrayList<>(List.of(centerChunk));
+            return new ArrayList<>(List.of(this.centerChunk));
         }
-        List<Chunk> neighbors = getAllNeighbors(n - 1);
+        final List<Chunk> neighbors = this.getAllNeighbors(n - 1);
         for (final Chunk chunk : new ArrayList<>(neighbors)) {
             for (final Direction direction : Direction.values()) {
-                Chunk newChunk = chunk.getNeighbors(direction);
+                final Chunk newChunk = chunk.getNeighbors(direction);
                 if (!neighbors.contains(newChunk)) {
                     neighbors.add(newChunk);
                 }

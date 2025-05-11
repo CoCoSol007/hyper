@@ -8,7 +8,7 @@ package dev.cocosol;
 
 /**
  * Represents a geodesic segment in the euclidean plane.
- * <p>
+ * 
  * A geodesic segment is defined by two points on a geodesic. The segment
  * belongs to the geodesic,
  * and it checks that both the start and end points lie on the corresponding
@@ -57,8 +57,8 @@ public class Segment {
      * @return true if the segment intersects the ray in Euclidean space
      */
     public boolean intersect(final Segment segment) {
-        return ccw(segment.start, this.start, this.end) != ccw(segment.end, this.start, this.end)
+        return this.ccw(segment.start, this.start, this.end) != this.ccw(segment.end, this.start, this.end)
                 &&
-                ccw(segment.start, segment.end, this.start) != ccw(segment.start, segment.end, this.end);
+                this.ccw(segment.start, segment.end, this.start) != this.ccw(segment.start, segment.end, this.end);
     }
 }

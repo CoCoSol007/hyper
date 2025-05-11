@@ -59,7 +59,7 @@ public class Ray {
      * Computes the Euclidean distance from the origin along the ray to the point
      * where it intersects a given geodesic.
      *
-     * <p>
+     * 
      * The computation solves a quadratic equation:
      * t² + b*t + c = 0, where t corresponds to the scaling factor along the ray's
      * endpoint vector. We choose the smaller root (assuming b is negative) so that
@@ -72,14 +72,14 @@ public class Ray {
      *         point.
      */
     private double euclideanDistanceToGeodesic(final Geodesic geodesic) {
-        Point center = geodesic.getEuclideanCenter();
-        double radius = geodesic.getEuclideanRadius();
+        final Point center = geodesic.getEuclideanCenter();
+        final double radius = geodesic.getEuclideanRadius();
 
         // Coefficients for the quadratic equation: t^2 + b*t + c = 0
-        double b = -2 * (this.end.x * center.x + this.end.y * center.y);
-        double c = center.x * center.x + center.y * center.y - radius * radius;
+        final double b = -2 * (this.end.x * center.x + this.end.y * center.y);
+        final double c = center.x * center.x + center.y * center.y - radius * radius;
 
-        double discriminant = b * b - 4 * c;
+        final double discriminant = b * b - 4 * c;
         if (discriminant < 0) {
             // No intersection found; this should not happen if the geodesic is valid.
             throw new RuntimeException("No intersection with geodesic found");
@@ -97,7 +97,7 @@ public class Ray {
      * @return the intersection point.
      */
     private Point intersectionToGeodesic(final Geodesic geodesic) {
-        double t = euclideanDistanceToGeodesic(geodesic);
+        final double t = this.euclideanDistanceToGeodesic(geodesic);
         return new Point(t * this.end.x, t * this.end.y);
     }
 
@@ -117,23 +117,23 @@ public class Ray {
         // Iterate over all possible directions from the chunk.
         for (final Direction direction : Direction.values()) {
             // Get the two boundary points of the chunk in the given direction.
-            Point[] boundaryPoints = chunk.getPointFromDirection(direction);
+            final Point[] boundaryPoints = chunk.getPointFromDirection(direction);
 
             // If the ray does not intersect this segment, continue with the next.
-            if (!intersectSegment(new Segment(boundaryPoints[0], boundaryPoints[1]))) {
+            if (!this.intersectSegment(new Segment(boundaryPoints[0], boundaryPoints[1]))) {
                 continue;
             }
 
             // Check if a wall exists in this direction using the chunk's hash and the
             // wallSeed.
-            if (chunk.getHash(wallSeed, direction)) {
+            if (chunk.getHash(this.wallSeed, direction)) {
                 // If there is a wall, return the intersection point with the geodesic
                 // representing that wall.
-                Geodesic geodesic = Geodesic.fromTwoPoints(boundaryPoints[0], boundaryPoints[1]);
-                return intersectionToGeodesic(geodesic);
+                final Geodesic geodesic = Geodesic.fromTwoPoints(boundaryPoints[0], boundaryPoints[1]);
+                return this.intersectionToGeodesic(geodesic);
             }
             // Otherwise, propagate the ray into the neighboring chunk recursively.
-            return propagate(chunk.getNeighbors(direction), remainingSteps - 1);
+            return this.propagate(chunk.getNeighbors(direction), remainingSteps - 1);
         }
 
         // If no segment intersection was found, throw an error.
@@ -147,6 +147,6 @@ public class Ray {
      * @return the intersection point of the ray with a wall.
      */
     public Point throwRay(final Chunk centerChunk) {
-        return propagate(centerChunk, STEPS);
+        return this.propagate(centerChunk, Ray.STEPS);
     }
 }

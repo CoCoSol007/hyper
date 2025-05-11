@@ -10,7 +10,7 @@ import dev.cocosol.hyperbolic.Distance;
 
 /**
  * Represents a point.
- * <p>
+ * 
  * A point is defined by its {@code x} and {@code y} coordinates. This class
  * provides various operations
  * for manipulating points, including addition, subtraction, and multiplication
@@ -46,7 +46,7 @@ public class Point {
 
     /**
      * Converts a complex number to a point.
-     * <p>
+     * 
      * This method maps the real and imaginary parts of the complex number to the x
      * and y coordinates of the point.
      *
@@ -59,7 +59,7 @@ public class Point {
 
     /**
      * Subtracts another point from this point.
-     * <p>
+     * 
      * This method computes the difference of the two points by converting them to
      * complex numbers,
      * subtracting them, and then converting the result back to a point.
@@ -73,7 +73,7 @@ public class Point {
 
     /**
      * Adds another point to this point.
-     * <p>
+     * 
      * This method computes the sum of the two points by converting them to complex
      * numbers,
      * adding them, and then converting the result back to a point.
@@ -87,7 +87,7 @@ public class Point {
 
     /**
      * Multiplies this point by a real scalar.
-     * <p>
+     * 
      * This method scales the point by the given scalar value. The operation is done
      * in the complex plane,
      * where the point is first converted to a complex number, scaled, and then
@@ -102,7 +102,7 @@ public class Point {
 
     /**
      * Computes the dot product of this point and another point.
-     * <p>
+     * 
      * This method computes the Euclidean dot product, which is the sum of the
      * products of the corresponding coordinates.
      *
@@ -115,7 +115,7 @@ public class Point {
 
     /**
      * Converts this point to a complex number.
-     * <p>
+     * 
      * This method represents the point as a complex number where the x-coordinate
      * is the real part
      * and the y-coordinate is the imaginary part.
@@ -128,7 +128,7 @@ public class Point {
 
     /**
      * Returns a string representation of the point.
-     * <p>
+     * 
      * The string representation is formatted as {@code (x, y)}, where {@code x} and
      * {@code y} are
      * the coordinates of the point, rounded to three decimal places.
@@ -137,7 +137,7 @@ public class Point {
      */
     @Override
     public String toString() {
-        return String.format("( %.3f, %.3f )", x, y);
+        return String.format("( %.3f, %.3f )", this.x, this.y);
     }
 
     /**
@@ -150,44 +150,44 @@ public class Point {
      *         points {@code a} and {@code b}
      */
     public double orientation(final Point a, final Point b) {
-        return (b.x - a.x) * (y - a.y) - (b.y - a.y) * (x - a.x);
+        return (b.x - a.x) * (this.y - a.y) - (b.y - a.y) * (this.x - a.x);
     }
 
     /**
      * Converts this point to the Klein model.
-     * <p>
+     * 
      * The conversion is done by scaling the point with the factor 2 / (1 + dist^2)
      * where dist is the Euclidean distance from the point to the origin.
-     * <p>
+     * 
      * This method is used to convert points to the Klein model, which is the
      * projective model of the hyperbolic plane.
      *
      * @return the corresponding point in the Klein model
      */
     public Point toKleinModel() {
-        double dist = Distance.euclideanDistanceToCenter(this);
+        final double dist = Distance.euclideanDistanceToCenter(this);
         return this.mul(2 / (1 + dist * dist));
     }
 
     /**
      * Converts this point to the gnomonic model.
-     * <p>
+     * 
      * The conversion is done by converting the distance from the point to the
      * center
      * of the hyperbolic disk to the real hyperbolic distance between them.
-     * <p>
+     * 
      * 
      * @return the corresponding point in the gnomonic model
      */
     public Point toGnomonicModel() {
-        Complex c = toComplex();
+        final Complex c = this.toComplex();
         return Point.fromComplex(
                 c.scale(Distance.hyperbolicDistanceToCenter(this) / (c.module())));
     }
 
     /**
      * Compares this point to the specified object for equality.
-     * <p>
+     * 
      * Two points are considered equal if their {@code x} and {@code y} coordinates
      * are approximately equal within a tolerance of 0.000001.
      *
@@ -200,11 +200,11 @@ public class Point {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null || this.getClass() != o.getClass()) {
             return false;
         }
-        Point point = (Point) o;
-        return Math.abs(x - point.x) < 0.000001 && Math.abs(y - point.y) < 0.000001;
+        final Point point = (Point) o;
+        return Math.abs(this.x - point.x) < 0.000001 && Math.abs(this.y - point.y) < 0.000001;
     }
 
     /**
@@ -215,6 +215,6 @@ public class Point {
     @SuppressWarnings("removal")
     @Override
     public int hashCode() {
-        return new Double(x).hashCode() ^ new Double(y).hashCode();
+        return new Double(this.x).hashCode() ^ new Double(this.y).hashCode();
     }
 }

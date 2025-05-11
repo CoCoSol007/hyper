@@ -23,7 +23,7 @@ import dev.cocosol.hyperbolic.paving.Paving;
 
 /**
  * A 2D renderer for visualizing the Poincaré disk.
- * <p>
+ * 
  * This class creates a window that visualizes the hyperbolic paving, with
  * controls to move and rotate the paving.
  */
@@ -41,10 +41,10 @@ public class Renderer2D {
             type = Projection.fromString(args[0]);
         }
 
-        Paving paving = new Paving();
-        JFrame frame = new JFrame("hyper");
+        final Paving paving = new Paving();
+        final JFrame frame = new JFrame("hyper");
 
-        JPanel panel = getJPanel(paving, type);
+        final JPanel panel = Renderer2D.getJPanel(paving, type);
 
         // Add key listener for user interaction
         panel.addKeyListener(new KeyAdapter() {
@@ -112,14 +112,14 @@ public class Renderer2D {
             @Override
             protected void paintComponent(final Graphics g) {
                 super.paintComponent(g);
-                Graphics2D g2 = (Graphics2D) g;
+                final Graphics2D g2 = (Graphics2D) g;
 
-                int w = getWidth();
-                int h = getHeight();
-                int scale = Math.min(w, h) / 2 - 20;
-                int centerX = w / 2;
+                final int w = this.getWidth();
+                final int h = this.getHeight();
+                final int scale = Math.min(w, h) / 2 - 20;
+                final int centerX = w / 2;
 
-                int centerY = h / 2;
+                final int centerY = h / 2;
                 // Draw the unit circle
 
                 if (projection != Projection.GNOMONIC) {
@@ -131,7 +131,7 @@ public class Renderer2D {
                 // Draw the neighbors of the Paving
                 for (final Chunk chunk : paving.getAllNeighbors(4)) {
                     for (final Direction direction : Direction.values()) {
-                        Point[] points = chunk.getPointFromDirection(direction);
+                        final Point[] points = chunk.getPointFromDirection(direction);
 
                         if (projection == Projection.KLEIN) {
                             for (int i = 0; i < points.length; i++) {
@@ -145,11 +145,11 @@ public class Renderer2D {
                         }
 
                         g2.setColor(Color.DARK_GRAY);
-                        int[] xPoints = new int[] {
+                        final int[] xPoints = new int[] {
                                 (int) (points[0].x * scale + centerX),
                                 (int) (points[1].x * scale + centerX)
                         };
-                        int[] yPoints = new int[] {
+                        final int[] yPoints = new int[] {
                                 (int) (-points[0].y * scale + centerY),
                                 (int) (-points[1].y * scale + centerY)
                         };

@@ -11,7 +11,7 @@ import dev.cocosol.Point;
 
 /**
  * Represents a translation transformation in the hyperbolic plane.
- * <p>
+ * 
  * In the disk model, a translation is defined by a single point that the
  * transformation maps to the origin.
  * For example, the translation {@code f} defined by the point {@code A}, maps
@@ -29,12 +29,12 @@ public class Translation {
      * @param point the point that will be mapped to the origin
      */
     public Translation(final Point point) {
-        origin = point;
+        this.origin = point;
     }
 
     /**
      * Applies this translation to a given point.
-     * <p>
+     * 
      * The translation is implemented using a Möbius transformation that maps the
      * given point
      * to a new position in the hyperbolic plane.
@@ -43,8 +43,8 @@ public class Translation {
      * @return the translated point
      */
     public Point apply(final Point point) {
-        Complex a = origin.toComplex();
-        Complex z = point.toComplex();
+        final Complex a = this.origin.toComplex();
+        final Complex z = point.toComplex();
         return Point.fromComplex(
                 z.minus(a).divides(Complex.ONE.minus(a.conjugate().times(z))));
     }
