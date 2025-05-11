@@ -20,7 +20,7 @@ public class PointTest {
     @Test
     public void testToString() {
         final Point p = new Point(1.23456, -7.891);
-        Assert.assertEquals("( 1.235, -7.891 )", p.toString());
+        Assert.assertEquals("(1.235; -7.891)", p.toString());
     }
 
     @Test

@@ -129,7 +129,7 @@ public class Point {
     /**
      * Returns a string representation of the point.
      * 
-     * The string representation is formatted as {@code (x, y)}, where {@code x} and
+     * The string representation is formatted as {@code (x; y)}, where {@code x} and
      * {@code y} are
      * the coordinates of the point, rounded to three decimal places.
      *
@@ -137,7 +137,7 @@ public class Point {
      */
     @Override
     public String toString() {
-        return String.format("( %.3f, %.3f )", this.x, this.y);
+        return String.format("(%.3f; %.3f)", this.x, this.y);
     }
 
     /**
