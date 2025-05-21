@@ -68,7 +68,7 @@ https://github.com/user-attachments/assets/bc754d07-b1c2-435d-b459-7e679d5f27de
 To run the RayCaster maze, run the command
 
 ```bash
-./gradlew runRayCaster
+./gradlew runRayCasting
 ```
 
 https://github.com/user-attachments/assets/cd564d2c-b59d-4107-a9d4-a5095251b5a3

@@ -40,9 +40,9 @@ task run2D(type: JavaExec) {
     mainClass.set 'dev.cocosol.Renderer2D'
 }
 
-task runRayCaster(type: JavaExec) {
+task runRayCasting(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
-    mainClass.set 'dev.cocosol.RayCaster'
+    mainClass.set 'dev.cocosol.RendererRayCasting'
 }
 
 application {
