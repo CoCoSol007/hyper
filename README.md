@@ -22,7 +22,7 @@
 
 ---
 
-**Hyper** is an experimental rendering engine exploring **non-Euclidean spaces**. It begins with the **Poincaré disk model** (2D) and evolves into a hybrid 3D system where the X and Y axes are hyperbolic, and Z remains Euclidean. Using **ray-casting**, the engine renders an infinite hyperbolic maze—an educational and interactive experience designed to visualize **non-Euclidean geometry**, **hyperbolic tilings**, and **maze algorithms**. Concepts are made accessible through animations, simulations, and hands-on exploration.
+**Hyper** is an experimental engine for visualizing **non-Euclidean geometry**, starting with the **Hyperbolic 2D Plane** and extending into hybrid 3D space. It renders an infinite world, offering an educational, interactive view of **hyperbolic tilings** and **maze algorithms**.
 
 ## Quickstart
 
