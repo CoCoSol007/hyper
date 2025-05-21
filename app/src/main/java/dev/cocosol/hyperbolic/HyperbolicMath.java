@@ -34,6 +34,19 @@ public class HyperbolicMath {
     }
 
     /**
+     * Computes the hyperbolic cosine (cosh) of a given number.
+     *
+     * This is the hyperbolic cosine function, which is the average of the exponential
+     * functions e^x and e^(-x).
+     *
+     * @param x the value for which the hyperbolic cosine is computed
+     * @return the hyperbolic cosine of {@code x}
+     */
+    public static double cosh(double x) {
+        return (Math.exp(x) + Math.exp(-x)) / 2;
+    }
+
+    /**
      * Computes the inverse hyperbolic sine (asinh) of a given number.
      * 
      * This is the inverse function of the hyperbolic sine function.

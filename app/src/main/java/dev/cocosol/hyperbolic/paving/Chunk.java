@@ -14,6 +14,7 @@ import java.util.List;
 import dev.cocosol.Point;
 import dev.cocosol.hyperbolic.Geodesic;
 import dev.cocosol.hyperbolic.transformation.Reflexion;
+import dev.cocosol.hyperbolic.transformation.Translation;
 
 /**
  * Represents a single tile (chunk) in the hyperbolic tiling.
@@ -39,23 +40,35 @@ public class Chunk {
     private final List<Direction> directions;
 
     /**
-     * Constructs a chunk with a given direction path and corner points.
+     * Constructs a chunk with a given direction path, an holonomy and corner points.
      *
-     * @param directions the list of directions taken from the origin
+     * @param directions the list of directions taken from the origin, need to be simplified
+     * @param holonomy   the direction of the holonomy
      * @param points     the four corner points of the chunk
      */
-    public Chunk(final List<Direction> directions, final Point[] points) {
-        final SimpleEntry<List<Direction>, Direction> entry = Chunk.simplifyDirections(directions, Direction.FORWARD);
-        this.directions = entry.getKey();
-        this.holonomy = entry.getValue();
-
+    // private Chunk(final List<Direction> directions, final Point[] points) {
+    private Chunk(final List<Direction> directions, final Direction holonomy, final Point[] points) {
+        this.directions = directions;
+        this.holonomy = holonomy;
+        
         final Point topRight = points[0];
         final Point topLeft = points[1];
         final Point bottomLeft = points[2];
         final Point bottomRight = points[3];
-
+        
         this.vertices = new ArrayList<>();
         Collections.addAll(this.vertices, topRight, topLeft, bottomLeft, bottomRight);
+    }
+    
+    /**
+     * The same as the constructor, but does simplify the directions and thus takes more performance.
+     *
+     * @param directions the list of directions taken from the origin, they do not need to be simplified
+     * @param points     the four corner points of the chunk
+     */
+    public static Chunk newChunk(final List<Direction> directions, final Point[] points) {
+        final SimpleEntry<List<Direction>, Direction> entry = Chunk.simplifyDirections(directions, Direction.FORWARD);
+        return new Chunk(entry.getKey(), entry.getValue(), points);
     }
 
     /**
@@ -70,7 +83,7 @@ public class Chunk {
         final Point bottomLeft = new Point(-position, -position);
         final Point bottomRight = new Point(position, -position);
 
-        return new Chunk(List.of(), new Point[] { topRight, topLeft, bottomLeft, bottomRight });
+        return newChunk(List.of(), new Point[] { topRight, topLeft, bottomLeft, bottomRight });
     }
 
     /**
@@ -82,6 +95,34 @@ public class Chunk {
         final double numerator = Math.tan(Math.PI / 2 - Math.PI / 5) - Math.tan(Math.PI / 4);
         final double denominator = Math.tan(Math.PI / 2 - Math.PI / 5) + Math.tan(Math.PI / 4);
         return Math.sqrt(numerator / (denominator * 2));
+    }
+
+    /**
+     * Applies a translation to the chunk's vertices.
+     *
+     * @param translation the translation to apply
+     */
+    public void translate(Translation translation) {
+        // Apply the translation to each vertex of the centerChunk
+        for (int i = 0; i < 4; i++) {
+            // Update the vertex positions for the center chunk.
+            Point p = translation.apply(this.vertices.get(i));
+            this.vertices.get(i).x = p.x;
+            this.vertices.get(i).y = p.y;
+        }
+    }
+
+    /**
+     * Return a copy of the chunk.
+     *
+     * @return a copy of the chunk
+     */
+    public Chunk CopyChunk() {
+        Point[] new_vertices = new Point[4];
+        for (int i = 0; i < 4; i++) {
+            new_vertices[i] = new Point(vertices.get(i).x, vertices.get(i).y);
+        }
+        return new Chunk(this.directions, this.holonomy, new_vertices);
     }
 
     /**
@@ -317,7 +358,7 @@ public class Chunk {
 
         final List<Direction> newDirections = new ArrayList<>(this.directions);
         newDirections.add(this.holonomy.add(direction));
-        return new Chunk(newDirections, newPoint);
+        return newChunk(newDirections, newPoint);
     }
 
     public Point getCenter() {

@@ -38,14 +38,7 @@ public class Paving {
         final Complex newCenter = Complex.exponent(speed, angle);
         final Translation translation = new Translation(Point.fromComplex(newCenter));
 
-        // Apply the translation to each vertex of the centerChunk and the
-        // approximateCenterChunk.
-        for (int i = 0; i < 4; i++) {
-            // Update the vertex positions for the center chunk.
-            final Point p = translation.apply(this.centerChunk.vertices.get(i));
-            this.centerChunk.vertices.get(i).x = p.x;
-            this.centerChunk.vertices.get(i).y = p.y;
-        }
+        this.centerChunk.translate(translation);
 
         // Check if we are in the current chunk
         while (true) {

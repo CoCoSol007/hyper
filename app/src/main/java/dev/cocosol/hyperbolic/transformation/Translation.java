@@ -33,6 +33,17 @@ public class Translation {
     }
 
     /**
+     * Returns a new {@code Translation} transformation that is the inverse of this one.
+     * Applying this inverse translation either before or after the original translation
+     * will return all points to their original positions.
+     *
+     * @return the inverse of this translation
+     */
+    public Translation flip() {
+        return new Translation(new Point(-this.origin.x, -this.origin.y));
+    }
+
+    /**
      * Applies this translation to a given point.
      * 
      * The translation is implemented using a Möbius transformation that maps the

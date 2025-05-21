@@ -69,6 +69,18 @@ public class Distance {
     }
 
     /**
+     * Converts a hyperbolic distance from the origin to the corresponding Euclidean distance
+     * within the hyperbolic disk model
+     *
+     * @param hyperbolicDistance The hyperbolic distance of the point from the origin.
+     * @return The Euclidean distance of the point from the center of the hyperbolic disk.
+     */
+    public static double hyperbolicToEuclideanDistanceToCenter(double hyperbolicDistance) {
+        final double coshHyperbolicDistance = Math.cosh(hyperbolicDistance);
+        return Math.sqrt((coshHyperbolicDistance - 1) / (coshHyperbolicDistance + 1));
+    }
+
+    /**
      * Returns the hyperbolic distance between two points in the hyperbolic plane.
      * 
      * This method uses the Euclidean distance between the points and applies the
