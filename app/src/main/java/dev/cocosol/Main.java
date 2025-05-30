@@ -27,6 +27,7 @@ import com.jme3.scene.Mesh;
 import com.jme3.scene.VertexBuffer.Type;
 import com.jme3.system.AppSettings;
 import com.jme3.util.BufferUtils;
+import com.jme3.material.RenderState.FaceCullMode;
 
 import dev.cocosol.hyperbolic.Projection;
 import dev.cocosol.hyperbolic.paving.Chunk;
@@ -174,7 +175,7 @@ public class Main extends SimpleApplication {
                     new Vector2f((float) vertices.get(3).x, (float) vertices.get(3).y)
             };
 
-            final Geometry g = this.createBlockFrom2DQuad(quad, 1);
+            final Geometry g = this.createSurfaceFrom2DQuad(quad);
             this.geometries.add(g);
             this.rootNode.attachChild(g);
         }
@@ -182,51 +183,34 @@ public class Main extends SimpleApplication {
     }
 
     /**
-     * Creates a 3D block geometry from a 2D quadrilateral base.
+     * Creates a 2D surface geometry.
      *
-     * @param base2D an array of 2D vectors representing the vertices of the base
-     *               quadrilateral.
-     * @param height the height to extrude the base quadrilateral into a 3D block.
-     * @return a Geometry object representing the 3D block with the specified base
-     *         and height.
+     * @param base2D an array of 2D vectors representing the vertices of the base.
+     * @return a Geometry object representing the 2D surface with the specified base.
      */
-    public Geometry createBlockFrom2DQuad(final Vector2f[] base2D, final float height) {
+    public Geometry createSurfaceFrom2DQuad(final Vector2f[] base2D) {
+        if (base2D.length != 4) {
+            throw new IllegalArgumentException("base2D must contain exactly 4 points");
+        }
 
-        final Vector3f[] base3D = new Vector3f[4];
-        final Vector3f[] top3D = new Vector3f[4];
-
+        Vector3f[] vertices = new Vector3f[4];
         for (int i = 0; i < 4; i++) {
-            base3D[i] = new Vector3f(base2D[i].x, 0, base2D[i].y);
-            top3D[i] = base3D[i].add(0, height, 0);
+            vertices[i] = new Vector3f(base2D[i].x, 0, base2D[i].y);
         }
 
-        final Vector3f[] vertices = new Vector3f[] {
-                base3D[0], base3D[1], base3D[2], base3D[3],
-                top3D[0], top3D[1], top3D[2], top3D[3]
+        int[] indices = {
+            0, 1, 2,
+            0, 2, 3
         };
 
-        final List<Point> verticesList = new ArrayList<>();
-        for (final Vector3f v : vertices) {
-            verticesList.add(new Point(v.x, v.z));
-        }
-
-        final int[] indices = {
-                0, 1, 2, 0, 2, 3,
-                4, 6, 5, 4, 7, 6,
-                0, 4, 5, 0, 5, 1,
-                1, 5, 6, 1, 6, 2,
-                2, 6, 7, 2, 7, 3,
-                3, 7, 4, 3, 4, 0
-        };
-
-        final Mesh mesh = new Mesh();
+        Mesh mesh = new Mesh();
         mesh.setBuffer(Type.Position, 3, BufferUtils.createFloatBuffer(vertices));
         mesh.setBuffer(Type.Index, 3, BufferUtils.createIntBuffer(indices));
         mesh.updateBound();
 
-        final Geometry geom = new Geometry("Block", mesh);
-
-        final Material mat = new Material(this.assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        Geometry geom = new Geometry("Surface2D", mesh);
+        Material mat = new Material(this.assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.getAdditionalRenderState().setFaceCullMode(FaceCullMode.Off);
         geom.setMaterial(mat);
 
         return geom;
@@ -256,10 +240,7 @@ public class Main extends SimpleApplication {
     /**
      * Updates the geometries in the scene based on the current positioning of
      * chunks.
-     * This method recalculates the 3D positions of the vertices for each chunk,
-     * scales them, and updates the corresponding mesh buffers. It ensures that
-     * the visual representation of the tiling reflects the current state of the
-     * hyperbolic paving and applies appropriate color textures.
+     * This version assumes each chunk is represented as a 2D quad (no extrusion).
      */
     private void updateGeometry() {
         final List<Chunk> chunks = this.paving.getAllNeighbors(Main.DEPTH);
@@ -279,22 +260,14 @@ public class Main extends SimpleApplication {
             }
 
             final Vector3f[] base3D = new Vector3f[4];
-            final Vector3f[] top3D = new Vector3f[4];
-
             for (int j = 0; j < 4; j++) {
                 base3D[j] = new Vector3f((float) vertices.get(j).x, 0, (float) vertices.get(j).y);
-                top3D[j] = base3D[j].add(0, 1, 0);
             }
 
             final Geometry g = this.geometries.get(i);
             final Mesh mesh = g.getMesh();
 
-            final Vector3f[] verts = new Vector3f[] {
-                    base3D[0], base3D[1], base3D[2], base3D[3],
-                    top3D[0], top3D[1], top3D[2], top3D[3]
-            };
-
-            mesh.setBuffer(Type.Position, 3, BufferUtils.createFloatBuffer(verts));
+            mesh.setBuffer(Type.Position, 3, BufferUtils.createFloatBuffer(base3D));
             mesh.updateBound();
 
             g.getMaterial().setColor("Color", this.getColorTexture(chunk));
