@@ -29,7 +29,9 @@ public enum Projection {
     /**
      * Gnomonic projection.
      */
-    GNOMONIC;
+    GNOMONIC,
+
+    HALFPLANE;
 
     /**
      * Returns the projection matching the given name, or the default projection if

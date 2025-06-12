@@ -185,6 +185,15 @@ public class Point {
                 c.scale(Distance.hyperbolicDistanceToCenter(this) / (c.module())));
     }
 
+   /**
+    * Converts this point to the half plane model.
+    */
+    public Point toHalfPlaneModel() {
+        final Complex c = this.toComplex();
+        return Point.fromComplex(
+                Complex.I.times(Complex.ONE.plus(c).divides(Complex.ONE.minus(c))));
+    }
+
     /**
      * Compares this point to the specified object for equality.
      * 

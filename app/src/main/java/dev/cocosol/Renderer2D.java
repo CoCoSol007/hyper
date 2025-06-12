@@ -122,7 +122,7 @@ public class Renderer2D {
                 final int centerY = h / 2;
                 // Draw the unit circle
 
-                if (projection != Projection.GNOMONIC) {
+                if (projection != Projection.GNOMONIC && projection != Projection.HALFPLANE) {
                     g2.setColor(Color.GRAY);
                     g2.drawOval(centerX - scale, centerY - scale, scale * 2, scale * 2);
                 }
@@ -141,6 +141,12 @@ public class Renderer2D {
                         if (projection == Projection.GNOMONIC) {
                             for (int i = 0; i < points.length; i++) {
                                 points[i] = points[i].toGnomonicModel().mul(0.3); // Convert to GAns model
+                            }
+                        }
+                        if (projection == Projection.HALFPLANE) {
+                            for (int i = 0; i < points.length;  i++) {
+                                points[i] = points[i].toHalfPlaneModel();
+                                points[i].y -= 1;
                             }
                         }
 

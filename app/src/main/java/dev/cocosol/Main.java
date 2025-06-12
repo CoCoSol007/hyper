@@ -38,7 +38,7 @@ public class Main extends SimpleApplication {
     /**
      * Depth of the paving
      */
-    static final int DEPTH = 7;
+    static final int DEPTH = 5;
 
     /**
      * Scale of the paving
@@ -253,7 +253,7 @@ public class Main extends SimpleApplication {
                 p = switch (Main.projection) {
                     case KLEIN -> p.toKleinModel();
                     case GNOMONIC -> p.toGnomonicModel();
-                    case POINCARE -> p;
+                    default -> p;
                 };
                 p = p.mul(Main.SCALE);
                 vertices.set(j, p);
