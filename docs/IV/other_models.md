@@ -48,6 +48,8 @@ For a visual explanation of how to perform this conversion, see this [video](htt
 
 ## Half-Plane Model
 
+You can try this model in 2D by running `./gradlew run2D --args='halfplane'`
+
 Another widely used representation of the hyperbolic plane is the [half-plane model](https://en.wikipedia.org/wiki/Poincar%C3%A9_half-plane_model), also known as the **Poincaré half-plane model**. In this model, the hyperbolic plane is represented by the upper half of the Euclidean plane:
 
 $$\mathbb{H} = \{ (x, y) \in \mathbb{R}^2 \mid y > 0 \}.$$

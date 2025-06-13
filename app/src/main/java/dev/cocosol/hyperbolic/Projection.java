@@ -31,6 +31,9 @@ public enum Projection {
      */
     GNOMONIC,
 
+    /**
+     * Half-plane projection.
+     */
     HALFPLANE;
 
     /**
